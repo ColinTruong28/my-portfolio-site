@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+main {
+  width: 100vw;
+  height: 300vh;
+}
+
+h1, h2, h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 400;
+}
+
+.title-screen {
+  width: 100vw;
+  height: 100vh;
+  background-image: url(https://cdnb.artstation.com/p/assets/images/images/063/733/111/large/oleg-beketov-jkt-beautiful-anime-illustration-of-a-landscape-scenery-volumet-85d4149a-6489-4989-969d-eaf80ca4b82a.jpg?1686223882);
+  background-size: 100vw 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.shadow-overlay {
+  width: 100vw;
+  height: 280vh;
+  position: absolute;
+  top: -180vh;
+  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}
+
+.title {
+  position: relative;
+  top: 40%;
+
+  align-items: center;
+}
+
+.title h1{
+  margin: 0;
+  font-size: 4rem;
+  color: rgb(255, 118, 237);
+  text-shadow: 0 0 3ch rgba(255, 202, 248, 1), 0 0 40px rgba(255, 202, 248, 1);
+  filter: brightness(1.5);
+}
+
+.intro-info {
+  display: grid;
+  grid-template-rows: 2.5vw 5vw;
+  grid-template-columns: 25vw 25vw;
+  justify-items: start;
+  align-items: first baseline;
+  position: absolute;
+  bottom: 1%;
+  right: 0;
+}
+
+.intro-info h3 {
+  margin: 0;
+}
+
+.sub-info {
+  font-size: 1.5vw;
+}
+
+/* Start of Resolution Screen */
+
+.Resolution-screen {
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+  grid-template-rows: 1fr; /* One row */
+  align-items: center;
+  justify-content: center;
+}
+
+.resolution-title-card {
+  background-color: black;
+  text-align: start;
+  position: relative;
+  height: max-content;
+  width: max-content;
+  margin-left: 5vw;
+}
+
+.resolution-title {
+  color: rgb(184, 152, 48);
+  text-shadow: 0 0 3ch rgba(237, 207, 122, 1), 0 0 30px rgb(240, 219, 159);
+  filter: brightness(1.5);
+  margin-top: 0;
+  margin-bottom: .5vh;
+  font-size: 4vw;
+}
+
+.resolution-subtitle {
+  color: rgba(237, 207, 122, 1);
+  margin-top: 0;
+  margin-bottom: 1.5vh;
+  font-size: 2vw;
+}
+
+.resolution-text {
+  color: rgba(237, 207, 122, 1);
+  margin: 0;
+}
+
+.resolution-display-card {
+  background-color: transparent;
+  height: 100vh;
+  width: 50vw;
+  position: relative;
+  align-items: center;
+  height: max-content;
+  width: max-content;
+}
+
+.circular-container {
+  display: flex;
+  width: 35vw; /* Set the width */
+  height: 35vw; /* Set the height */
+  background-color: rgba(237, 207, 122, 1); /* Optional: Set a background color */
+  border-radius: 50%; /* Make the div circular */
+  margin-left: 8rem;
+}
+
+.Resolution-Icon {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 20%;
+  filter: drop-shadow(0 0 1em #d893ff);
+  bottom: 0;
+  right: 0;
+  z-index: 200;
+}
+
+.phone-screen {
+  border-radius: 5%;
+  height: 30vw;
+  position: absolute;
+  border-color: black;
+  border-style: solid;
+}
+
+.phone-screen:nth-child(1) {
+  z-index: 20;
+  bottom: 10%;
+  left: 25%;
+  rotate: -3deg;
+
+}
+
+.phone-screen:nth-child(2) {
+  bottom: 20%;
+  left: 55%;
+  rotate: 3deg;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
