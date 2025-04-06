@@ -1,7 +1,8 @@
 import {useState, useEffect} from 'react'
 import './App.css'
 import Navbar from './Navbar'
-import ScrollTracker from './ScrollTracker';
+import Typewriter from 'typewriter-effect'
+import CherryBlossoms from './cherryBlossoms'
 import Resolution from './Resolution.png'
 import Resolution_example_homepage from './Resolution_example_homepage.png'
 import Resolution_example_recordpage from './Resolution_example_recordpage.png'
@@ -27,17 +28,33 @@ function App() {
       }, []);
 
 
-
+  
+    
   return (
     <main>
       <Navbar />
+
+      {/* Title */}
       <div className="title-screen" 
-      style={{opacity: 1-scrollPosition/500}}
-      >
+          style={{opacity: 1-scrollPosition/500}}
+       >
+        <div className = "cherryBlossom-wrapper">
+          <CherryBlossoms></CherryBlossoms>
+        </div>
+
         <div className = "shadow-overlay"></div>
         
         <div className="title">
+          
           <h1 className="name-card">Colin Truong</h1>
+          <div className="typewriter-text">
+            <Typewriter options={{
+              strings: ["Software Engineer", "Web Developer", "Robotic Systems Programmer"],
+              autoStart: true,
+              loop: true,
+              delay: 250,
+            }} />
+          </div>
         </div>
         <div className="intro-info">
           <h3 className="sub-info">WPI Undergrad Student</h3>
@@ -46,7 +63,12 @@ function App() {
           <h3 className="sub-info">Computer Science</h3>
         </div>
       </div>
-      <div className="Resolution-screen">
+
+      <div className = "about-me">
+        <div></div>
+      </div>      
+
+      <div className="Resolution-screen" id="projects">
         <div className="resolution-title-card">
           <h1 className="resolution-title">Resolution</h1>
           <h2 className="resolution-subtitle">Diabetic Health Goals App</h2>
@@ -70,6 +92,22 @@ function App() {
         </div>
       </div>
 
+      {/* Contact Me Section */}
+      <div className = "contacts" id="contact">
+        <div className="contactMe">Feel Free to Reach Out!</div>
+        <div className="email">
+          <h3>Write me -</h3>
+          <a className = "link" href="mailto:ColinPTruong@gmail.com">ColinPTruong@gmail.com</a>
+        </div>
+        <div className = "phone_number">
+          <h3>Contact Me -</h3>
+          <h1 className = "link">+1 (617) 762 8333</h1>
+        </div>
+        <div className = "linkedin">
+          <h3>Connect with Me - </h3>
+          <a className = "link" href="https://www.linkedin.com/in/cptruong2005/">www.linkedin.com/in/cptruong2005</a>
+        </div>
+      </div>
       
     </main>
   )
