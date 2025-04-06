@@ -1,4 +1,3 @@
-import React from "react";
 import FallingPetal from "./cherryBlossom";
 
 function CherryBlossoms() {
