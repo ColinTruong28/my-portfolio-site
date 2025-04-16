@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import cherry from './cherry.png'
+import cherry from './images/cherry.png'
 
 interface PetalProps {
   left: string; // Explicitly defining the type

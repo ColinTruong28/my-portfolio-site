@@ -12,7 +12,7 @@ function Navbar() {
                 <a className="glowy-text" href="#projects">Projects</a>
             </div>
             <div className="glowy-text-wrapper">
-                <h1 className="glowy-text">About Me</h1>
+                <a className="glowy-text" href="#about-me">About Me</a>
             </div>
         </nav>
     )
