@@ -144,7 +144,18 @@ function App() {
           </Collapsible>
 
           <Collapsible trigger = "- Personal -" open = {openCarouselThree} onOpening={() => handleOpen(3)}>
-            <p>I'm a fatty :p</p>
+            <p>On a more personoal level, hi, I'm Colin Truong (he/him) and I'm from Milton, Massachusetts!</p>
+            <p>
+              When I am away from my desk I enjoy getting out into the world. I enjoy rock climbing
+              playing video games, watching basketball, and any activity that gets my adrenaline up. 
+            </p>
+            <p>
+              Like my work, I'm very interested in creative expression. I'm a big fan of videography and
+              story-telling. Whether it's a book, comic, tv-show, or movie I can get easily caught up in 
+              unique stories and complicated characters
+            </p>
+            <p>Feel free to follow me on Instagram <a href="https://www.instagram.com/colinptruong/">@instagram.com/colinptruong</a></p>
+            
           </Collapsible>
         </div>
       </section>      
