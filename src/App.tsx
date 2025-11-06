@@ -10,18 +10,28 @@ import { FaLinkedin } from "react-icons/fa";
 import Varsity from './images/Varsity.JPG?url'
 import HeadShot from './images/Prof Headshot.JPG?url';
 import Drawing from './images/Drawing.JPG?url'
+import FiveBarDemo from './images/FiveBarDemo.mp4?url';
+import SolidworksFiveBarDemo from './images/Solidworks_FiveBar_Demo.mp4?url';
+import StressedBar from './images/Bar_Stress_Analysis.png?url';
 import Resolution from './images/Resolution.png'
 import Resolution_example_homepage from './images/Resolution_example_homepage.png'
 import Resolution_example_recordpage from './images/Resolution_example_recordpage.png'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Navigation, Pagination } from 'swiper/modules';
+
+
 
 function App() {
 
   // scrollPosition can be used to track the user's position within the webpage
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [activeCarouselIndex, setActiveIndex] = useState<number | null>(null);
-  const [openCarouselOne, setCarouselOne] = useState(true);
-  const [openCarouselTwo, setCarouselTwo] = useState(false);
-  const [openCarouselThree, setCarouselThree] = useState(false);
+  const [activeCollapsibleIndex, setActiveIndex] = useState<number | null>(null);
+  const [openCollapsibleOne, setCollapsibleOne] = useState(true);
+  const [openCollapsibleTwo, setCollapsibleTwo] = useState(false);
+  const [openCollapsibleThree, setCollapsibleThree] = useState(false);
 
       const handleScroll = () => {
           const position = window.pageYOffset;
@@ -31,17 +41,17 @@ function App() {
       const handleOpen = (index: number) => {
         setActiveIndex(index);
         if (index == 1) {
-          setCarouselOne(true);
-          setCarouselTwo(false);
-          setCarouselThree(false);
+          setCollapsibleOne(true);
+          setCollapsibleTwo(false);
+          setCollapsibleThree(false);
         } else if (index == 2) {
-          setCarouselOne(false);
-          setCarouselTwo(true);
-          setCarouselThree(false);
+          setCollapsibleOne(false);
+          setCollapsibleTwo(true);
+          setCollapsibleThree(false);
         } else {
-          setCarouselOne(false);
-          setCarouselTwo(false);
-          setCarouselThree(true);
+          setCollapsibleOne(false);
+          setCollapsibleTwo(false);
+          setCollapsibleThree(true);
         }
       };
   
@@ -56,7 +66,12 @@ function App() {
       }, []); 
 
 
-  
+    // Example labels for each slide
+    const slideLabels = [
+      'Design',
+      'Analysis',
+      'Demo'
+    ];
     
   return (
     <main>
@@ -77,7 +92,7 @@ function App() {
           <h1 className="name-card">Colin Truong</h1>
           <div className="typewriter-text">
             <Typewriter options={{
-              strings: ["Software Engineer", "Web Developer", "Robotic Systems Programmer"],
+              strings: ["Software Engineer", "Web Developer", "Robotics Engineer"],
               autoStart: true,
               loop: true,
               delay: 250,
@@ -87,7 +102,7 @@ function App() {
         <div className="intro-info">
           <h3 className="sub-info">WPI Undergrad Student</h3>
           <h3 className="sub-info">Robotic Engineering</h3>
-          <h3 className="sub-info">SASE Events Coordinator</h3>
+          <h3 className="sub-info">Global Lab Web Developer</h3>
           <h3 className="sub-info">Computer Science</h3>
         </div>
       </section>
@@ -95,7 +110,7 @@ function App() {
       <section className = "about-me" id="about-me">
         <div className = "about-picture">
           <div className = "picture-container">
-              <div className = "carousel-items" style={{transform: activeCarouselIndex == 2 ? "translateY(-33.33%)": activeCarouselIndex == 3 ? "translateY(-66.66%)": "translateY(0)"}}>
+              <div className = "collapsible-items" style={{transform: activeCollapsibleIndex == 2 ? "translateY(-33.33%)": activeCollapsibleIndex == 3 ? "translateY(-66.66%)": "translateY(0)"}}>
                 <div>
                     <img src={HeadShot} alt="" />
                 </div>
@@ -115,17 +130,24 @@ function App() {
             <h1>A Few Words About Me</h1>
             <h2>Innovation - Passion - Creativity</h2>
           </div>
-          <Collapsible trigger="- Professional -" open={openCarouselOne} onOpening={() => handleOpen(1)}>
+          <Collapsible trigger="- Professional -" open={openCollapsibleOne} onOpening={() => handleOpen(1)}>
               <p>
                 Over the last three years I have been honing my leadership skills through
                 projects and programs where I can have an impact on my surrounding 
                 communities.
               </p>
               <p>
+                I have been working at the WPI Global Lab, spearheading a full visual and 
+                thematic overhaul of the main website to represent the evolving student 
+                initiatives and faculty research.
+              </p>
+              <p>
                 In my collegiate career, I have been active in the Society of Asian 
                 Scientists and Engineers as an Events Coordinator in which I planned 
                 weekly events focused on professional devlopment, community service 
-                and cultural empowerment that increased active-membership by 63%.
+                and cultural empowerment that increased active-membership by 63% 
+                and contributed to winning WPI's 2025 Social Program of the Year and 
+                SASE's 2025 Overall Strongest Chapter.
               </p>
               <p>
                 I will be working as a Resident Advisor for the 2025-26 academic year 
@@ -134,7 +156,7 @@ function App() {
               </p>
           </Collapsible>
 
-          <Collapsible trigger = "- Technical -" open = {openCarouselTwo} onOpening={() => handleOpen(2)}>
+          <Collapsible trigger = "- Technical -" open = {openCollapsibleTwo} onOpening={() => handleOpen(2)}>
             <h4>Front-End</h4>
             <p>Technology Stack: HTML5, CSS, JavaScript, TypeScript, Python</p>  
             <p>Tools: Boostrap, ReactJS, Kivy/KivyMD, Figma</p>
@@ -143,7 +165,7 @@ function App() {
             <p>Tools: NodeJS, FireBase, VexV5</p>
           </Collapsible>
 
-          <Collapsible trigger = "- Personal -" open = {openCarouselThree} onOpening={() => handleOpen(3)}>
+          <Collapsible trigger = "- Personal -" open = {openCollapsibleThree} onOpening={() => handleOpen(3)}>
             <p>On a more personoal level, hi, I'm Colin Truong (he/him) and I'm from Milton, Massachusetts!</p>
             <p>
               When I am away from my desk I enjoy getting out into the world. I enjoy rock climbing
@@ -159,26 +181,72 @@ function App() {
           </Collapsible>
         </div>
       </section>      
+      
+      <section id="projects">
+        <div className="major-toggle">
 
-      <section className="Resolution-screen" id="projects">
-        <div className="resolution-title-card">
-          <h1 className="resolution-title">Resolution</h1>
-          <h2 className="resolution-subtitle">Diabetic Health Goals App</h2>
-          <h3 className="resolution-text">Kivy Front-End</h3>
-          <h3 className="resolution-text">Python Back-End</h3>
-          <div className="resolution-hyperlinks">
-            {/* icon */}
-            {/* icon */}
+        </div>
+
+        <div className="Resolution-screen" id="projects">
+          <div className="resolution-title-card">
+            <h1 className="resolution-title">Resolution</h1>
+            <h2 className="resolution-subtitle">Diabetic Health Goals App</h2>
+            <h3 className="resolution-text">Kivy Front-End</h3>
+            <h3 className="resolution-text">FireBase Back-End</h3>
+            <div className="resolution-hyperlinks">
+              {/* icon */}
+              {/* icon */}
+            </div>
+          </div>
+
+          <div className="resolution-display-card">
+            
+            <div className="circular-container">
+            <img className="phone-screen res-home " src={Resolution_example_homepage} alt="" />
+            <img className="phone-screen res-record " src={Resolution_example_recordpage} alt="" />
+
+            <img className="Resolution-Icon" src={Resolution} alt="Resolution Icon" />
+
+            </div>
           </div>
         </div>
 
-        <div className="resolution-display-card">
-          
-          <div className="circular-container">
-          <img className="phone-screen res-home " src={Resolution_example_homepage} alt="" />
-          <img className="phone-screen res-record " src={Resolution_example_recordpage} alt="" />
+        <div className="five-bar-screen" id="projects">
+          <div className="five-bar-title-card">
+            <h1 className="five-bar-title">Shelf Sorting Arm</h1>
+            <h2 className="five-bar-subtitle">Five-Bar Linkage</h2>
+            <h3 className="five-bar-text">Designed, Modeled, and Tested in SolidWorks</h3>
+            <div className="five-bar-hyperlinks">
+              {/* icon */}
+              {/* icon */}
+            </div>
+          </div>
 
-          <img className="Resolution-Icon" src={Resolution} alt="Resolution Icon" />
+          <div className="five-bar-display-card">
+            
+            
+            <Swiper
+              modules={[Navigation, Pagination]}
+              navigation
+              pagination={{
+                clickable: true,
+                renderBullet: (index, className) => {
+                  return `<span class="${className}">${slideLabels[index]}</span>`;
+                }
+              }}
+              style={{ height: '50vh' }}
+            >
+              <SwiperSlide>
+                <video src={SolidworksFiveBarDemo} className="five-bar-slide" autoPlay muted loop/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <img src={StressedBar} alt="Five_Bar_Stress_Tested_SolidWorks" className="five-bar-slide" />
+              </SwiperSlide>
+              <SwiperSlide>
+                <video src={FiveBarDemo} className="five-bar-slide" autoPlay muted loop/>
+              </SwiperSlide>
+            </Swiper>
+
 
           </div>
         </div>
