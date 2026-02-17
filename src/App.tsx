@@ -1,3 +1,4 @@
+declare module '*.css';
 import {useState, useEffect} from 'react'
 import './App.css'
 import Navbar from './Navbar'
@@ -13,14 +14,21 @@ import Drawing from './images/Drawing.JPG?url'
 import FiveBarDemo from './images/FiveBarDemo.mp4?url';
 import SolidworksFiveBarDemo from './images/Solidworks_FiveBar_Demo.mp4?url';
 import StressedBar from './images/Bar_Stress_Analysis.png?url';
-import Resolution from './images/Resolution.png'
-import Resolution_example_homepage from './images/Resolution_example_homepage.png'
-import Resolution_example_recordpage from './images/Resolution_example_recordpage.png'
+import Resolution from './images/Resolution.png';
+import Resolution_example_homepage from './images/Resolution_example_homepage.png';
+import Resolution_example_recordpage from './images/Resolution_example_recordpage.png';
+import April_tag_tracking from './images/Computer_Vision_PID_Following.gif?url';
+import Hysteresis_IMU from './images/Hysteresis_IMU.gif?url';
+import PID_turn from './images/PID_turn.gif?url';
+// import EmbeddedSchematic from './images/Embedded_PI_Motor_Controller_Schematic.png?url'
+// Import Swiper components
 import { Swiper, SwiperSlide } from 'swiper/react';
+// Import required modules
+import { Navigation, Pagination, A11y } from 'swiper/modules';
+// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Navigation, Pagination } from 'swiper/modules';
 
 
 
@@ -67,10 +75,22 @@ function App() {
 
 
     // Example labels for each slide
-    const slideLabels = [
+    const fiveBarSlideLabels = [
       'Design',
       'Analysis',
       'Demo'
+    ];
+
+    // const embeddedSlideLabels = [
+    //   'Demo',
+    //   'Schematic',
+    //   'Code'
+    // ];
+
+    const romiLabels = [
+      'Computer Vision',
+      'Hysteresis IMU',
+      'PID Driven Turns'
     ];
     
   return (
@@ -130,7 +150,7 @@ function App() {
             <h1>A Few Words About Me</h1>
             <h2>Innovation - Passion - Creativity</h2>
           </div>
-          <Collapsible trigger="- Professional -" open={openCollapsibleOne} onOpening={() => handleOpen(1)}>
+          <Collapsible trigger="- ✧ Professional ✧ -" open={openCollapsibleOne} onOpening={() => handleOpen(1)}>
               <p>
                 Over the last three years I have been honing my leadership skills through
                 projects and programs where I can have an impact on my surrounding 
@@ -138,25 +158,25 @@ function App() {
               </p>
               <p>
                 I have been working at the WPI Global Lab, spearheading a full visual and 
-                thematic overhaul of the main website to represent the evolving student 
+                thematic overhaul of the website to show the evolving student 
                 initiatives and faculty research.
               </p>
               <p>
                 In my collegiate career, I have been active in the Society of Asian 
                 Scientists and Engineers as an Events Coordinator in which I planned 
                 weekly events focused on professional devlopment, community service 
-                and cultural empowerment that increased active-membership by 63% 
-                and contributed to winning WPI's 2025 Social Program of the Year and 
-                SASE's 2025 Overall Strongest Chapter.
+                and cultural empowerment that increased active-membership by 63%, 
+                 winning WPI's 2025 Social Program of the Year and SASE's 2025 Overall
+                 Strongest Chapter.
               </p>
               <p>
-                I will be working as a Resident Advisor for the 2025-26 academic year 
+                I work as a Resident Advisor for the 2025-26 academic year 
                 where I will be responsible for overseeing and providng mentorship to 
                 incoming freshmen.
               </p>
           </Collapsible>
 
-          <Collapsible trigger = "- Technical -" open = {openCollapsibleTwo} onOpening={() => handleOpen(2)}>
+          <Collapsible trigger = "- ✧ Technical ✧ -" open = {openCollapsibleTwo} onOpening={() => handleOpen(2)}>
             <h4>Front-End</h4>
             <p>Technology Stack: HTML5, CSS, JavaScript, TypeScript, Python</p>  
             <p>Tools: Boostrap, ReactJS, Kivy/KivyMD, Figma</p>
@@ -165,7 +185,7 @@ function App() {
             <p>Tools: NodeJS, FireBase, VexV5</p>
           </Collapsible>
 
-          <Collapsible trigger = "- Personal -" open = {openCollapsibleThree} onOpening={() => handleOpen(3)}>
+          <Collapsible trigger = "- ✧ Personal ✧ -" open = {openCollapsibleThree} onOpening={() => handleOpen(3)}>
             <p>On a more personoal level, hi, I'm Colin Truong (he/him) and I'm from Milton, Massachusetts!</p>
             <p>
               When I am away from my desk I enjoy getting out into the world. I enjoy rock climbing
@@ -187,8 +207,8 @@ function App() {
 
         </div>
 
-        <div className="Resolution-screen" id="projects">
-          <div className="resolution-title-card">
+        <div className="project-screen" id="projects">
+          <div className="project-title-card">
             <h1 className="resolution-title">Resolution</h1>
             <h2 className="resolution-subtitle">Diabetic Health Goals App</h2>
             <h3 className="resolution-text">Kivy Front-End</h3>
@@ -211,8 +231,46 @@ function App() {
           </div>
         </div>
 
-        <div className="five-bar-screen" id="projects">
-          <div className="five-bar-title-card">
+        <div className="project-screen" id="projects">
+          <div className="project-title-card">
+            <h1 className="auto-romi-title">Autonomous Robot</h1>
+            <h2 className="auto-romi-subtitle">Multi-Sensor PID Decision Making</h2>
+            <div className="auto-romi-hyperlinks">
+              {/* icon */}
+              {/* icon */}
+            </div>
+          </div>
+
+          <div className="auto-romi-display-card">
+            
+            
+            <Swiper
+              modules={[Navigation, Pagination, A11y]}
+              navigation={true}
+              pagination={{
+                clickable: true,
+                renderBullet: (index, className) => {
+                  return `<span class="${className}">${romiLabels[index]}</span>`;
+                }
+              }}
+            >
+              <SwiperSlide>
+                <img src={April_tag_tracking} className="auto-romi-slide"/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <img src={Hysteresis_IMU} className="auto-romi-slide" />
+              </SwiperSlide>
+              <SwiperSlide>
+                <img src={PID_turn} className="auto-romi-slide"/>
+              </SwiperSlide>
+            </Swiper>
+
+
+          </div>
+        </div>
+
+        <div className="project-screen" id="projects">
+          <div className="project-title-card">
             <h1 className="five-bar-title">Shelf Sorting Arm</h1>
             <h2 className="five-bar-subtitle">Five-Bar Linkage</h2>
             <h3 className="five-bar-text">Designed, Modeled, and Tested in SolidWorks</h3>
@@ -226,15 +284,14 @@ function App() {
             
             
             <Swiper
-              modules={[Navigation, Pagination]}
-              navigation
+              modules={[Navigation, Pagination, A11y]}
+              navigation={true}
               pagination={{
                 clickable: true,
                 renderBullet: (index, className) => {
-                  return `<span class="${className}">${slideLabels[index]}</span>`;
+                  return `<span class="${className}">${fiveBarSlideLabels[index]}</span>`;
                 }
               }}
-              style={{ height: '50vh' }}
             >
               <SwiperSlide>
                 <video src={SolidworksFiveBarDemo} className="five-bar-slide" autoPlay muted loop/>
@@ -250,7 +307,50 @@ function App() {
 
           </div>
         </div>
+
+        {/* <div className="embedded-PI-motor-controller-screen" id="projects">
+          <div className="embedded-PI-motor-controller-card">
+            <h1 className="embedded-PI-motor-controller-title">Embedded PI Motor Controller</h1>
+            <h2 className="embedded-PI-motor-controller-subtitle">Raspberry PI Pico W</h2>
+            <h3 className="embedded-PI-motor-controller-text">Designed in KiCad</h3>
+            <h3 className="embedded-PI-motor-controller-text">Programmed in C</h3>
+            <h3 className="embedded-PI-motor-controller-text">Deployed with Linux on a VMWare Workstation</h3>
+            <div className="embedded-PI-motor-controller-hyperlinks">
+              {}
+              {}
+            </div>
+          </div>
+
+          <div className="embedded-PI-motor-controller-display-card">
+            
+            
+            <Swiper
+              modules={[Navigation, Pagination, A11y]}
+              navigation={true}
+              pagination={{
+                clickable: true,
+                renderBullet: (index, className) => {
+                  return `<span class="${className}">${embeddedSlideLabels[index]}</span>`;
+                }
+              }}
+            >
+              <SwiperSlide>
+                <video src={SolidworksFiveBarDemo} className="embedded-PI-motor-controller-slide" autoPlay muted loop/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <img src={EmbeddedSchematic} alt="Schematic of Embedded PI Motor Controller" className="embedded-PI-motor-controller-slide" />
+              </SwiperSlide>
+              <SwiperSlide>
+                <img src={EmbeddedSchematic} alt="Schematic of Embedded PI Motor Controller" className="embedded-PI-motor-controller-slide" />
+              </SwiperSlide>
+            </Swiper>
+
+
+          </div>
+        </div> */}
       </section>
+
+      
 
       {/* Contact Me Section */}
       <section className = "contacts" id="contact">

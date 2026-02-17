@@ -107,6 +107,7 @@ h1, h2, h3 {
   display: flex;
   flex-direction: column;  
   justify-content: center;
+  padding-right: 25px;
 }
 
 .about-picture img {
@@ -120,8 +121,8 @@ h1, h2, h3 {
   width: 50vh;
   background-color: black;
   overflow: hidden;
-  position: absolute;
-  left: 40%;
+  align-self: last baseline;
+  margin-right: 60px;
 }
 
 .collapsible-items {
@@ -131,16 +132,16 @@ h1, h2, h3 {
 
 .randomBlock {
   height: 50vh;
-  width: 75vh;
+  width: 45vw;
   background-color: beige;
   position: absolute;
   transform: translateY(5vh);
-  right: 3%;
   z-index: -100;
+  align-self: last baseline;
 }
 
 .about-info {
-  width: 90%;
+  width: 80%;
   grid-row: span 3 / span 3;
   grid-column-start: 2;
   text-align: left;
@@ -148,6 +149,7 @@ h1, h2, h3 {
   flex-direction: column;  
   justify-content: center;
   margin-left: 1vw;
+  padding-top: 20px;
 } 
 
  .about-title {
@@ -157,31 +159,38 @@ h1, h2, h3 {
 
 .Collapsible__trigger {
   font-size: large;
+  cursor: pointer;
 }
 
+.Collapsible__trigger:hover {
+  color: rgb(255, 118, 237);
+  text-shadow: 0 0 3ch rgba(255, 202, 248, 1), 0 0 40px rgba(255, 202, 248, 1);
+  filter: brightness(1.5);
+  transition: ease-in .2s;
+}
 
 /* End of About Section */
 
 /* Start of Resolution Screen */
 
-.Resolution-screen {
-  width: 100vw;
+.project-screen {
+  width: 90vw;
   height: 100vh;
   justify-content: center;
   display: grid;
   grid-template-columns: 1fr 1fr; /* Two columns of equal width */
   grid-template-rows: 1fr; /* One row */
   align-items: center;
-  justify-content: center;
+  justify-self: center;
 }
 
-.resolution-title-card {
+.project-title-card {
+  justify-self: start;
   background-color: black;
   text-align: start;
   position: relative;
   height: max-content;
   width: max-content;
-  margin-left: 5vw;
 }
 
 .resolution-title {
@@ -190,14 +199,14 @@ h1, h2, h3 {
   filter: brightness(1.5);
   margin-top: 0;
   margin-bottom: .5vh;
-  font-size: 4vw;
+  font-size: 70px;
 }
 
 .resolution-subtitle {
   color: rgba(237, 207, 122, 1);
   margin-top: 0;
   margin-bottom: 1.5vh;
-  font-size: 2vw;
+  font-size: 40px;
 }
 
 .resolution-text {
@@ -213,9 +222,9 @@ h1, h2, h3 {
   align-items: center;
   height: max-content;
   width: max-content;
+  display: flex;
+  justify-self: end;
 }
-
-
 
 .circular-container {
   display: flex;
@@ -223,7 +232,6 @@ h1, h2, h3 {
   height: 35vw; 
   background-color: rgba(237, 207, 122, 1); 
   border-radius: 50%; 
-  margin-left: 8rem;
 }
 
 .Resolution-Icon {
@@ -233,7 +241,7 @@ h1, h2, h3 {
   border-radius: 20%;
   filter: drop-shadow(0 0 1em #d893ff);
   bottom: 0;
-  right: 0;
+  right: 5%;
   z-index: 200;
 }
 
@@ -248,16 +256,17 @@ h1, h2, h3 {
 .phone-screen:nth-child(1) {
   z-index: 20;
   bottom: 10%;
-  left: 25%;
+  left: 10%;
   rotate: -3deg;
 
 }
 
 .phone-screen:nth-child(2) {
   bottom: 20%;
-  left: 55%;
+  left: 40%;
   rotate: 3deg;
 }
+
 
 /* End of Resolution Part */
 
@@ -275,6 +284,11 @@ h1, h2, h3 {
   height: 100%;
 }
 
+.swiper-button-next,
+.swiper-button-prev {
+  color: rgba(237, 207, 122, 1) !important;
+}
+
 .five-bar-slide {
   width: 100%;
   max-width: 50vw;
@@ -282,6 +296,7 @@ h1, h2, h3 {
   max-height: 50vh;
   object-fit: cover;
   display: block;
+  border-radius: 20px 20px 20px 20px;
 }
 
 img.five-bar-slide {
@@ -294,7 +309,7 @@ img.five-bar-slide {
 }
 
 .five-bar-screen {
-  width: 100vw;
+  width: 90vw;
   height: 100vh;
   margin-top: 5vh;
   justify-content: center;
@@ -305,12 +320,13 @@ img.five-bar-slide {
 }
 
 .five-bar-title-card {
+  justify-self: start;
   background-color: black;
   text-align: start;
   position: relative;
   height: max-content;
   width: max-content;
-  margin-left: 5vw;
+  margin-right: 10rem;
 }
 
 .five-bar-title {
@@ -319,7 +335,7 @@ img.five-bar-slide {
   filter: brightness(1.5);
   margin-top: 0;
   margin-bottom: .5vh;
-  font-size: 4vw;
+  font-size: 45px;
 }
 
 .five-bar-subtitle {
@@ -345,6 +361,176 @@ img.five-bar-slide {
 }
 /* End of Five-Bar */
 
+/* Start of Romi */
+.swiper {
+  width: 45vw;
+  height: 50vh;
+  margin: 0 auto;
+}
+
+.swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: rgba(237, 207, 122, 1) !important;
+}
+
+.auto-romi-slide {
+  width: 100%;
+  max-width: 50vw;
+  height: 100%;
+  max-height: 50vh;
+  object-fit: cover;
+  display: block;
+  border-radius: 20px 20px 20px 20px;
+}
+
+img.auto-romi-slide {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.auto-romi-screen {
+  width: 90vw;
+  height: 100vh;
+  margin-top: 5vh;
+  justify-content: center;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+  grid-template-rows: 1fr; /* One row */
+  align-items: center;
+}
+
+.auto-romi-title-card {
+  background-color: black;
+  text-align: start;
+  position: relative;
+  height: max-content;
+  width: max-content;
+  justify-self: end;
+  margin-right: 5rem;
+}
+
+.auto-romi-title {
+  color: rgb(184, 152, 48);
+  text-shadow: 0 0 3ch rgba(237, 207, 122, 1), 0 0 30px rgb(240, 219, 159);
+  filter: brightness(1.5);
+  margin-top: 0;
+  margin-bottom: .5vh;
+  font-size: 45px;
+}
+
+.auto-romi-subtitle {
+  color: rgba(237, 207, 122, 1);
+  margin-top: 0;
+  margin-bottom: 1.5vh;
+  font-size: 2vw;
+}
+
+.auto-romi-text {
+  color: rgba(237, 207, 122, 1);
+  margin: 0;
+}
+
+.auto-romi-display-card {
+  background-color: transparent;
+  height: 100vh;
+  width: 50vw;
+  position: relative;
+  align-items: center;
+  height: max-content;
+  width: max-content;
+}
+/* End of Romi */
+
+/* Start of Embedded Motor Controller */
+.embedded-PI-motor-controller-slide {
+  width: 100%;
+  max-width: 50vw;
+  height: 100%;
+  max-height: 50vh;
+  object-fit: cover;
+  display: block;
+  border-radius: 20px 20px 20px 20px;
+}
+
+img.embedded-PI-motor-controller-slide {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.embedded-PI-motor-controller-screen {
+  width: 100vw;
+  height: 100vh;
+  margin-top: 5vh;
+  /* justify-content: center; */
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+  grid-template-rows: 1fr; /* One row */
+  align-items: center;
+  text-align: start;
+}
+
+.embedded-PI-motor-controller-title-card {
+  background-color: black;
+  text-align: start;
+  position: relative;
+  height: max-content;
+  width: max-content;
+  margin-right: 5rem;
+}
+
+.embedded-PI-motor-controller-card {
+  justify-self: end;
+  max-width: 40vw;
+  margin-right: 5rem;
+}
+
+.embedded-PI-motor-controller-title {
+  color: rgb(184, 152, 48);
+  text-shadow: 0 0 3ch rgba(237, 207, 122, 1), 0 0 30px rgb(240, 219, 159);
+  filter: brightness(1.5);
+  margin-top: 0;
+  margin-bottom: .5vh;
+  font-size: 4vw;
+}
+
+.embedded-PI-motor-controller-subtitle {
+  color: rgba(237, 207, 122, 1);
+  margin-top: 0;
+  margin-bottom: 1.5vh;
+  font-size: 2vw;
+}
+
+.embedded-PI-motor-controller-text {
+  color: rgba(237, 207, 122, 1);
+  margin: 0;
+}
+
+.embedded-PI-motor-controller-display-card {
+  background-color: transparent;
+  height: 100vh;
+  width: 50vw;
+  position: relative;
+  align-items: center;
+  height: max-content;
+  width: max-content;
+}
+/* End of Embedded Motor Controller */
 
 /* Start of footer */
 
@@ -498,7 +684,27 @@ img.five-bar-slide {
               1px -1px 0 black, /* Top-right shadow */
               -1px 1px 0 black, /* Bottom-left shadow */
               1px 1px 0 black; /* Bottom-right shadow */
-  font-size: 2rem !important;
+  font-size: 25px !important;
+  border-radius: 8px !important;
+  margin: 0 6px !important;
+  /* box-shadow: none !important; */
+}
+
+.auto-romi-display-card .swiper .swiper-pagination-bullet {
+  /* remove dot visuals */
+  background: transparent !important;
+  width: auto !important;
+  padding: 6px 48px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  color: rgba(237, 207, 122, 1) !important;
+  text-shadow:
+              -1px -1px 0 black, /* Top-left shadow */
+              1px -1px 0 black, /* Top-right shadow */
+              -1px 1px 0 black, /* Bottom-left shadow */
+              1px 1px 0 black; /* Bottom-right shadow */
+  font-size: 18px !important;
   border-radius: 8px !important;
   margin: 0 6px !important;
   /* box-shadow: none !important; */

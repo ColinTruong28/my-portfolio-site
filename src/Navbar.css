@@ -17,7 +17,7 @@ nav {
     align-items: center;
     justify-content: center;
     display: grid;
-    grid-template-columns: 10vw 10vw 10vw;
+    grid-template-columns: 20vw 20vw 20vw;
     grid-gap: 10vw;
 }
 
@@ -26,7 +26,7 @@ nav {
 }
 
 .glowy-text {
-    font-size: 1.5rem;
+    font-size: 25px;
     font-family: 'JetBrains Mono', monospace;
     margin: 0 1rem 0 1rem;
     will-change: filter;
@@ -37,4 +37,5 @@ nav {
 .glowy-text:hover {
     color: rgb(255, 225, 191);
     filter: drop-shadow(0 0 1em #ffffff);
+    transition: ease-in .2s;
 }
