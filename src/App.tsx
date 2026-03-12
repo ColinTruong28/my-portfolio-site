@@ -368,7 +368,7 @@ function App() {
         <div className = "linkedin">
           <h3>Connect with Me - </h3>
           <FaLinkedin size="20vh" style={{margin:"4vh"}}/>
-          <a className = "link" href="https://www.linkedin.com/in/cptruong2005/">www.linkedin.com/in/cptruong2005</a>
+          <a className = "link" href="https://www.linkedin.com/in/colinptruong/">www.linkedin.com/in/ColinPTruong</a>
         </div>
       </section>
       <section className="footer">
