@@ -1,30 +1,23 @@
 declare module '*.css';
-import {useState, useEffect} from 'react'
-import './App.css'
-import Navbar from './Navbar'
+import {useState, useEffect} from 'react';
+import './App.css';
+import Navbar from './Navbar';
 import Collapsible from 'react-collapsible';
-import Typewriter from 'typewriter-effect'
-import CherryBlossoms from './cherryBlossoms'
+import Typewriter from 'typewriter-effect';
+import CherryBlossoms from './cherryBlossoms';
+import AboutMe from "./AboutMe.tsx";
+import AutoRomiShowcase from './projectShowcases/AutoRomiShowcase';
+import FiveBarShowcase from './projectShowcases/FiveBarShowcase';
 import { HiPencilAlt } from "react-icons/hi";
 import { PiPhoneCallFill } from "react-icons/pi";
 import { FaLinkedin } from "react-icons/fa";
-import Varsity from './images/Varsity.JPG?url'
-import HeadShot from './images/Prof Headshot.JPG?url';
-import Drawing from './images/Drawing.JPG?url'
-import FiveBarDemo from './images/FiveBarDemo.mp4?url';
-import SolidworksFiveBarDemo from './images/Solidworks_FiveBar_Demo.mp4?url';
-import StressedBar from './images/Bar_Stress_Analysis.png?url';
 import Resolution from './images/Resolution.png';
 import Resolution_example_homepage from './images/Resolution_example_homepage.png';
 import Resolution_example_recordpage from './images/Resolution_example_recordpage.png';
-import April_tag_tracking from './images/Computer_Vision_PID_Following.gif?url';
-import Hysteresis_IMU from './images/Hysteresis_IMU.gif?url';
-import PID_turn from './images/PID_turn.gif?url';
+import { FaGithub } from "react-icons/fa";
 // import EmbeddedSchematic from './images/Embedded_PI_Motor_Controller_Schematic.png?url'
 // Import Swiper components
-import { Swiper, SwiperSlide } from 'swiper/react';
 // Import required modules
-import { Navigation, Pagination, A11y } from 'swiper/modules';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -128,7 +121,10 @@ function App() {
       </section>
 
       <section className = "about-me" id="about-me">
-        <div className = "about-picture">
+        <AboutMe>
+          
+        </AboutMe>
+        {/* <div className = "about-picture">
           <div className = "picture-container">
               <div className = "collapsible-items" style={{transform: activeCollapsibleIndex == 2 ? "translateY(-33.33%)": activeCollapsibleIndex == 3 ? "translateY(-66.66%)": "translateY(0)"}}>
                 <div>
@@ -199,7 +195,8 @@ function App() {
             <p>Feel free to follow me on Instagram <a href="https://www.instagram.com/colinptruong/">@instagram.com/colinptruong</a></p>
             
           </Collapsible>
-        </div>
+        </div> */}
+
       </section>      
       
       <section id="projects">
@@ -214,7 +211,13 @@ function App() {
             <h3 className="resolution-text">Kivy Front-End</h3>
             <h3 className="resolution-text">FireBase Back-End</h3>
             <div className="resolution-hyperlinks">
-              {/* icon */}
+              <a
+                href="https://github.com/ColinTruong28/Resolution"
+                className="github-link resolution"
+              >
+                <FaGithub size="2.5vw" />
+                <h2>Github</h2>
+              </a>
               {/* icon */}
             </div>
           </div>
@@ -236,7 +239,13 @@ function App() {
             <h1 className="auto-romi-title">Autonomous Robot</h1>
             <h2 className="auto-romi-subtitle">Multi-Sensor PID Decision Making</h2>
             <div className="auto-romi-hyperlinks">
-              {/* icon */}
+              <a
+                href="https://github.com/ColinTruong28/RBE2002?tab=readme-ov-file"
+                className="github-link"
+              >
+                <FaGithub size="2.5vw" />
+                <h2>Github</h2>
+              </a>
               {/* icon */}
             </div>
           </div>
@@ -244,26 +253,7 @@ function App() {
           <div className="auto-romi-display-card">
             
             
-            <Swiper
-              modules={[Navigation, Pagination, A11y]}
-              navigation={true}
-              pagination={{
-                clickable: true,
-                renderBullet: (index, className) => {
-                  return `<span class="${className}">${romiLabels[index]}</span>`;
-                }
-              }}
-            >
-              <SwiperSlide>
-                <img src={April_tag_tracking} className="auto-romi-slide"/>
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={Hysteresis_IMU} className="auto-romi-slide" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={PID_turn} className="auto-romi-slide"/>
-              </SwiperSlide>
-            </Swiper>
+            <AutoRomiShowcase></AutoRomiShowcase>
 
 
           </div>
@@ -283,26 +273,9 @@ function App() {
           <div className="five-bar-display-card">
             
             
-            <Swiper
-              modules={[Navigation, Pagination, A11y]}
-              navigation={true}
-              pagination={{
-                clickable: true,
-                renderBullet: (index, className) => {
-                  return `<span class="${className}">${fiveBarSlideLabels[index]}</span>`;
-                }
-              }}
-            >
-              <SwiperSlide>
-                <video src={SolidworksFiveBarDemo} className="five-bar-slide" autoPlay muted loop/>
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={StressedBar} alt="Five_Bar_Stress_Tested_SolidWorks" className="five-bar-slide" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <video src={FiveBarDemo} className="five-bar-slide" autoPlay muted loop/>
-              </SwiperSlide>
-            </Swiper>
+            <FiveBarShowcase>
+
+            </FiveBarShowcase>
 
 
           </div>
