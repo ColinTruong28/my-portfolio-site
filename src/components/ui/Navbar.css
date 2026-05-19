@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+nav {
+    top:0;
+    position: relative;
+    z-index: 1000000000000;
+}
+
+.navbar {
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100vw;
+    padding-top: 5vh;
+    height: max-content;
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 20vw 20vw 20vw;
+    grid-gap: 10vw;
+}
+
+.glowy-text-wrapper{
+    display: inline;
+}
+
+.glowy-text {
+    font-size: 25px;
+    font-family: 'JetBrains Mono', monospace;
+    margin: 0 1rem 0 1rem;
+    will-change: filter;
+    transition: filter 300ms;
+    color: white;
+}
+
+.glowy-text:hover {
+    color: rgb(255, 225, 191);
+    filter: drop-shadow(0 0 1em #ffffff);
+    transition: ease-in .2s;
+}

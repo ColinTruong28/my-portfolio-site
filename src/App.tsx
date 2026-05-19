@@ -1,78 +1,142 @@
 declare module '*.css';
 import {useState, useEffect} from 'react';
 import './App.css';
-import Navbar from './Navbar';
-import Collapsible from 'react-collapsible';
+import { motion } from 'framer-motion';
+import Navbar from './components/ui/Navbar.tsx';
+import RobotDemo from './images/Robo_Demo.mp4?url'
+import SpinningCard from './components/ui/spinningCard.tsx';
+import Drawing from './images/Drawing.jpg';
+import Headshot from './images/Prof Headshot.jpg';
+import Varsity from './images/Varsity.jpg';
+import OrbitingSkills from './components/ui/orbiting.tsx';
+// import RobotNod from './images/robot_nod.mp4';
+import RobotCircle from './images/robot_circular.mp4';
+// import EdgeCase from './images/interesting_edge_case.mp4'
+import LiveTracking from './images/live_tracking.mp4';
+// import Marquee from "react-fast-marquee";
 import Typewriter from 'typewriter-effect';
-import CherryBlossoms from './cherryBlossoms';
-import AboutMe from "./AboutMe.tsx";
-import AutoRomiShowcase from './projectShowcases/AutoRomiShowcase';
-import FiveBarShowcase from './projectShowcases/FiveBarShowcase';
-import { HiPencilAlt } from "react-icons/hi";
-import { PiPhoneCallFill } from "react-icons/pi";
-import { FaLinkedin } from "react-icons/fa";
-import Resolution from './images/Resolution.png';
-import Resolution_example_homepage from './images/Resolution_example_homepage.png';
-import Resolution_example_recordpage from './images/Resolution_example_recordpage.png';
-import { FaGithub } from "react-icons/fa";
-// import EmbeddedSchematic from './images/Embedded_PI_Motor_Controller_Schematic.png?url'
-// Import Swiper components
-// Import required modules
-// Import Swiper styles
+import CherryBlossoms from './components/ui/cherryBlossoms';
+// import AboutMe from "./AboutMe.tsx";
+// import Resolution from './images/Resolution.png';
+// import Resolution_example_homepage from './images/Resolution_example_homepage.png';
+// import Resolution_example_recordpage from './images/Resolution_example_recordpage.png';
+import April_tag_tracking from './images/Computer_Vision_PID_Following.gif?url';
+import Hysteresis_IMU     from './images/Hysteresis_IMU.gif?url';
+import PID_turn           from './images/PID_turn.gif?url';
+import FiveBarDemo        from './images/FiveBarDemo.mp4?url';
+import SolidworksFiveBar  from './images/Solidworks_FiveBar_Demo.mp4?url';
+import StressedBar        from './images/Bar_Stress_Analysis.png?url';
+import Resolution_home    from './images/Resolution_example_homepage.png';
+import Resolution_record  from './images/Resolution_example_recordpage.png';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import ProfessionalTimeline from './components/ui/ProfessionalTimeline.tsx';
+import { BookshelfToggle, PillToggle, type ProjectCategory } from './components/ui/ProjectToggle';
+import NextProjectButton, { PROJECT_IDS } from './components/ui/NextProjectButton';
+import AboutSection from './AboutMe.tsx';
+import NeonSign from './components/NeonSign.tsx';
+import ProjectShowcase from './ProjectShowcase.tsx';
+import Footer from './Footer.tsx';
+import Dashboard_Walkthrough from './images/iBank/Dashboard_Walkthrough.mp4';
+import Basic_Landing_and_Login from './images/iBank/Basic_Landing_and_Login.mp4';
+import Management from './images/iBank/Management.mp4';
+import Additional_Features from './images/iBank/Additional_Features.mp4';
+import Role_Based_Viewing from './images/iBank/Role_Based_Viewing.mp4';
+import Work_Flow from './images/iBank/Work_Flow.mp4';
+import Home from './images/iBank/Page.png';
 
 
 
 function App() {
 
   // scrollPosition can be used to track the user's position within the webpage
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [activeCollapsibleIndex, setActiveIndex] = useState<number | null>(null);
-  const [openCollapsibleOne, setCollapsibleOne] = useState(true);
-  const [openCollapsibleTwo, setCollapsibleTwo] = useState(false);
-  const [openCollapsibleThree, setCollapsibleThree] = useState(false);
+    const [scrollPosition, setScrollPosition] = useState(0);
+    const [projectCategory, setProjectCategory] = useState<ProjectCategory>('robotics');
+    const [autoFall, setAutoFall] = useState(0);
+    const handleScroll = () => {
+        const position = window.pageYOffset;
+        setScrollPosition(position);
+    };
 
-      const handleScroll = () => {
-          const position = window.pageYOffset;
-          setScrollPosition(position);
-      };
+    const containerVariants = {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          // This is the magic: it waits 0.3s between each child's animation
+          staggerChildren: 3, 
+          delayChildren: 2,
+        },
+      },
+    };
 
-      const handleOpen = (index: number) => {
-        setActiveIndex(index);
-        if (index == 1) {
-          setCollapsibleOne(true);
-          setCollapsibleTwo(false);
-          setCollapsibleThree(false);
-        } else if (index == 2) {
-          setCollapsibleOne(false);
-          setCollapsibleTwo(true);
-          setCollapsibleThree(false);
-        } else {
-          setCollapsibleOne(false);
-          setCollapsibleTwo(false);
-          setCollapsibleThree(true);
+    const itemVariants = {
+      hidden: { y: 20, opacity: 0 },
+      visible: {
+        y: 0,
+        opacity: 1,
+        transition: { duration: 0.5, ease: "easeInOut" as const },
+      },
+    };
+
+    const flickerLifeVariant = {
+      hidden: { 
+        opacity: 0,
+        color: "#444",
+        textShadow: "0 0 0px rgba(0,0,0,0)"
+      },
+      visible: {
+        // Rapid stutter: Off -> Bright -> Dim -> Bright -> Steady
+        opacity: [0, 1, 0.4, 1, 0.8, 1],
+        color: ["#444", "#fff", "#888", "#fff", "#aaa", "#fff"],
+        textShadow: [
+          "0 0 0px rgba(0,0,0,0)",
+          "0 0 15px #fff, 0 0 30px #d4af37", // First spark
+          "0 0 2px #fff, 0 0 5px #d4af37",   // Struggle
+          "0 0 20px #fff, 0 0 40px #d4af37", // Second spark
+          "0 0 5px #fff, 0 0 10px #d4af37",  // Dip
+          "0 0 7px #fff, 0 0 20px #d4af37"   // Final Steady Glow
+        ],
+        transition: {
+          duration: 0.8, // Fast, punchy ignition
+          times: [0, 0.1, 0.2, 0.3, 0.4, 1], 
+          ease: "easeInOut" as const,
         }
+      }
+    };
+
+
+    
+
+    useEffect(() => {
+      window.addEventListener('scroll', handleScroll, {passive: true});
+      // --- Auto-Fall Logic (The "Clock") ---
+      let frameId: number;
+      const speed = 1.5; // Pixels per frame
+      const limit = window.innerHeight + 3000; // Reset point
+
+      const animate = () => {
+        setAutoFall((prev) => (prev + speed) % limit);
+        frameId = requestAnimationFrame(animate); 
       };
-  
-      useEffect(() => {
-          window.addEventListener('scroll', handleScroll, {passive: true});
-      
-  
-      return () => {
-          window.removeEventListener('scroll', handleScroll);
+
+      frameId = requestAnimationFrame(animate);
+
+    return () => {
+        window.removeEventListener('scroll', handleScroll);
+        cancelAnimationFrame(frameId);
       };
-  
-      }, []); 
+
+    }, []); 
 
 
     // Example labels for each slide
-    const fiveBarSlideLabels = [
-      'Design',
-      'Analysis',
-      'Demo'
-    ];
+    // const fiveBarSlideLabels = [
+    //   'Design',
+    //   'Analysis',
+    //   'Demo'
+    // ];
 
     // const embeddedSlideLabels = [
     //   'Demo',
@@ -80,19 +144,19 @@ function App() {
     //   'Code'
     // ];
 
-    const romiLabels = [
-      'Computer Vision',
-      'Hysteresis IMU',
-      'PID Driven Turns'
-    ];
+    // const romiLabels = [
+    //   'Computer Vision',
+    //   'Hysteresis IMU',
+    //   'PID Driven Turns'
+    // ];
     
   return (
     <main>
       <Navbar />
 
       {/* Title */}
-      <section className="title-screen" 
-          style={{opacity: 1-scrollPosition/500}}
+      <section className="title-screen relative" 
+          style={{opacity: 1-scrollPosition/200, pointerEvents: 'none'}}
        >
         <div className = "cherryBlossom-wrapper">
           <CherryBlossoms></CherryBlossoms>
@@ -112,7 +176,7 @@ function App() {
             }} />
           </div>
         </div>
-        <div className="intro-info">
+        <div className="intro-info" style={{pointerEvents: 'none',}}>
           <h3 className="sub-info">WPI Undergrad Student</h3>
           <h3 className="sub-info">Robotic Engineering</h3>
           <h3 className="sub-info">Global Lab Web Developer</h3>
@@ -120,232 +184,203 @@ function App() {
         </div>
       </section>
 
+
+{/* -------ABOUT ME --------------------------*/}
       <section className = "about-me" id="about-me">
-        <AboutMe>
+        <div className = "about-card-container">
+          <div 
+          id = "card-1"
+          style={{transform: `translateY(${scrollPosition * .2 + autoFall*.53 - 700}px)`}}
+          >
+            <SpinningCard image={Drawing}></SpinningCard>
+          </div>
+          <div 
+          id = "card-2"
+          style={{transform: `translateY(${scrollPosition * .2 + autoFall*.55 - 600}px)`}}
+          >
+            <SpinningCard image = {Headshot}></SpinningCard>
+          </div>
+          <div 
+          id = "card-3"
+          style={{transform: `translateY(${scrollPosition * .2 + autoFall*.5 - 800}px)`}}>
+            <SpinningCard image = {Varsity}></SpinningCard>
+          </div>
+        </div>
+
+        <div className='about-description'>
+            <motion.div 
+            className='about-neon-sign'
+            variants={flickerLifeVariant}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{once: true, margin: "-350px 0px"}}
+            >
+            About Me
+            </motion.div>
+            <motion.div 
+              className='about-text'
+              variants={containerVariants}
+              initial="hidden" 
+              whileInView="visible" 
+              viewport={{ once: true, amount: .6 }}
+              
+            >
+                <motion.p variants={itemVariants}>Over the last three years I have been honing my leadership skills through projects and programs where I can have an impact on my surrounding communities.</motion.p>
+                <motion.p variants={itemVariants}>I have been working at the WPI Global Lab, spearheading a full visual and thematic overhaul of the website to show the evolving student initiatives and faculty research.</motion.p>
+                <motion.p variants={itemVariants}>In my collegiate career, I have been active in the Society of Asian Scientists and Engineers as President and Events Coordinator, increasing active-membership by 63% through the organization of 50+ events yearly, winning National Overall Strongest Chapter of 2025.</motion.p>
+                <motion.p variants={itemVariants}>I also act as a Volunteer Manager for the Pan Asian Association, coordinating a 1000+ attendee, six-figure event with 100+ unique volunteers and 10+ student organizations.</motion.p>
+                
+                
+            </motion.div>
+
+            <AboutSection />
           
-        </AboutMe>
-        {/* <div className = "about-picture">
-          <div className = "picture-container">
-              <div className = "collapsible-items" style={{transform: activeCollapsibleIndex == 2 ? "translateY(-33.33%)": activeCollapsibleIndex == 3 ? "translateY(-66.66%)": "translateY(0)"}}>
-                <div>
-                    <img src={HeadShot} alt="" />
-                </div>
-                <div>
-                    <img src={Varsity} alt="" />
-                </div>
-                <div>
-                    <img src={Drawing} alt="" />
-                </div>
-              </div>
-          </div>   
-          <div className = "randomBlock"></div>
         </div>
         
-        <div className = "about-info">
-          <div className = "about-title">
-            <h1>A Few Words About Me</h1>
-            <h2>Innovation - Passion - Creativity</h2>
-          </div>
-          <Collapsible trigger="- ✧ Professional ✧ -" open={openCollapsibleOne} onOpening={() => handleOpen(1)}>
-              <p>
-                Over the last three years I have been honing my leadership skills through
-                projects and programs where I can have an impact on my surrounding 
-                communities.
+
+      </section>  
+
+
+      <section id="projects" className="w-full relative">
+        <div className="relative z-10">
+          {/* Section heading + toggle */}
+          <div className="max-w-[85vw] mx-auto pt-20 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-red-500 font-mono mb-1 text-start">
+                Selected Work
               </p>
-              <p>
-                I have been working at the WPI Global Lab, spearheading a full visual and 
-                thematic overhaul of the website to show the evolving student 
-                initiatives and faculty research.
-              </p>
-              <p>
-                In my collegiate career, I have been active in the Society of Asian 
-                Scientists and Engineers as an Events Coordinator in which I planned 
-                weekly events focused on professional devlopment, community service 
-                and cultural empowerment that increased active-membership by 63%, 
-                 winning WPI's 2025 Social Program of the Year and SASE's 2025 Overall
-                 Strongest Chapter.
-              </p>
-              <p>
-                I work as a Resident Advisor for the 2025-26 academic year 
-                where I will be responsible for overseeing and providng mentorship to 
-                incoming freshmen.
-              </p>
-          </Collapsible>
-
-          <Collapsible trigger = "- ✧ Technical ✧ -" open = {openCollapsibleTwo} onOpening={() => handleOpen(2)}>
-            <h4>Front-End</h4>
-            <p>Technology Stack: HTML5, CSS, JavaScript, TypeScript, Python</p>  
-            <p>Tools: Boostrap, ReactJS, Kivy/KivyMD, Figma</p>
-            <h4>Back-End</h4>
-            <p>Technology Stack: Java, Python, C++</p>
-            <p>Tools: NodeJS, FireBase, VexV5</p>
-          </Collapsible>
-
-          <Collapsible trigger = "- ✧ Personal ✧ -" open = {openCollapsibleThree} onOpening={() => handleOpen(3)}>
-            <p>On a more personoal level, hi, I'm Colin Truong (he/him) and I'm from Milton, Massachusetts!</p>
-            <p>
-              When I am away from my desk I enjoy getting out into the world. I enjoy rock climbing
-              playing video games, watching basketball, and any activity that gets my adrenaline up. 
-            </p>
-            <p>
-              Like my work, I'm very interested in creative expression. I'm a big fan of videography and
-              story-telling. Whether it's a book, comic, tv-show, or movie I can get easily caught up in 
-              unique stories and complicated characters
-            </p>
-            <p>Feel free to follow me on Instagram <a href="https://www.instagram.com/colinptruong/">@instagram.com/colinptruong</a></p>
-            
-          </Collapsible>
-        </div> */}
-
-      </section>      
-      
-      <section id="projects">
-        <div className="major-toggle">
-
-        </div>
-
-        <div className="project-screen" id="projects">
-          <div className="project-title-card">
-            <h1 className="resolution-title">Resolution</h1>
-            <h2 className="resolution-subtitle">Diabetic Health Goals App</h2>
-            <h3 className="resolution-text">Kivy Front-End</h3>
-            <h3 className="resolution-text">FireBase Back-End</h3>
-            <div className="resolution-hyperlinks">
-              <a
-                href="https://github.com/ColinTruong28/Resolution"
-                className="github-link resolution"
+              <h2
+                className="text-5xl md:text-6xl text-white text-start"
+                style={{ fontFamily: "'JetBrains Mono', monospace" }}
               >
-                <FaGithub size="2.5vw" />
-                <h2>Github</h2>
-              </a>
-              {/* icon */}
+                Projects
+              </h2>
             </div>
+
+            {/* ── CHOOSE ONE TOGGLE STYLE ── */}
+            {/* Option A — Bookshelf (wrap in relative so the shelf plank positions correctly) */}
+            {/* <div className="relative pb-8">
+              <BookshelfToggle active={projectCategory} onChange={setProjectCategory} />
+            </div> */}
+
+            {/* Option B — Pill (comment out Option A and uncomment this) */}
+            <PillToggle active={projectCategory} onChange={setProjectCategory} />
           </div>
 
-          <div className="resolution-display-card">
-            
-            <div className="circular-container">
-            <img className="phone-screen res-home " src={Resolution_example_homepage} alt="" />
-            <img className="phone-screen res-record " src={Resolution_example_recordpage} alt="" />
+          {/* ── ROBOTICS projects ── */}
+          {projectCategory === 'robotics' && (
+            <>
+              <div id="project-robot-arm">
+                <ProjectShowcase
+                  title="4-DOF Sorting Arm"
+                  subtitle="Robotic Pick & Place System"
+                  tags={['MATLAB', 'Computer Vision', 'Inverse Kinematics', 'Trajectory Planning', 'DH Parameters']}
+                  links={[
+                    { label: 'GitHub', href: 'https://github.com/ColinTruong28/4DOF_Robotic_Pick_and_Sort_Arm', icon: 'github' },
+                    { label: 'Demo Video', href: 'https://1drv.ms/v/c/4c41deb30d8da158/IQBDqC8neL1ERKCWuSNBDAwbAaeO1dqa1RB0J1XMKX_Zou4', icon: 'external' },
+                  ]}
+                  slides={[
+                    {
+                      label: 'Pick & Place',
+                      description: 'The full autonomous sorting pipeline: a top-down camera detects colored balls via color-threshold masking, extracts centroids with connected-component analysis, and converts pixel coordinates into world-frame positions through intrinsic calibration and a geometric correction that accounts for the camera\'s viewing angle and ball radius.',
+                      mediaSrc: RobotDemo,
+                      mediaType: 'video',
+                    },
+                    {
+                      label: 'Trajectory Planning',
+                      description: 'Quintic and cubic trajectory generators produce smooth, jerk-limited joint-space paths. The Jacobian is monitored throughout — if its determinant drops below a threshold, an E-stop fires to avoid singularities.',
+                      mediaSrc: RobotCircle,
+                      mediaType: 'video',
+                    },
+                    {
+                      label: 'Live Ball Tracking',
+                      description: 'A real-time vision loop streams frames from the calibrated webcam, segments the red ball by hue threshold, and applies the checkerboard-to-robot frame transform on every tick for closed-loop tracking.',
+                      mediaSrc: LiveTracking,
+                      mediaType: 'video',
+                    },
+                  ]}
+                />
+              </div>
 
-            <img className="Resolution-Icon" src={Resolution} alt="Resolution Icon" />
+              <div id="project-autonomous-robot">
+                <ProjectShowcase
+                  flip
+                  title="Autonomous Robot"
+                  subtitle="Multi-Sensor PID"
+                  tags={['C++', 'ROS', 'Computer Vision', 'PID Control', 'IMU']}
+                  links={[{ label: 'GitHub', href: 'https://github.com/ColinTruong28/RBE2002?tab=readme-ov-file', icon: 'github' }]}
+                  slides={[
+                    { label: 'AprilTag Tracking', description: 'A camera-based PID loop locks onto AprilTag fiducials and drives the robot toward the target, compensating for distance and angular offset in real time.', mediaSrc: April_tag_tracking, mediaType: 'image' },
+                    { label: 'IMU Hysteresis', description: 'A hysteresis filter on the IMU data smooths heading estimates, preventing oscillation during slow drift-prone straight-line driving.', mediaSrc: Hysteresis_IMU, mediaType: 'image' },
+                    { label: 'PID Tuning', description: 'Closed-loop PID turns were tuned iteratively to achieve ±2° accuracy at various angular setpoints without overshoot.', mediaSrc: PID_turn, mediaType: 'image' },
+                  ]}
+                />
+              </div>
 
-            </div>
-          </div>
+              <div id="project-five-bar">
+                <ProjectShowcase
+                  title="Shelf Sorting Arm"
+                  subtitle="Five-Bar Linkage"
+                  tags={['SolidWorks', 'FEA', 'Kinematics', 'Mechanical Design']}
+                  slides={[
+                    { label: 'CAD Design', description: 'Parametric linkage geometry designed in SolidWorks with full constraint-based assembly.', mediaSrc: SolidworksFiveBar, mediaType: 'video' },
+                    { label: 'Stress Analysis', description: 'FEA run on the most heavily loaded bar under worst-case payload conditions to confirm factor-of-safety margins.', mediaSrc: StressedBar, mediaType: 'image' },
+                    { label: 'Physical Demo', description: 'The fabricated arm demonstrates the full workspace trajectory with sub-centimeter repeatability.', mediaSrc: FiveBarDemo, mediaType: 'video' },
+                  ]}
+                />
+              </div>
+            </>
+          )}
+
+          {/* ── SOFTWARE projects ── (add your software ProjectShowcase entries here) */}
+          {projectCategory === 'software' && (
+            <>
+              <div id="iBank">
+                <ProjectShowcase
+                  title="iBank | Hanover Insurance Group"
+                  subtitle="Content Management System"
+                  tags={['PERN Stack', 'TypeScript', 'MUI', 'Prisma ORM', 'Supabase']}
+                  links={[
+                    { label: 'GitHub', href: 'https://github.com/CS3733-D26-Team-G/teamg-app', icon: 'github' },
+                    { label: 'User Manual', href: 'https://drive.google.com/file/d/19Nz3Dnpj9h3_d5ZIMQhlT8DByg3Pf82e/view?usp=sharing', icon: 'external'}
+                  ]}
+                  slides={[
+                    { label: 'Overview',     description: 'A robust, centralized content management platform designed for the Hanover Insurance Group to streamline policy documentation, claims processing, and agent workflows. This application also includes user and role management system, login authentication, data analytics, notification calendar, language toggle, and a customizable dashboard.',      mediaSrc: Home,   mediaType: 'image' },
+                    { label: 'Login',     description: 'Secure authentication gateway ensuring compliance, data privacy, and protected access to sensitive policyholder information.',      mediaSrc: Basic_Landing_and_Login,   mediaType: 'video' },
+                    { label: 'Dashboard',  description: 'A customizable data analytics hub surfacing real-time performance metrics, open claims trends, and critical operational KPIs for quick executive insights.',         mediaSrc: Dashboard_Walkthrough, mediaType: 'video' },
+                    { label: 'Management',  description: 'An administrative core for handling full CRUD operations over insurance content, system users, and centralized documentation for various insurance claims. The content managment system was the brunt of this application so it features the ability to check in and out content to prevent simoultaneous edits, a timeline of all actions, and an annotation feature for any and all documents.',         mediaSrc: Management, mediaType: 'video' },
+                    { label: 'Role Based Viewing',  description: 'Granular role-based access control (RBAC) filtering UI elements and data exposure differently for Agents, Underwriters, and System Admins. There are a total of 8 possible user roles with varying levels of permissions.',         mediaSrc: Role_Based_Viewing, mediaType: 'video' },
+                    { label: 'Work Flow',  description: 'An optimized, end-to-end operational pipeline showcasing how a claim or policy document moves from initial submission through an agent through internal underwriting review where it can be approved by system admins.',         mediaSrc: Work_Flow, mediaType: 'video' },
+                    { label: 'Additional Features',  description: 'Advanced platform capabilities: User specific profile customization, notifications, recent activity page, expiration and notofication calendar, interactive tutorial/guide, language toggle, and voice control.',         mediaSrc: Additional_Features, mediaType: 'video' },
+
+                  ]}
+                />
+              </div>
+
+              <div id="project-resolution">
+                <ProjectShowcase
+                  title="Resolution"
+                  subtitle="Diabetic Health Goals App"
+                  tags={['Python', 'Kivy / KivyMD', 'Firebase', 'UI/UX']}
+                  links={[{ label: 'GitHub', href: 'https://github.com/ColinTruong28/Resolution', icon: 'github' }]}
+                  slides={[
+                    { label: 'Overview',     description: 'Mobile-first diabetic health tracking app. Users set personalised daily goals and log meals, insulin doses, and glucose readings.',      mediaSrc: Resolution_home,   mediaType: 'image' },
+                    { label: 'Record Page',  description: 'The record page surfaces historical data with simple charting so users can spot trends without needing a clinical background.',         mediaSrc: Resolution_record, mediaType: 'image' },
+                  ]}
+                />
+              </div>
+              {/* Add more software projects here */}
+            </>
+          )}
         </div>
 
-        <div className="project-screen" id="projects">
-          <div className="project-title-card">
-            <h1 className="auto-romi-title">Autonomous Robot</h1>
-            <h2 className="auto-romi-subtitle">Multi-Sensor PID Decision Making</h2>
-            <div className="auto-romi-hyperlinks">
-              <a
-                href="https://github.com/ColinTruong28/RBE2002?tab=readme-ov-file"
-                className="github-link"
-              >
-                <FaGithub size="2.5vw" />
-                <h2>Github</h2>
-              </a>
-              {/* icon */}
-            </div>
-          </div>
-
-          <div className="auto-romi-display-card">
-            
-            
-            <AutoRomiShowcase></AutoRomiShowcase>
-
-
-          </div>
-        </div>
-
-        <div className="project-screen" id="projects">
-          <div className="project-title-card">
-            <h1 className="five-bar-title">Shelf Sorting Arm</h1>
-            <h2 className="five-bar-subtitle">Five-Bar Linkage</h2>
-            <h3 className="five-bar-text">Designed, Modeled, and Tested in SolidWorks</h3>
-            <div className="five-bar-hyperlinks">
-              {/* icon */}
-              {/* icon */}
-            </div>
-          </div>
-
-          <div className="five-bar-display-card">
-            
-            
-            <FiveBarShowcase>
-
-            </FiveBarShowcase>
-
-
-          </div>
-        </div>
-
-        {/* <div className="embedded-PI-motor-controller-screen" id="projects">
-          <div className="embedded-PI-motor-controller-card">
-            <h1 className="embedded-PI-motor-controller-title">Embedded PI Motor Controller</h1>
-            <h2 className="embedded-PI-motor-controller-subtitle">Raspberry PI Pico W</h2>
-            <h3 className="embedded-PI-motor-controller-text">Designed in KiCad</h3>
-            <h3 className="embedded-PI-motor-controller-text">Programmed in C</h3>
-            <h3 className="embedded-PI-motor-controller-text">Deployed with Linux on a VMWare Workstation</h3>
-            <div className="embedded-PI-motor-controller-hyperlinks">
-              {}
-              {}
-            </div>
-          </div>
-
-          <div className="embedded-PI-motor-controller-display-card">
-            
-            
-            <Swiper
-              modules={[Navigation, Pagination, A11y]}
-              navigation={true}
-              pagination={{
-                clickable: true,
-                renderBullet: (index, className) => {
-                  return `<span class="${className}">${embeddedSlideLabels[index]}</span>`;
-                }
-              }}
-            >
-              <SwiperSlide>
-                <video src={SolidworksFiveBarDemo} className="embedded-PI-motor-controller-slide" autoPlay muted loop/>
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={EmbeddedSchematic} alt="Schematic of Embedded PI Motor Controller" className="embedded-PI-motor-controller-slide" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={EmbeddedSchematic} alt="Schematic of Embedded PI Motor Controller" className="embedded-PI-motor-controller-slide" />
-              </SwiperSlide>
-            </Swiper>
-
-
-          </div>
-        </div> */}
-      </section>
-
+        {/* Sticky next-project button — renders globally, detects position automatically */}
+        <NextProjectButton />
+      </section>    
       
 
-      {/* Contact Me Section */}
-      <section className = "contacts" id="contact">
-        <div className="contactMe">Feel Free to Reach Out!</div>
-        <div className="email">
-          <h3>Write me -</h3>
-          <HiPencilAlt size="20vh" style={{margin:"4vh"}}/>
-          <a className = "link" href="mailto:ColinPTruong@gmail.com">ColinPTruong@gmail.com</a>
-        </div>
-        <div className = "phone_number">
-          <h3>Contact Me -</h3>
-          <PiPhoneCallFill size="20vh" style={{margin:"4vh"}}/>
-          <h1 className = "link">+1 (617) 762 8333</h1>
-        </div>
-        <div className = "linkedin">
-          <h3>Connect with Me - </h3>
-          <FaLinkedin size="20vh" style={{margin:"4vh"}}/>
-          <a className = "link" href="https://www.linkedin.com/in/colinptruong/">www.linkedin.com/in/ColinPTruong</a>
-        </div>
-      </section>
       <section className="footer">
-
+          <Footer />
       </section>
       
     </main>

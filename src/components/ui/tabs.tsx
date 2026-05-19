@@ -39,7 +39,7 @@ export default function Tabs({ items = [], className = '' }: TabsProps) {
       initial="hidden"
       animate="visible"
       variants={tabVariants}
-      className={`bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100/50 dark:border-gray-800/50 overflow-hidden w-full max-w-2xl ${className}`}
+      className={` dark:bg-black-900/80 backdrop-blur-sm rounded-2xl shadow-xl border dark:border-gray-800/50 overflow-hidden w-full max-w-2xl ${className}`}
     >
       {/* Tabs Header */}
       <div className='flex border-b border-gray-100/60 dark:border-gray-800/60 bg-gray-50/50 dark:bg-gray-950/50 backdrop-blur-sm'>
@@ -57,11 +57,11 @@ export default function Tabs({ items = [], className = '' }: TabsProps) {
             aria-selected={activeTab === tab.id}
             role='tab'
           >
-            <span className='relative z-10'>{tab.name}</span>
+            <span className='dark:text-gold-200 relative z-10'>{tab.name}</span>
             {activeTab === tab.id && (
               <motion.div
                 layoutId="activeTab"
-                className='absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-slate-600 to-slate-800 dark:from-slate-400 dark:to-slate-600'
+                className=' absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-slate-600 to-slate-800 dark:from-slate-400 dark:to-slate-600'
                 initial="hidden"
                 animate="visible"
                 variants={indicatorVariants}

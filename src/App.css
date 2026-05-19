@@ -4,6 +4,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
+@import '@fontsource/neonderthaw';
+
+@import '@fontsource-variable/montserrat/wght.css';
 
 /* Hide scrollbar */
 ::-webkit-scrollbar {
@@ -24,10 +27,6 @@ html,body {
   scroll-behavior: smooth;
 }
 
-main {
-  width: 100vw;
-  overflow-x: hidden;
-}
 
 h1, h2, h3 {
   font-family: 'JetBrains Mono', monospace;
@@ -56,7 +55,6 @@ h1, h2, h3 {
 .cherryBlossom-wrapper {
   width: 100vw;
   position: absolute;
-  overflow: hidden;
 }
 
 .title {
@@ -115,8 +113,97 @@ h1, h2, h3 {
 
 .about-me {
   display: flex;
+  min-height: 100vh;
+  overflow: hidden;
+  justify-content: center;
+  position: relative;
+  margin: 200px 0 200px 0;
+}
+
+.about-card-container {
+  height: 100%;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  flex: 1;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 15%,
+    black 85%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 15%,
+    black 85%,
+    transparent 100%
+  );
+}
+
+div#card-1 div#card-2 div#card-3 {
+  height: min-content;
+
+}
+
+#card-1 {
+  position: relative;
+  top: 0%;
+  left: 10%;
+}
+
+#card-2 {
+  position: relative;
+  top: 0%;
+  left: 30%;
+}
+
+#card-3 {
+  position: relative;
+  top: 0%;
+  left: 50%;
+}
+
+.about-description {
+  width: 100vw;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.about-neon-sign {
+  font-family: 'Neonderthaw', cursive;
+  margin-top: 100px;
+  font-size: 96px;
+  border-radius: 10px;
+  border: 2px solid white;
+  padding-right: 15px;
+  padding-left: 5px;
+  justify-self: center;
+  color: rgb(255, 255, 255);
+  text-shadow: 0 0 3ch rgb(255, 233, 252), 0 0 40px rgba(255, 202, 248, 1);
+  -webkit-box-shadow:0px 0px 37px 0px rgba(255,255,255,0.9);
+  -moz-box-shadow: 0px 0px 37px 0px rgba(255,255,255,0.9);
+  box-shadow: 0px 0px 37px 0px rgba(255,255,255,0.9);  
+  filter: brightness(1.5);
   
-  height: 100vh;
+}
+
+.about-text {
+  padding-top: 50px;
+  justify-self: center;
+  width: 80vw;
+}
+
+.about-text p {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-family: 'Montseratt Variable';
+  font-size: 32px;
+  text-align: left;
 }
 
 .about-picture {
@@ -190,6 +277,119 @@ h1, h2, h3 {
 
 /* End of About Section */
 
+/* Start of ARM Screen */
+
+.ARM-project-screen {
+  width: 90vw;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+}
+
+.ARM-main-project-screen {
+  width: 90vw;
+  min-height: 100vh;
+  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+  grid-template-rows: 1fr; /* One row */
+  align-items: center;
+  justify-self: center;
+}
+
+.ARM-carousel-item {
+  padding-right: px;
+}
+
+
+/* .project-title-card {
+  justify-self: start;
+  background-color: black;
+  text-align: start;
+  position: relative;
+  height: max-content;
+  width: max-content;
+  max-width: 45vw;
+} */
+
+.ARM-title {
+  color: rgb(184, 152, 48);
+  text-shadow: 0 0 3ch rgba(237, 207, 122, 1), 0 0 30px rgb(240, 219, 159);
+  filter: brightness(1.5);
+  margin-top: 0;
+  margin-bottom: 1.5vh;
+  font-size: 70px;
+}
+
+.ARM-subtitle {
+  color: rgba(237, 207, 122, 1);
+  margin-top: 1.5vh;
+  font-size: 40px;
+}
+
+.ARM-text {
+  color: rgba(237, 207, 122, 1);
+  padding-top: 1.5vh;
+  margin: 0;
+}
+
+.ARM-display-card {
+  background-color: transparent;
+  height: 100vh;
+  width: 50vw;
+  position: relative;
+  align-items: center;
+  height: max-content;
+  width: max-content;
+  display: flex;
+  justify-self: end;
+}
+
+.circular-container {
+  display: flex;
+  width: 35vw; 
+  height: 35vw; 
+  background-color: rgba(237, 207, 122, 1); 
+  border-radius: 50%; 
+}
+
+.ARM-Icon {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 20%;
+  filter: drop-shadow(0 0 1em #d893ff);
+  bottom: 0;
+  right: 5%;
+  z-index: 200;
+}
+
+.phone-screen {
+  border-radius: 5%;
+  height: 30vw;
+  position: absolute;
+  border-color: black;
+  border-style: solid;
+}
+
+.phone-screen:nth-child(1) {
+  z-index: 20;
+  bottom: 10%;
+  left: 10%;
+  rotate: -3deg;
+
+}
+
+.phone-screen:nth-child(2) {
+  bottom: 20%;
+  left: 40%;
+  rotate: 3deg;
+}
+
+/* End of Resolution Part */
+
 /* Start of Resolution Screen */
 
 .project-screen {
@@ -203,7 +403,7 @@ h1, h2, h3 {
   justify-self: center;
 }
 
-.project-title-card {
+.resolution-title-card {
   justify-self: start;
   background-color: black;
   text-align: start;
