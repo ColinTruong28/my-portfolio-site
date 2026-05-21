@@ -158,8 +158,8 @@ export function PillToggle({ active, onChange }: PillToggleProps) {
               <motion.div
                 layoutId="pill-bg"
                 className="absolute inset-0 rounded-lg -z-10"
-                style={{ background: 'rgba(237,207,122,1)' }}
-                transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                style={{ background: 'rgb(255,118,237)' }}
+                transition={{ type: false, stiffness: 380, damping: 32 }}
               />
             )}
             <span className="text-xs">{opt.icon}</span>

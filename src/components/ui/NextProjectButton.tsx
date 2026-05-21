@@ -2,31 +2,35 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// ── PROJECT IDs ───────────────────────────────────────────────────────────────
-// Add the id prop to each <ProjectShowcase> wrapper div in App.tsx like:
-//   <div id="project-robot-arm">   <ProjectShowcase ... />   </div>
-//
-// Then list those ids here in order:
+const SOFTWARE_IDS = [
+  'software-iBank',
+  'software-global-lab',
+];
 
-export const PROJECT_IDS = [
+const ROBOT_IDS = [
   'project-robot-arm',
   'project-autonomous-robot',
   'project-five-bar',
 ];
 
-// ── NextProjectButton ─────────────────────────────────────────────────────────
-// Sticky button fixed to bottom-right. Scrolls to the next project.
-// Disappears after the last project, reappears when you scroll back up.
-
-export default function NextProjectButton() {
-  const [currentIdx, setCurrentIdx] = useState(-1); // -1 = not in projects section
+export default function NextProjectButton({ category }: { category: 'software' | 'robotics' }) {
+  const [currentIdx, setCurrentIdx] = useState(-1);
   const [visible, setVisible] = useState(false);
+
+  // Derive the active ID list from the prop — no useState needed
+  const ids = category === 'software' ? SOFTWARE_IDS : ROBOT_IDS;
+
+  // Reset whenever the category switches
+  useEffect(() => {
+    setCurrentIdx(-1);
+    setVisible(false);
+  }, [category]);
 
   const findCurrentProject = useCallback(() => {
     const viewportMid = window.scrollY + window.innerHeight * 0.5;
     let found = -1;
 
-    PROJECT_IDS.forEach((id, i) => {
+    ids.forEach((id, i) => {
       const el = document.getElementById(id);
       if (!el) return;
       const { top, bottom } = el.getBoundingClientRect();
@@ -36,8 +40,8 @@ export default function NextProjectButton() {
     });
 
     setCurrentIdx(found);
-    setVisible(found >= 0 && found < PROJECT_IDS.length - 1);
-  }, []);
+    setVisible(found >= 0 && found < ids.length - 1);
+  }, [ids]); // re-runs whenever ids reference changes (i.e. category switches)
 
   useEffect(() => {
     window.addEventListener('scroll', findCurrentProject, { passive: true });
@@ -46,18 +50,17 @@ export default function NextProjectButton() {
   }, [findCurrentProject]);
 
   function scrollToNext() {
-    if (currentIdx < 0 || currentIdx >= PROJECT_IDS.length - 1) return;
-    const nextId = PROJECT_IDS[currentIdx + 1];
+    if (currentIdx < 0 || currentIdx >= ids.length - 1) return;
+    const nextId = ids[currentIdx + 1];
     const el = document.getElementById(nextId);
     if (!el) return;
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    // Update URL hash without jumping
     history.pushState(null, '', `#${nextId}`);
   }
 
   const nextLabel =
-    currentIdx >= 0 && currentIdx < PROJECT_IDS.length - 1
-      ? `Next: ${PROJECT_IDS[currentIdx + 1].replace('project-', '').replace(/-/g, ' ')}`
+    currentIdx >= 0 && currentIdx < ids.length - 1
+      ? `Next: ${ids[currentIdx + 1].replace(/^(project-|software-)/, '').replace(/-/g, ' ')}`
       : '';
 
   return (
@@ -71,14 +74,12 @@ export default function NextProjectButton() {
           onClick={scrollToNext}
           className="fixed bottom-8 right-8 z-50 flex items-center gap-3 rounded-full border font-mono text-xs uppercase tracking-widest px-5 py-3 backdrop-blur-sm focus:outline-none group"
           style={{
-            background: 'rgba(0,0,0,0.7)',
-            borderColor: 'rgba(237,207,122,0.35)',
-            color: 'rgba(237,207,122,0.85)',
-            boxShadow: '0 0 20px rgba(237,207,122,0.08)',
+            background: 'transparent',
+            borderColor: 'rgba(255,202,248,1)',
+            color: 'rgb(255,118,237)',
           }}
-          aria-label={`Scroll to next project`}
+          aria-label="Scroll to next project"
         >
-          {/* Animated chevron */}
           <motion.span
             animate={{ y: [0, 3, 0] }}
             transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}

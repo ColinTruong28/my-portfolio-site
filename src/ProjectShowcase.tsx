@@ -130,7 +130,7 @@ export default function ProjectShowcase({
           </div>
 
           {/* Subtitle */}
-          <p className="project-subtitle text-xs uppercase tracking-[0.2em] font-mono mb-3"
+          <p className="project-subtitle text-s uppercase tracking-[0.2em] font-mono mb-3"
             style={{ color: 'rgb(255,118,237)' }}>
             {subtitle}
           </p>
@@ -154,7 +154,7 @@ export default function ProjectShowcase({
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="px-2.5 py-1 rounded-md bg-white/10 text-gray-300 text-xs font-mono border border-white/10 backdrop-blur-sm"
+                className="px-2.5 py-1 rounded-md bg-white/10 text-gray-300 text-s font-mono border border-white/10 backdrop-blur-sm"
               >
                 {tag}
               </span>
@@ -162,7 +162,7 @@ export default function ProjectShowcase({
           </div>
 
           {/* Hover hint */}
-          <p className="text-xs font-mono flex items-center gap-2" style={{ color: 'rgb(252, 168, 241)' }}>
+          <p className="text-s font-mono flex items-center gap-2" style={{ color: 'rgb(252, 168, 241)' }}>
             <span className="inline-block w-5 h-px" style={{ background: 'rgb(252, 168, 241)' }} />
             hover to explore
           </p>
@@ -292,7 +292,7 @@ export default function ProjectShowcase({
             <MediaPane slide={slide} direction={direction} />
 
             {/* Tab strip */}
-            <div className="absolute bottom-0 left-0 right-0 flex bg-black/60 backdrop-blur-sm rounded-b-2xl overflow-hidden">
+            <div className="absolute bottom-0 left-0 right-0 flex bg-black/60 backdrop-blur-sm rounded-b-l overflow-hidden">
               {slides.map((s, i) => (
                 <button
                   key={s.label}

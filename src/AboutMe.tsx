@@ -3,6 +3,28 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import OrbitingSkills from './components/ui/orbiting';
 
+import paa_1 from './images/About/paa_1.jpg';
+import paa_2 from './images/About/paa_2.jpg';
+import paa_3 from './images/About/paa_3.jpg';
+import paa_4 from './images/About/paa_4.jpg';
+import paa_5 from './images/About/paa_5.jpg';
+
+import ra_1 from './images/About/ra_1.png';
+import ra_2 from './images/About/ra_2.jpg';
+
+import sase1_25 from './images/About/sase1_25.jpeg';
+import sase2_25 from './images/About/sase2_25.jpg';
+import sase3_25 from './images/About/sase3_25.jpg';
+import sase4_25 from './images/About/sase4_25.jpg';
+
+import sase1_26 from './images/About/sase1_26.jpg';
+import sase2_26 from './images/About/sase2_26.jpeg';
+import sase3_26 from './images/About/sase3_26.jpg';
+import sase4_26 from './images/About/sase4_26.jpg';
+
+
+
+
 // ─────────────────────────────────────────────────────────────────────────────
 // TIMELINE DATA — edit this to customise each experience
 // images: array of imported image/video URLs shown in the left slider
@@ -34,7 +56,7 @@ export const timelineEvents: TimelineEvent[] = [
       'Planned and executed 50+ professional development, community service, and cultural events for the WPI SASE chapter. Grew active membership by 63% through consistent programming and outreach initiatives. Through these efforts, our chapter won the 2025 Overall Strongest Chapter and the WPI 2025 Social Program of the Year.',
     skills: ['Event Planning', 'Community Outreach', 'Leadership', 'Budgeting'],
     color: '#ef4444',
-    images: [PLACEHOLDER('#ef4444'), PLACEHOLDER('#ef4444'), PLACEHOLDER('#ef4444')],
+    images: [sase1_25, sase2_25, sase3_25, sase4_25],
   },
   {
     id: 'paa',
@@ -45,7 +67,7 @@ export const timelineEvents: TimelineEvent[] = [
       'Coordinated logistics for a 1000+ attendee, six-figure cultural festival managing 100+ unique volunteers across 10+ student organisations. Responsible for scheduling, volunteer training, and day-of operations.',
     skills: ['Volunteer Management', 'Logistics', 'Cross-org Collaboration', 'Operations'],
     color: '#f59e0b',
-    images: [PLACEHOLDER('#f59e0b'), PLACEHOLDER('#f59e0b'), PLACEHOLDER('#f59e0b')],
+    images: [paa_1, paa_2, paa_3, paa_4, paa_5],
   },
   {
     id: 'global-lab',
@@ -67,7 +89,7 @@ export const timelineEvents: TimelineEvent[] = [
       'Providing mentorship and community support to incoming freshmen for the 2025–26 academic year, collaborating with Housing staff on programming, policy enforcement, and community building.',
     skills: ['Mentorship', 'Conflict Resolution', 'Community Building', 'Crisis Response'],
     color: '#10b981',
-    images: [PLACEHOLDER('#10b981'), PLACEHOLDER('#10b981')],
+    images: [ra_1, ra_2],
   },
   {
     id: 'sase-pres',
@@ -75,10 +97,10 @@ export const timelineEvents: TimelineEvent[] = [
     title: 'President',
     org: 'SASE — WPI',
     description:
-      'Led chapter operations as President, overseeing 50+ yearly events, two professional conferences, and a board of 8+ officers, 3 commitees, and 3 interns. Under this leadership the chapter won the WPI 2026 Diversity Program of the Year Award.',
+      'Led chapter operations as President, overseeing 50+ yearly events, two professional conferences (Northeast Regional Conference and SASE Stem Connect), and a board of 8+ officers, 3 commitees, and 3 interns. Under this leadership the chapter won the WPI 2026 Diversity Program of the Year Award.',
     skills: ['Leadership', 'Strategic Planning', 'Public Speaking', 'Mentorship', 'Officer Management'],
     color: '#ef4444',
-    images: [PLACEHOLDER('#ef4444'), PLACEHOLDER('#ef4444'), PLACEHOLDER('#ef4444'), PLACEHOLDER('#ef4444')],
+    images: [sase1_26, sase2_26, sase3_26, sase4_26],
   },
   {
     id: 'elvate-intern',
@@ -185,7 +207,7 @@ function LeftPanel({
   view: 'skills' | 'timeline';
 }) {
   return (
-    <div className="w-[85%] h-[85%] flex flex-col justify-center mx-auto px-10 lg:px-14 py-12 gap-6 overflow-hidden ">
+    <div className="w-[85%] h-full flex flex-col justify-center mx-auto px-10 lg:px-14 py-12 gap-6 overflow-hidden ">
       <AnimatePresence mode="wait">
         {/* Default bio — shown when no node selected OR in skills view */}
         {(view === 'skills' || !active) && (
@@ -198,33 +220,33 @@ function LeftPanel({
             className="flex flex-col gap-5 my-auto"
           >
             <div>
-              <p className="text-xs uppercase tracking-[0.25em] font-mono mb-2"
-                style={{ color: 'rgba(237,207,122,0.55)' }}>
+              <p className="text-s uppercase tracking-[0.25em] font-mono mb-2 text-start"
+                style={{ color: 'rgb(255,118,237)' }}>
                 {view === 'skills' ? 'Tech Stack' : 'About Me'}
               </p>
-              <h2 className="text-4xl md:text-5xl text-white leading-tight"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+              <h2 className="text-4xl md:text-5xl text-[rgb(255,118,237)] leading-tight text-start"
+                style={{ fontFamily: "'JetBrains Mono', monospace", textShadow: '0 0 3ch rgba(255,202,248,1), 0 0 40px rgba(255,202,248,1)', filter: 'brightness(1.5)',}}>
                 {view === 'skills' ? 'Tools I build with' : 'A Few Words'}
               </h2>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-400 text-xl leading-relaxed text-start">
               Over the last three years I have been honing my leadership skills through
               projects and programs where I can have an impact on my surrounding communities.
             </p>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-400 text-xl leading-relaxed text-start">
               I have been working at the WPI Global Lab, spearheading a full visual and
               thematic overhaul of the website to show the evolving student initiatives
               and faculty research.
             </p>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-400 text-xl leading-relaxed text-start">
               As President and Events Coordinator for SASE, I increased active-membership
               by 63% through 50+ yearly events, winning National Overall Strongest Chapter
               of 2025.
             </p>
             {view === 'timeline' && (
-              <p className="text-xs font-mono mt-2 flex items-center gap-2"
-                style={{ color: 'rgba(237,207,122,0.35)' }}>
-                <span className="w-4 h-px inline-block" style={{ background: 'rgba(237,207,122,0.35)' }} />
+              <p className="text-xs font-mono mt-2 flex items-center gap-2 text-[rgb(255,118,237)]"
+                style={{ color: 'rgb(255,118,237)]' }}>
+                <span className="w-4 h-px inline-block" style={{ background: 'rgba(255,118,237,0.35)' }} />
                 select a node to explore
               </p>
             )}
@@ -263,7 +285,7 @@ function LeftPanel({
               {active.skills.map((sk) => (
                 <span
                   key={sk}
-                  className="px-2.5 py-1 rounded-lg text-xs font-mono border"
+                  className="px-2.5 py-1 rounded-lg text-m font-mono border"
                   style={{
                     color: active.color,
                     borderColor: `${active.color}35`,
@@ -276,7 +298,7 @@ function LeftPanel({
             </div>
 
             {/* Image slider */}
-            <div className="rounded-2xl overflow-hidden flex-1"
+            <div className="rounded-2xl overflow-hidden flex-shrink-1 min-h-[350px]"
               style={{ height: '220px', border: `1px solid ${active.color}25` }}>
               <ImageSlider images={active.images} color={active.color} />
             </div>
@@ -420,18 +442,8 @@ export default function AboutSection() {
   }
 
   return (
-    <div className="w-full min-h-screen flex flex-col lg:flex-row">
-
-      {/* ── LEFT: reactive display panel ── */}
-      <div className="w-full lg:w-[58%] flex-shrink-0 relative border-r border-white/5 ">
-        <LeftPanel active={active} view={view} />
-      </div>
-
-      {/* ── RIGHT: orbital or timeline ── */}
-      <div className="flex-1 relative min-h-[500px] lg:min-h-0 flex flex-col">
-
-        {/* Toggle strip at top of right panel */}
-        <div className="flex-shrink-0 flex items-center justify-center pt-8 pb-4">
+    <div>
+      <div className="flex-shrink-0 flex items-center justify-center pt-12 pb-4">
           <div
             className="inline-flex rounded-xl p-1 gap-1"
             style={{
@@ -449,7 +461,7 @@ export default function AboutSection() {
                     if (v === 'skills') setActiveId(null);
                   }}
                   className="relative px-5 py-2 rounded-lg text-xs font-mono uppercase tracking-wider focus:outline-none transition-colors"
-                  style={{ color: isActive ? '#000' : 'rgba(255,255,255,0.35)' }}
+                  style={{ color: isActive ? 'rgb(255,118,237)' : 'rgba(255,255,255,0.35)' }}
                 >
                   {isActive && (
                     <motion.div
@@ -465,6 +477,17 @@ export default function AboutSection() {
             })}
           </div>
         </div>
+    <div className="w-full flex flex-col lg:flex-row ">
+
+      
+      {/* ── LEFT: reactive display panel ── */}
+      <div className="w-full lg:w-[58%] flex-shrink-0 relative border-r border-white/5 h-full my-auto">
+        <LeftPanel active={active} view={view} />
+      </div>
+
+      {/* ── RIGHT: orbital or timeline ── */}
+      <div className="flex-1 relative min-h-[500px] lg:min-h-[600px] flex flex-col">
+
 
         {/* Panel content */}
         <div className="flex-1 relative overflow-hidden">
@@ -495,6 +518,7 @@ export default function AboutSection() {
           </AnimatePresence>
         </div>
       </div>
+    </div>
     </div>
   );
 }

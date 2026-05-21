@@ -33,7 +33,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import ProfessionalTimeline from './components/ui/ProfessionalTimeline.tsx';
 import { BookshelfToggle, PillToggle, type ProjectCategory } from './components/ui/ProjectToggle';
-import NextProjectButton, { PROJECT_IDS } from './components/ui/NextProjectButton';
+import NextProjectButton from './components/ui/NextProjectButton';
 import AboutSection from './AboutMe.tsx';
 import NeonSign from './components/NeonSign.tsx';
 import ProjectShowcase from './ProjectShowcase.tsx';
@@ -45,7 +45,15 @@ import Additional_Features from './images/iBank/Additional_Features.mp4';
 import Role_Based_Viewing from './images/iBank/Role_Based_Viewing.mp4';
 import Work_Flow from './images/iBank/Work_Flow.mp4';
 import Home from './images/iBank/Page.png';
-
+import Global from './images/Global Lab/GlobalLab.png';
+import Global_AI from './images/Global Lab/Global_AI.mp4';
+import Global_XR from './images/Global Lab/Global_XR.mp4';
+import Audio_Podcasts from './images/Global Lab/Audio_Podcasts.mp4';
+import HIPR from './images/Global Lab/HIPR.mp4';
+import StoryWorlds from './images/Global Lab/StoryWorlds.mp4';
+import Mapping from './images/Global Lab/Mapping.mp4';
+import About from './images/Global Lab/About.mp4';
+import Events_Resouces from './images/Global Lab/Events_Resources.mp4';
 
 
 function App() {
@@ -246,12 +254,16 @@ function App() {
           {/* Section heading + toggle */}
           <div className="max-w-[85vw] mx-auto pt-20 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-red-500 font-mono mb-1 text-start">
+              <p className="text-xs uppercase tracking-[0.2em] text-white font-mono mb-1 text-start">
                 Selected Work
               </p>
               <h2
-                className="text-5xl md:text-6xl text-white text-start"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                className="text-5xl md:text-6xl text-[rgb(255,118,237)] text-start"
+                style={{ 
+                  fontFamily: "'JetBrains Mono', monospace", 
+                  textShadow: '0 0 3ch rgba(255,202,248,1), 0 0 40px rgba(255,202,248,1)',
+                  filter: 'brightness(1.5)', 
+                }}
               >
                 Projects
               </h2>
@@ -335,11 +347,11 @@ function App() {
           {/* ── SOFTWARE projects ── (add your software ProjectShowcase entries here) */}
           {projectCategory === 'software' && (
             <>
-              <div id="iBank">
+              <div id="software-iBank">
                 <ProjectShowcase
                   title="iBank | Hanover Insurance Group"
                   subtitle="Content Management System"
-                  tags={['PERN Stack', 'TypeScript', 'MUI', 'Prisma ORM', 'Supabase']}
+                  tags={['PERN Stack', 'Tailwind CSS', 'TypeScript', 'MUI', 'Prisma ORM', 'Supabase']}
                   links={[
                     { label: 'GitHub', href: 'https://github.com/CS3733-D26-Team-G/teamg-app', icon: 'github' },
                     { label: 'User Manual', href: 'https://drive.google.com/file/d/19Nz3Dnpj9h3_d5ZIMQhlT8DByg3Pf82e/view?usp=sharing', icon: 'external'}
@@ -357,25 +369,34 @@ function App() {
                 />
               </div>
 
-              <div id="project-resolution">
+              <div id="software-global-lab">
                 <ProjectShowcase
-                  title="Resolution"
-                  subtitle="Diabetic Health Goals App"
-                  tags={['Python', 'Kivy / KivyMD', 'Firebase', 'UI/UX']}
-                  links={[{ label: 'GitHub', href: 'https://github.com/ColinTruong28/Resolution', icon: 'github' }]}
+                  title="WPI Global Lab Website"
+                  subtitle="WPI Global Lab"
+                  tags={['WordPress', 'Divi 5', 'UI/UX', 'Figma']}
+                  links={[
+                    { label: 'Website Link', href: 'https://global-lab.wpi.edu/', icon: 'external'}
+                  ]}
                   slides={[
-                    { label: 'Overview',     description: 'Mobile-first diabetic health tracking app. Users set personalised daily goals and log meals, insulin doses, and glucose readings.',      mediaSrc: Resolution_home,   mediaType: 'image' },
-                    { label: 'Record Page',  description: 'The record page surfaces historical data with simple charting so users can spot trends without needing a clinical background.',         mediaSrc: Resolution_record, mediaType: 'image' },
+                    { label: 'Overview',     description: 'A robust, centralized content management platform designed for the Hanover Insurance Group to streamline policy documentation, claims processing, and agent workflows. This application also includes user and role management system, login authentication, data analytics, notification calendar, language toggle, and a customizable dashboard.',      mediaSrc: Global,   mediaType: 'image' },
+                    { label: 'Global AI',     description: 'Secure authentication gateway ensuring compliance, data privacy, and protected access to sensitive policyholder information.',      mediaSrc: Global_AI,   mediaType: 'video' },
+                    { label: 'Global XR',  description: 'A customizable data analytics hub surfacing real-time performance metrics, open claims trends, and critical operational KPIs for quick executive insights.',         mediaSrc: Global_XR, mediaType: 'video' },
+                    { label: 'Audio and Podcasting',  description: 'An administrative core for handling full CRUD operations over insurance content, system users, and centralized documentation for various insurance claims. The content managment system was the brunt of this application so it features the ability to check in and out content to prevent simoultaneous edits, a timeline of all actions, and an annotation feature for any and all documents.',         mediaSrc: Audio_Podcasts, mediaType: 'video' },
+                    { label: 'Mapping',  description: 'An optimized, end-to-end operational pipeline showcasing how a claim or policy document moves from initial submission through an agent through internal underwriting review where it can be approved by system admins.',         mediaSrc: Mapping, mediaType: 'video' },
+                    { label: 'About Page',  description: 'Advanced platform capabilities: User specific profile customization, notifications, recent activity page, expiration and notofication calendar, interactive tutorial/guide, language toggle, and voice control.',         mediaSrc: About, mediaType: 'video' },
+                    { label: 'Events & Resources',  description: 'Advanced platform capabilities: User specific profile customization, notifications, recent activity page, expiration and notofication calendar, interactive tutorial/guide, language toggle, and voice control.',         mediaSrc: Events_Resouces, mediaType: 'video' },
+
                   ]}
                 />
               </div>
-              {/* Add more software projects here */}
+
+              
             </>
           )}
         </div>
 
         {/* Sticky next-project button — renders globally, detects position automatically */}
-        <NextProjectButton />
+        <NextProjectButton category={projectCategory} />
       </section>    
       
 
