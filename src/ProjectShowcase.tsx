@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaGithub } from 'react-icons/fa';
 import { HiExternalLink } from 'react-icons/hi';
@@ -60,7 +60,7 @@ function DescPane({ slide, direction }: { slide: ProjectSlide; direction: number
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: direction * -10 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="text-gray-400 text-xl leading-relaxed"
+        className="text-gray-400 text-m leading-relaxed"
       >
         {slide.description}
       </motion.p>
@@ -193,13 +193,13 @@ export default function ProjectShowcase({
             {/* Title block — your original class names + gold */}
             <div className="project-title-card">
               <h2
-                className="project-title text-3xl md:text-4xl leading-tight"
+                className="project-title text-2xl md:text-4xl leading-tight"
                 style={{ fontFamily: "'JetBrains Mono', monospace", color: 'rgb(252, 168, 241)' }}
               >
                 {title}
               </h2>
               <p
-                className="project-subtitle text-m uppercase tracking-[0.2em] font-mono mt-1"
+                className="project-subtitle text-s uppercase tracking-[0.2em] font-mono mt-1"
                 style={{ color: 'rgb(252, 168, 241)' }}
               >
                 {subtitle}
@@ -214,7 +214,7 @@ export default function ProjectShowcase({
                 {tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2 py-0.5 rounded-md bg-white/10 text-white text-s font-mono border border-white/10"
+                    className="px-2 py-0.5 rounded-md bg-white/10 text-white text-xs font-mono border border-white/10"
                   >
                     {tag}
                   </span>
@@ -297,7 +297,7 @@ export default function ProjectShowcase({
                 <button
                   key={s.label}
                   onClick={() => go(i)}
-                  className={`flex-1 py-2 text-xs font-mono transition-all ${
+                  className={`flex-1 py-2 text-[.35rem] font-mono transition-all ${
                     i === activeIndex
                       ? 'text-white border-t-2 border-red-600 bg-white/10'
                       : 'text-gray-500 border-t-2 border-transparent hover:text-gray-300'

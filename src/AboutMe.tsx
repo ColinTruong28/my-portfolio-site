@@ -265,18 +265,18 @@ function LeftPanel({
           >
             {/* Header */}
             <div>
-              <p className="text-xl text-start font-mono uppercase tracking-widest pb-4"
+              <p className="text-s text-start font-mono uppercase tracking-widest pb-4"
                 style={{ color: active.color }}>
                 {active.year} · {active.org}
               </p>
-              <h3 className="text-3xl md:text-5xl text-start text-white mt-1 leading-tight"
+              <h3 className="text-l md:text-xl text-start text-white mt-1 leading-tight"
                 style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                 {active.title}
               </h3>
             </div>
 
             {/* Description */}
-            <p className="text-gray-400 text-xl text-start leading-relaxed overflow-y-auto">
+            <p className="text-gray-400 text-s text-start leading-relaxed overflow-y-auto">
               {active.description}
             </p>
 
@@ -285,7 +285,7 @@ function LeftPanel({
               {active.skills.map((sk) => (
                 <span
                   key={sk}
-                  className="px-2.5 py-1 rounded-lg text-m font-mono border"
+                  className="px-2.5 py-1 rounded-lg text-xs font-mono border"
                   style={{
                     color: active.color,
                     borderColor: `${active.color}35`,
@@ -298,7 +298,7 @@ function LeftPanel({
             </div>
 
             {/* Image slider */}
-            <div className="rounded-2xl overflow-hidden flex-shrink-1 min-h-[350px]"
+            <div className="rounded-2xl overflow-hidden flex-shrink-1 min-h-[300px]"
               style={{ height: '220px', border: `1px solid ${active.color}25` }}>
               <ImageSlider images={active.images} color={active.color} />
             </div>

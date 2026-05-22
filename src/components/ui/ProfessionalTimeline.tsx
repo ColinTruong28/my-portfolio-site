@@ -96,7 +96,7 @@ export default function ProfessionalTimeline() {
         />
 
         <div className="flex items-start gap-0 min-w-max px-4">
-          {timelineEvents.map((event, i) => {
+          {timelineEvents.map((event) => {
             const isActive = activeId === event.id;
             const dotColor = event.color ?? 'rgba(237,207,122,1)';
 

@@ -23,9 +23,9 @@ export default function GoldRibbon() {
     ];
 
     // Gold colour stops (RGBA strings)
-    const goldLight  = 'rgba(237, 207, 122, 1)';  // #EDCF7A
-    const goldMid    = 'rgba(184, 152,  48, 1)';  // #B89830
-    const goldDark   = 'rgba(120,  95,  20, 1)';  // #785F14
+    // const goldLight  = 'rgba(237, 207, 122, 1)';  // #EDCF7A
+    // const goldMid    = 'rgba(184, 152,  48, 1)';  // #B89830
+    // const goldDark   = 'rgba(120,  95,  20, 1)';  // #785F14
 
     function resize() {
       if (!canvas) return;
@@ -80,7 +80,7 @@ export default function GoldRibbon() {
       ctx.closePath();
 
       // Gradient across the ribbon width (simulates sheen)
-      const midY = (upper[0][1] + lower[0][1]) / 2;
+      // const midY = (upper[0][1] + lower[0][1]) / 2;
       const grad = ctx.createLinearGradient(0, upper[0][1], 0, lower[0][1]);
       grad.addColorStop(0,    `rgba(237,207,122,0)`);
       grad.addColorStop(0.15, `rgba(237,207,122,${band.alpha})`);
