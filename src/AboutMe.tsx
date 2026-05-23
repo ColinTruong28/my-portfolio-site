@@ -219,7 +219,7 @@ function LeftPanel({
             transition={{ duration: 0.3 }}
             className="flex flex-col gap-5 my-auto"
           >
-            <div>
+            <div className='py-4'>
               <p className="text-s uppercase tracking-[0.25em] font-mono mb-2 text-start"
                 style={{ color: 'rgb(255,118,237)' }}>
                 {view === 'skills' ? 'Tech Stack' : 'About Me'}
@@ -229,22 +229,22 @@ function LeftPanel({
                 {view === 'skills' ? 'Tools I build with' : 'A Few Words'}
               </h2>
             </div>
-            <p className="text-gray-400 text-xl leading-relaxed text-start">
+            <p className="text-gray-400 text-2xl leading-relaxed text-start">
               Over the last three years I have been honing my leadership skills through
               projects and programs where I can have an impact on my surrounding communities.
             </p>
-            <p className="text-gray-400 text-xl leading-relaxed text-start">
+            <p className="text-gray-400 text-2xl leading-relaxed text-start">
               I have been working at the WPI Global Lab, spearheading a full visual and
               thematic overhaul of the website to show the evolving student initiatives
               and faculty research.
             </p>
-            <p className="text-gray-400 text-xl leading-relaxed text-start">
+            <p className="text-gray-400 text-2xl leading-relaxed text-start">
               As President and Events Coordinator for SASE, I increased active-membership
               by 63% through 50+ yearly events, winning National Overall Strongest Chapter
               of 2025.
             </p>
             {view === 'timeline' && (
-              <p className="text-xs font-mono mt-2 flex items-center gap-2 text-[rgb(255,118,237)]"
+              <p className="text-base font-mono mt-2 flex items-center gap-2 text-[rgb(255,118,237)]"
                 style={{ color: 'rgb(255,118,237)]' }}>
                 <span className="w-4 h-px inline-block" style={{ background: 'rgba(255,118,237,0.35)' }} />
                 select a node to explore
@@ -265,27 +265,28 @@ function LeftPanel({
           >
             {/* Header */}
             <div>
-              <p className="text-s text-start font-mono uppercase tracking-widest pb-4"
-                style={{ color: active.color }}>
+              <h3 className="text-lg text-start font-mono uppercase tracking-widest pb-4"
+                style={{ color: active.color, fontFamily: "'JetBrains Mono', monospace" }}>
                 {active.year} · {active.org}
-              </p>
-              <h3 className="text-l md:text-xl text-start text-white mt-1 leading-tight"
+              </h3>
+              <h2 className="text-lg md:text-3xl text-start text-white mt-1 leading-tight"
                 style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                 {active.title}
-              </h3>
+              </h2>
             </div>
 
             {/* Description */}
-            <p className="text-gray-400 text-s text-start leading-relaxed overflow-y-auto">
+            <h3 className="text-gray-400 text-base text-start leading-relaxed overflow-y-auto"
+              style={{ fontFamily: "'JetBrains Mono', monospace" }}>
               {active.description}
-            </p>
+            </h3>
 
             {/* Skill tags */}
             <div className="flex flex-wrap gap-1.5">
               {active.skills.map((sk) => (
                 <span
                   key={sk}
-                  className="px-2.5 py-1 rounded-lg text-xs font-mono border"
+                  className="px-2.5 py-1 rounded-lg text-sm font-mono border"
                   style={{
                     color: active.color,
                     borderColor: `${active.color}35`,
@@ -298,8 +299,8 @@ function LeftPanel({
             </div>
 
             {/* Image slider */}
-            <div className="rounded-2xl overflow-hidden flex-shrink-1 min-h-[300px]"
-              style={{ height: '200px', border: `1px solid ${active.color}25` }}>
+            <div className="rounded-2xl overflow-hidden flex-shrink-1 min-h-[260px]"
+              style={{ height: '162px', border: `1px solid ${active.color}25` }}>
               <ImageSlider images={active.images} color={active.color} />
             </div>
           </motion.div>
@@ -320,7 +321,7 @@ function VerticalTimeline({
   onSelect: (id: string) => void;
 }) {
   return (
-    <div className="relative w-full h-full flex flex-col justify-center py-8 overflow-y-auto">
+    <div className="relative w-full h-full flex flex-col justify-center py-8 overflow-y-hidden">
       {/* Centre line */}
       <div
         className="absolute left-1/2 top-8 bottom-8 w-px -translate-x-1/2 pointer-events-none"
@@ -336,10 +337,10 @@ function VerticalTimeline({
           const isLeft = i % 2 === 0;
 
           return (
-            <div key={ev.id} className="relative flex items-center" style={{ minHeight: '90px' }}>
+            <div key={ev.id} className="relative flex items-center" style={{ minHeight: '73px' }}>
 
               {/* Left slot */}
-              <div className="w-[calc(50%-13px)] flex justify-end pr-5">
+              <div className="w-[calc(50%-11px)] flex justify-end pr-5">
                 {isLeft && (
                   <NodeLabel ev={ev} isActive={isActive} align="right"
                     onClick={() => onSelect(ev.id)} />
@@ -347,7 +348,7 @@ function VerticalTimeline({
               </div>
 
               {/* Centre dot */}
-              <div className="flex-shrink-0 flex items-center justify-center" style={{ width: '26px' }}>
+              <div className="flex-shrink-0 flex items-center justify-center" style={{ width: '21px' }}>
                 <button
                   onClick={() => onSelect(ev.id)}
                   className="relative focus:outline-none group"
@@ -379,7 +380,7 @@ function VerticalTimeline({
               </div>
 
               {/* Right slot */}
-              <div className="w-[calc(50%-28px)] flex justify-start pl-5">
+              <div className="w-[calc(50%-23px)] flex justify-start pl-5">
                 {!isLeft && (
                   <NodeLabel ev={ev} isActive={isActive} align="left"
                     onClick={() => onSelect(ev.id)} />
@@ -404,23 +405,25 @@ function NodeLabel({
   return (
     <button
       onClick={onClick}
-      className={`text-${align} focus:outline-none max-w-[200px] group`}
+      className={`text-${align} focus:outline-none max-w-[240px] group`}
     >
       <motion.div
         animate={{ opacity: isActive ? 1 : 0.5 }}
         transition={{ duration: 0.2 }}
       >
-        <p className="text-[.35rem] font-mono uppercase tracking-widest transition-colors"
-          style={{ color: isActive ? ev.color : `${ev.color}80` }}>
-          {ev.year}
-        </p>
-        <p className="text-white text-xs font-mono leading-snug mt-0.5 group-hover:text-white/90">
-          {ev.title}
-        </p>
-        <p className="text-[.35rem] font-mono leading-tight mt-0.5 transition-colors"
-          style={{ color: isActive ? ev.color : 'rgba(255,255,255,0.25)' }}>
-          {ev.org}
-        </p>
+        <div className='py-4 px-6 rounded-xl bg-[#1a1a1a]'>
+          <p className="text-sm font-mono uppercase tracking-widest transition-colors"
+            style={{ color: isActive ? ev.color : `${ev.color}80` }}>
+            {ev.year}
+          </p>
+          <p className="text-base text-white font-mono leading-snug mt-0.5 group-hover:text-white/90">
+            {ev.title}
+          </p>
+          <p className="text-sm font-mono leading-tight mt-0.5 transition-colors"
+            style={{ color: isActive ? ev.color : 'rgba(255,255,255,0.25)' }}>
+            {ev.org}
+          </p>
+        </div>
       </motion.div>
     </button>
   );
@@ -460,14 +463,14 @@ export default function AboutSection() {
                     setView(v);
                     if (v === 'skills') setActiveId(null);
                   }}
-                  className="relative px-5 py-2 rounded-lg text-xs font-mono uppercase tracking-wider focus:outline-none transition-colors"
-                  style={{ color: isActive ? 'rgb(255,118,237)' : 'rgba(255,255,255,0.35)' }}
+                  className="relative px-5 py-2 rounded-lg text-base font-mono uppercase tracking-wider focus:outline-none transition-colors"
+                  style={{ color: isActive ? 'white' : 'rgba(255,255,255,0.35)' }}
                 >
                   {isActive && (
                     <motion.div
                       layoutId="right-tab-pill"
                       className="absolute inset-0 rounded-lg -z-10"
-                      style={{ background: 'rgba(237,207,122,1)' }}
+                      style={{ background: 'rgb(255,118,237)' }}
                       transition={{ type: 'spring', stiffness: 400, damping: 34 }}
                     />
                   )}

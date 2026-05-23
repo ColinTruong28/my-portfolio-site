@@ -235,21 +235,21 @@ SkillIcon.displayName = 'SkillIcon';
 // --- Configuration for the Orbiting Skills ---
 const skillsConfig: SkillConfig[] = [
   // Inner Orbit
-  { id: 'html', orbitRadius: 100, size: 40, speed: .3, iconType: 'html', phaseShift: 0, glowColor: 'cyan', label: 'HTML5' },
-  { id: 'css', orbitRadius: 100, size: 45, speed: .3, iconType: 'css', phaseShift: ((2 * Math.PI) / 6), glowColor: 'cyan', label: 'CSS3' },
-  { id: 'javascript', orbitRadius: 100, size: 40, speed: .3, iconType: 'javascript', phaseShift: ((2 * Math.PI) / 6) * 2, glowColor: 'cyan', label: 'JavaScript' },
-  { id: 'matlab', orbitRadius: 100, size: 40, speed: .3, iconType: 'matlab', phaseShift: ((2 * Math.PI) / 6) * 3, glowColor: 'cyan', label: 'MATLAB' },
-  { id: 'python', orbitRadius: 100, size: 40, speed: .3, iconType: 'python', phaseShift: ((2 * Math.PI) / 6) * 4, glowColor: 'cyan', label: 'Python' },
-  { id: 'typescript', orbitRadius: 100, size: 40, speed: .3, iconType: 'typescript', phaseShift: ((2 * Math.PI) / 6) * 5, glowColor: 'cyan', label: 'TypeScript' },
+  { id: 'html', orbitRadius: 81, size: 32, speed: .3, iconType: 'html', phaseShift: 0, glowColor: 'cyan', label: 'HTML5' },
+  { id: 'css', orbitRadius: 81, size: 36, speed: .3, iconType: 'css', phaseShift: ((2 * Math.PI) / 6), glowColor: 'cyan', label: 'CSS3' },
+  { id: 'javascript', orbitRadius: 81, size: 32, speed: .3, iconType: 'javascript', phaseShift: ((2 * Math.PI) / 6) * 2, glowColor: 'cyan', label: 'JavaScript' },
+  { id: 'matlab', orbitRadius: 81, size: 32, speed: .3, iconType: 'matlab', phaseShift: ((2 * Math.PI) / 6) * 3, glowColor: 'cyan', label: 'MATLAB' },
+  { id: 'python', orbitRadius: 81, size: 32, speed: .3, iconType: 'python', phaseShift: ((2 * Math.PI) / 6) * 4, glowColor: 'cyan', label: 'Python' },
+  { id: 'typescript', orbitRadius: 81, size: 32, speed: .3, iconType: 'typescript', phaseShift: ((2 * Math.PI) / 6) * 5, glowColor: 'cyan', label: 'TypeScript' },
   // Outer Orbit
-  { id: 'react', orbitRadius: 180, size: 50, speed: -0.1, iconType: 'react', phaseShift: 0, glowColor: 'purple', label: 'React' },
-  { id: 'node', orbitRadius: 180, size: 45, speed: -0.1, iconType: 'node', phaseShift: ((2 * Math.PI) / 8), glowColor: 'purple', label: 'Node.js' },
-  { id: 'tailwind', orbitRadius: 180, size: 40, speed: -0.1, iconType: 'tailwind', phaseShift: ((2 * Math.PI) / 8) * 2, glowColor: 'purple', label: 'Tailwind CSS' },
-  { id: 'figma', orbitRadius: 180, size: 40, speed: -.1, iconType: 'figma', phaseShift: ((2 * Math.PI) / 8) * 3, glowColor: 'purple', label: 'Figma' },
-  { id: 'pytorch', orbitRadius: 180, size: 40, speed: -.1, iconType: 'pytorch', phaseShift: ((2 * Math.PI) / 8) * 4, glowColor: 'purple', label: 'PyTorch' },
-  { id: 'solidworks', orbitRadius: 180, size: 40, speed: -.1, iconType: 'solidworks', phaseShift: ((2 * Math.PI) / 8) * 5, glowColor: 'purple', label: 'SolidWorks' },
-  { id: 'linux', orbitRadius: 180, size: 40, speed: -.1, iconType: 'linux', phaseShift: ((2 * Math.PI) / 8) * 6, glowColor: 'purple', label: 'Linux' },
-  { id: 'firebase', orbitRadius: 180, size: 40, speed: -.1, iconType: 'firebase', phaseShift: ((2 * Math.PI) / 8) * 7, glowColor: 'purple', label: 'Firebase' },
+  { id: 'react', orbitRadius: 146, size: 40, speed: -0.1, iconType: 'react', phaseShift: 0, glowColor: 'purple', label: 'React' },
+  { id: 'node', orbitRadius: 146, size: 36, speed: -0.1, iconType: 'node', phaseShift: ((2 * Math.PI) / 8), glowColor: 'purple', label: 'Node.js' },
+  { id: 'tailwind', orbitRadius: 146, size: 32, speed: -0.1, iconType: 'tailwind', phaseShift: ((2 * Math.PI) / 8) * 2, glowColor: 'purple', label: 'Tailwind CSS' },
+  { id: 'figma', orbitRadius: 146, size: 32, speed: -.1, iconType: 'figma', phaseShift: ((2 * Math.PI) / 8) * 3, glowColor: 'purple', label: 'Figma' },
+  { id: 'pytorch', orbitRadius: 146, size: 32, speed: -.1, iconType: 'pytorch', phaseShift: ((2 * Math.PI) / 8) * 4, glowColor: 'purple', label: 'PyTorch' },
+  { id: 'solidworks', orbitRadius: 146, size: 32, speed: -.1, iconType: 'solidworks', phaseShift: ((2 * Math.PI) / 8) * 5, glowColor: 'purple', label: 'SolidWorks' },
+  { id: 'linux', orbitRadius: 146, size: 32, speed: -.1, iconType: 'linux', phaseShift: ((2 * Math.PI) / 8) * 6, glowColor: 'purple', label: 'Linux' },
+  { id: 'firebase', orbitRadius: 146, size: 32, speed: -.1, iconType: 'firebase', phaseShift: ((2 * Math.PI) / 8) * 7, glowColor: 'purple', label: 'Firebase' },
 ];
 
 // --- Memoized Orbiting Skill Component ---
@@ -357,8 +357,8 @@ export default function OrbitingSkills() {
   }, [isPaused]);
 
   const orbitConfigs: Array<{ radius: number; glowColor: GlowColor; delay: number }> = [
-    { radius: 100, glowColor: 'cyan', delay: 0 },
-    { radius: 180, glowColor: 'purple', delay: 1.5 }
+    { radius: 81, glowColor: 'cyan', delay: 0 },
+    { radius: 146, glowColor: 'purple', delay: 1.5 }
   ];
 
   return (
@@ -373,16 +373,16 @@ export default function OrbitingSkills() {
       </div>
 
       <div
-        className="relative w-[calc(100vw-40px)] h-[calc(100vw-40px)] md:w-[450px] md:h-[450px] flex items-center justify-center"
+        className="relative w-[calc(100vw-40px)] h-[calc(100vw-40px)] md:w-[364px] md:h-[364px] flex items-center justify-center"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
         {/* Central Icon */}
-        <div className="w-20 h-20 bg-gradient-to-br from-gray-700 to-gray-900 rounded-full flex items-center justify-center z-10 relative shadow-2xl">
+        <div className="w-[65px] h-[65px] bg-gradient-to-br from-gray-700 to-gray-900 rounded-full flex items-center justify-center z-10 relative shadow-2xl">
           <div className="absolute inset-0 rounded-full bg-cyan-500/30 blur-xl animate-pulse"></div>
           <div className="absolute inset-0 rounded-full bg-purple-500/20 blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
           <div className="relative z-10">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <defs>
                 <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#06B6D4" />

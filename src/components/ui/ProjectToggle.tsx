@@ -151,8 +151,8 @@ export function PillToggle({ active, onChange }: PillToggleProps) {
             key={opt.id}
             onClick={() => onChange(opt.id)}
             aria-pressed={isActive}
-            className="relative px-5 py-2 rounded-lg text-sm font-mono flex items-center gap-2 transition-colors focus:outline-none z-10"
-            style={{ color: isActive ? '#000' : 'rgba(255,255,255,0.4)' }}
+            className="relative px-5 py-2 rounded-lg text-base font-mono flex items-center gap-2 transition-colors focus:outline-none z-10"
+            style={{ color: isActive ? 'white' : 'rgba(255,255,255,0.4)' }}
           >
             {isActive && (
               <motion.div

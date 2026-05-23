@@ -60,7 +60,7 @@ function DescPane({ slide, direction }: { slide: ProjectSlide; direction: number
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: direction * -10 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="text-gray-400 text-m leading-relaxed"
+        className="text-gray-400 text-lg leading-relaxed"
       >
         {slide.description}
       </motion.p>
@@ -130,7 +130,7 @@ export default function ProjectShowcase({
           </div>
 
           {/* Subtitle */}
-          <p className="project-subtitle text-s uppercase tracking-[0.2em] font-mono mb-3"
+          <p className="project-subtitle text-lg uppercase tracking-[0.2em] font-mono mb-3"
             style={{ color: 'rgb(255,118,237)' }}>
             {subtitle}
           </p>
@@ -140,7 +140,7 @@ export default function ProjectShowcase({
             className="project-title leading-none mb-5"
             style={{
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 'clamp(3rem, 6vw, 5.5rem)',
+              fontSize: 'clamp(3rem, 6vw, 4.6rem)',
               color: 'rgb(255,118,237)',
               textShadow: '0 0 3ch rgba(255,202,248,1), 0 0 40px rgba(255,202,248,1)',
               filter: 'brightness(1.5)',
@@ -247,7 +247,7 @@ export default function ProjectShowcase({
                     onClick={() => go(i)}
                     aria-label={s.label}
                     className={`h-1.5 rounded-full transition-all duration-300 ${
-                      i === activeIndex ? 'w-6 bg-red-600' : 'w-1.5 bg-white/30 hover:bg-white/60'
+                      i === activeIndex ? 'w-6 bg-[rgb(252,168,241)]' : 'w-1.5 bg-white/30 hover:bg-white/60'
                     }`}
                   />
                 ))}
@@ -276,7 +276,7 @@ export default function ProjectShowcase({
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/15 bg-white/5 text-gray-300 text-sm font-mono hover:border-red-600 hover:text-white transition-all"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/15 bg-white/5 text-gray-300 text-sm font-mono hover:border-[rgb(252,168,241)] hover:text-white transition-all"
                   >
                     {link.icon === 'github' && <FaGithub size={14} />}
                     {link.icon === 'external' && <HiExternalLink size={14} />}
@@ -297,9 +297,9 @@ export default function ProjectShowcase({
                 <button
                   key={s.label}
                   onClick={() => go(i)}
-                  className={`flex-1 py-2 text-[2px] font-mono transition-all ${
+                  className={`flex-1 py-2 text-sm font-mono transition-all ${
                     i === activeIndex
-                      ? 'text-white border-t-2 border-red-600 bg-white/10'
+                      ? 'text-white border-t-2 border-[rgb(252,168,241)] bg-white/10'
                       : 'text-gray-500 border-t-2 border-transparent hover:text-gray-300'
                   }`}
                 >

@@ -1,13 +1,12 @@
-declare module '*.css';
 import {useState, useEffect} from 'react';
 import './App.css';
 import { motion } from 'framer-motion';
 import Navbar from './components/ui/Navbar.tsx';
 import RobotDemo from './images/Robo_Demo.mp4?url'
-import SpinningCard from './components/ui/spinningCard.tsx';
-import Drawing from './images/Drawing.jpg';
-import Headshot from './images/Prof Headshot.jpg';
-import Varsity from './images/Varsity.jpg';
+// import SpinningCard from './components/ui/spinningCard.tsx';
+// import Drawing from './images/Drawing.jpg';
+// import Headshot from './images/Prof Headshot.jpg';
+// import Varsity from './images/Varsity.jpg';
 // import RobotNod from './images/robot_nod.mp4';
 import RobotCircle from './images/robot_circular.mp4';
 // import EdgeCase from './images/interesting_edge_case.mp4'
@@ -47,14 +46,14 @@ import Audio_Podcasts from './images/Global Lab/Audio_Podcasts.mp4';
 import Mapping from './images/Global Lab/Mapping.mp4';
 import About from './images/Global Lab/About.mp4';
 import Events_Resouces from './images/Global Lab/Events_Resources.mp4';
-
+import ParticleBackground from './components/ui/ParticleBackground.tsx';
 
 function App() {
 
   // scrollPosition can be used to track the user's position within the webpage
     const [scrollPosition, setScrollPosition] = useState(0);
     const [projectCategory, setProjectCategory] = useState<ProjectCategory>('robotics');
-    const [autoFall, setAutoFall] = useState(0);
+    // const [autoFall, setAutoFall] = useState(0);
     const handleScroll = () => {
         const position = window.pageYOffset;
         setScrollPosition(position);
@@ -114,11 +113,8 @@ function App() {
       window.addEventListener('scroll', handleScroll, {passive: true});
       // --- Auto-Fall Logic (The "Clock") ---
       let frameId: number;
-      const speed = 1.5; // Pixels per frame
-      const limit = window.innerHeight + 3000; // Reset point
-
+      
       const animate = () => {
-        setAutoFall((prev) => (prev + speed) % limit);
         frameId = requestAnimationFrame(animate); 
       };
 
@@ -187,7 +183,8 @@ function App() {
 
 
 {/* -------ABOUT ME --------------------------*/}
-      <section className = "about-me" id="about-me">
+      <section className = "about-me relative" id="about-me">
+        <ParticleBackground />
         {/* <div className = "about-card-container">
           <div 
           id = "card-1"
@@ -243,6 +240,8 @@ function App() {
 
 
       <section id="projects" className="w-full relative">
+        <ParticleBackground></ParticleBackground>
+
         <div className="relative z-10">
           {/* Section heading + toggle */}
           <div className="max-w-[85vw] mx-auto pt-20 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
@@ -262,13 +261,7 @@ function App() {
               </h2>
             </div>
 
-            {/* ── CHOOSE ONE TOGGLE STYLE ── */}
-            {/* Option A — Bookshelf (wrap in relative so the shelf plank positions correctly) */}
-            {/* <div className="relative pb-8">
-              <BookshelfToggle active={projectCategory} onChange={setProjectCategory} />
-            </div> */}
-
-            {/* Option B — Pill (comment out Option A and uncomment this) */}
+            
             <PillToggle active={projectCategory} onChange={setProjectCategory} />
           </div>
 
@@ -371,13 +364,13 @@ function App() {
                     { label: 'Website Link', href: 'https://global-lab.wpi.edu/', icon: 'external'}
                   ]}
                   slides={[
-                    { label: 'Overview',     description: 'A robust, centralized content management platform designed for the Hanover Insurance Group to streamline policy documentation, claims processing, and agent workflows. This application also includes user and role management system, login authentication, data analytics, notification calendar, language toggle, and a customizable dashboard.',      mediaSrc: Global,   mediaType: 'image' },
-                    { label: 'Global AI',     description: 'Secure authentication gateway ensuring compliance, data privacy, and protected access to sensitive policyholder information.',      mediaSrc: Global_AI,   mediaType: 'video' },
-                    { label: 'Global XR',  description: 'A customizable data analytics hub surfacing real-time performance metrics, open claims trends, and critical operational KPIs for quick executive insights.',         mediaSrc: Global_XR, mediaType: 'video' },
-                    { label: 'Audio and Podcasting',  description: 'An administrative core for handling full CRUD operations over insurance content, system users, and centralized documentation for various insurance claims. The content managment system was the brunt of this application so it features the ability to check in and out content to prevent simoultaneous edits, a timeline of all actions, and an annotation feature for any and all documents.',         mediaSrc: Audio_Podcasts, mediaType: 'video' },
-                    { label: 'Mapping',  description: 'An optimized, end-to-end operational pipeline showcasing how a claim or policy document moves from initial submission through an agent through internal underwriting review where it can be approved by system admins.',         mediaSrc: Mapping, mediaType: 'video' },
-                    { label: 'About Page',  description: 'Advanced platform capabilities: User specific profile customization, notifications, recent activity page, expiration and notofication calendar, interactive tutorial/guide, language toggle, and voice control.',         mediaSrc: About, mediaType: 'video' },
-                    { label: 'Events & Resources',  description: 'Advanced platform capabilities: User specific profile customization, notifications, recent activity page, expiration and notofication calendar, interactive tutorial/guide, language toggle, and voice control.',         mediaSrc: Events_Resouces, mediaType: 'video' },
+                    { label: 'Overview',     description: 'As a part of the WPI Global Lab, I was tasked with completely reimaging their website to the evolving technologies and impact WPI has around the world.',      mediaSrc: Global,   mediaType: 'image' },
+                    { label: 'Global AI',     description: 'This page features the AI resources provided by the Global Lab to students and faculty towards their global projects and research. To this end, the page also showcases previous instances of projects and impact where AI was leveraged to support endeavors.',      mediaSrc: Global_AI,   mediaType: 'video' },
+                    { label: 'Global XR',  description: 'This page features all resources and global projects related to XR imaging including VR, AR, photography, and video production. There are many different ways to showcase different projects around the globe and the purpose of this page is to enable students to be more creative in how they document their impact.',         mediaSrc: Global_XR, mediaType: 'video' },
+                    { label: 'Audio and Podcasting',  description: 'With the rise of podcasting as a medium to showcase ideas, this page is meant to provide students with a venue to experience with audio capturing and storytelling. Here there are many resources to provide students with the means to capture audio for purposes such as interview, sound analysis, or documentation.',         mediaSrc: Audio_Podcasts, mediaType: 'video' },
+                    { label: 'Mapping',  description: 'With the WPI Global Projects program as big and expansive as it is, this page provides insight to the different ways to display and analyze the various environments that students and faculty will travel through around the world. This page also showcases a few of the impressive projects conducted on the Worcester area including a VR recreation of the WPI campus on a heat map analysis on the city of Worcester.',         mediaSrc: Mapping, mediaType: 'video' },
+                    { label: 'About Page',  description: 'Standard about page explaining the Global Labs purpose, the staff, the fellows, and the programs the lab offers to both students and faculty.',         mediaSrc: About, mediaType: 'video' },
+                    { label: 'Events & Resources',  description: 'A central hub that houses all available resources provided at the global lab as well as featured upcoming events students and faculty may be interested in attending.',         mediaSrc: Events_Resouces, mediaType: 'video' },
 
                   ]}
                 />

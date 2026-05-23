@@ -8,6 +8,62 @@
 
 @import '@fontsource-variable/montserrat/wght.css';
 
+@import "tailwindcss";
+
+
+
+@layer base {
+  :root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: dark;
+    background-color: #000000;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    --text-xs: 0.608rem;
+    --text-sm: 0.709rem;
+    --text-base: 0.81rem;
+    --text-lg: 0.911rem;
+    --text-xl: 1.013rem;
+    --text-2xl: 1.215rem;
+    --text-3xl: 1.519rem;
+    --text-4xl: 1.823rem;
+    --text-5xl: 2.43rem;
+    --text-6xl: 3.038rem;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    /* no display:flex, no place-items */
+  }
+
+  /* DO NOT redefine h1 font-size here — let Tailwind classes control it */
+
+  a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+  }
+  a:hover {
+    color: #535bf2;
+  }
+
+  button {
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.25s;
+  }
+  button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+}
+
 /* Hide scrollbar */
 ::-webkit-scrollbar {
   display: none;
@@ -65,14 +121,14 @@ h1, h2, h3 {
 
 .title h1 {
   margin: 0;
-  font-size: 4rem;
+  font-size: 3.6rem;
   color: rgb(255, 118, 237);
   text-shadow: 0 0 3ch rgba(255, 202, 248, 1), 0 0 40px rgba(255, 202, 248, 1);
   filter: brightness(1.5);
 }
 
 .typewriter-text {
-  font-size: 2vw;
+  font-size: 2rem;
 }
 
 .intro-info {
