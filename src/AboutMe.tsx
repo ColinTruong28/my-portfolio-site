@@ -299,7 +299,7 @@ function LeftPanel({
 
             {/* Image slider */}
             <div className="rounded-2xl overflow-hidden flex-shrink-1 min-h-[300px]"
-              style={{ height: '220px', border: `1px solid ${active.color}25` }}>
+              style={{ height: '200px', border: `1px solid ${active.color}25` }}>
               <ImageSlider images={active.images} color={active.color} />
             </div>
           </motion.div>
@@ -339,7 +339,7 @@ function VerticalTimeline({
             <div key={ev.id} className="relative flex items-center" style={{ minHeight: '90px' }}>
 
               {/* Left slot */}
-              <div className="w-[calc(50%-28px)] flex justify-end pr-5">
+              <div className="w-[calc(50%-13px)] flex justify-end pr-5">
                 {isLeft && (
                   <NodeLabel ev={ev} isActive={isActive} align="right"
                     onClick={() => onSelect(ev.id)} />
@@ -347,7 +347,7 @@ function VerticalTimeline({
               </div>
 
               {/* Centre dot */}
-              <div className="flex-shrink-0 flex items-center justify-center" style={{ width: '56px' }}>
+              <div className="flex-shrink-0 flex items-center justify-center" style={{ width: '26px' }}>
                 <button
                   onClick={() => onSelect(ev.id)}
                   className="relative focus:outline-none group"
@@ -410,14 +410,14 @@ function NodeLabel({
         animate={{ opacity: isActive ? 1 : 0.5 }}
         transition={{ duration: 0.2 }}
       >
-        <p className="text-xs font-mono uppercase tracking-widest transition-colors"
+        <p className="text-[.35rem] font-mono uppercase tracking-widest transition-colors"
           style={{ color: isActive ? ev.color : `${ev.color}80` }}>
           {ev.year}
         </p>
-        <p className="text-white text-s font-mono leading-snug mt-0.5 group-hover:text-white/90">
+        <p className="text-white text-xs font-mono leading-snug mt-0.5 group-hover:text-white/90">
           {ev.title}
         </p>
-        <p className="text-xs font-mono leading-tight mt-0.5 transition-colors"
+        <p className="text-[.35rem] font-mono leading-tight mt-0.5 transition-colors"
           style={{ color: isActive ? ev.color : 'rgba(255,255,255,0.25)' }}>
           {ev.org}
         </p>

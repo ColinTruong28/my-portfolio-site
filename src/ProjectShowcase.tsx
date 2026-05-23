@@ -297,7 +297,7 @@ export default function ProjectShowcase({
                 <button
                   key={s.label}
                   onClick={() => go(i)}
-                  className={`flex-1 py-2 text-[.35rem] font-mono transition-all ${
+                  className={`flex-1 py-2 text-[2px] font-mono transition-all ${
                     i === activeIndex
                       ? 'text-white border-t-2 border-red-600 bg-white/10'
                       : 'text-gray-500 border-t-2 border-transparent hover:text-gray-300'

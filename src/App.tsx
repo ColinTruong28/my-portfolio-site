@@ -188,7 +188,7 @@ function App() {
 
 {/* -------ABOUT ME --------------------------*/}
       <section className = "about-me" id="about-me">
-        <div className = "about-card-container">
+        {/* <div className = "about-card-container">
           <div 
           id = "card-1"
           style={{transform: `translateY(${scrollPosition * .2 + autoFall*.53 - 700}px)`}}
@@ -206,7 +206,7 @@ function App() {
           style={{transform: `translateY(${scrollPosition * .2 + autoFall*.5 - 800}px)`}}>
             <SpinningCard image = {Varsity}></SpinningCard>
           </div>
-        </div>
+        </div> */}
 
         <div className='about-description'>
             <motion.div 
