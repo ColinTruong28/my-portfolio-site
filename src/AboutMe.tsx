@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import OrbitingSkills from './components/ui/orbiting';
 
@@ -207,7 +207,7 @@ function LeftPanel({
   view: 'skills' | 'timeline';
 }) {
   return (
-    <div className="w-[85%] h-full flex flex-col justify-center mx-auto px-10 lg:px-14 py-12 gap-6 overflow-hidden ">
+    <div className="w-[90%] lg:w-[85%] h-full flex flex-col justify-center mx-auto px-4 sm:px-10 lg:px-14 py-6 lg:py-12 gap-6 overflow-hidden ">
       <AnimatePresence mode="wait">
         {/* Default bio — shown when no node selected OR in skills view */}
         {(view === 'skills' || !active) && (
@@ -321,7 +321,7 @@ function VerticalTimeline({
   onSelect: (id: string) => void;
 }) {
   return (
-    <div className="relative w-full h-full flex flex-col justify-center py-8 overflow-y-hidden">
+    <div className="relative w-full lg:h-full flex flex-col justify-center py-8 lg:overflow-y-hidden">
       {/* Centre line */}
       <div
         className="absolute left-1/2 top-8 bottom-8 w-px -translate-x-1/2 pointer-events-none"
@@ -437,11 +437,32 @@ type View = 'skills' | 'timeline';
 export default function AboutSection() {
   const [view, setView] = useState<View>('skills');
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const leftPanelRef = useRef<HTMLDivElement>(null);
 
   const active = timelineEvents.find((e) => e.id === activeId) ?? null;
 
+  // Track whether we're below the lg breakpoint (where the panels stack)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1023px)');
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
   function handleSelect(id: string) {
-    setActiveId((prev) => (prev === id ? null : id));
+    setActiveId((prev) => {
+      const nextId = prev === id ? null : id;
+      // On mobile the left panel is stacked above the timeline, so scroll
+      // back up to it whenever a node is selected.
+      if (nextId && isMobile) {
+        requestAnimationFrame(() => {
+          leftPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }
+      return nextId;
+    });
   }
 
   return (
@@ -484,16 +505,20 @@ export default function AboutSection() {
 
       
       {/* ── LEFT: reactive display panel ── */}
-      <div className="w-full lg:w-[58%] flex-shrink-0 relative border-r border-white/5 h-full my-auto">
+      <div
+        ref={leftPanelRef}
+        className="w-full lg:w-[58%] flex-shrink-0 relative border-r border-white/5 h-full my-auto scroll-mt-4"
+      >
         <LeftPanel active={active} view={view} />
       </div>
 
       {/* ── RIGHT: orbital or timeline ── */}
-      <div className="flex-1 relative min-h-[500px] lg:min-h-[600px] flex flex-col">
+      <div className="flex-1 relative lg:min-h-[600px] flex flex-col">
 
 
-        {/* Panel content */}
-        <div className="flex-1 relative overflow-hidden">
+        {/* Panel content — on mobile it grows to fit its content instead of
+            being clipped to a fixed height. */}
+        <div className="flex-1 relative lg:overflow-hidden">
           <AnimatePresence mode="wait">
             {view === 'skills' ? (
               <motion.div
@@ -502,7 +527,7 @@ export default function AboutSection() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.3 }}
-                className="absolute inset-0 flex items-center justify-center"
+                className="lg:absolute lg:inset-0 flex items-center justify-center min-h-[340px] lg:min-h-0 pb-16 lg:pb-0"
               >
                 <OrbitingSkills />
               </motion.div>
@@ -513,7 +538,7 @@ export default function AboutSection() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.3 }}
-                className="absolute inset-0"
+                className="lg:absolute lg:inset-0"
               >
                 <VerticalTimeline activeId={activeId} onSelect={handleSelect} />
               </motion.div>

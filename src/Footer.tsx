@@ -40,7 +40,7 @@ const socials = [
 export default function Footer() {
   return (
     <footer id="contact" className="relative w-full bg-black border-t border-white/10 overflow-hidden">
-      {/* Subtle red glow top-center */}
+      {/* Subtle pink glow top-center */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[1px] bg-gradient-to-r from-transparent via-[rgb(255,118,237)] to-transparent" />
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[400px] h-48 blur-3xl rounded-full pointer-events-none" />
 
@@ -70,7 +70,7 @@ export default function Footer() {
                 aria-label={s.label}
                 whileHover={{ scale: 1.15, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-10 h-10 rounded-full border border-white/15 bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:border-red-600 transition-colors"
+                className="w-10 h-10 rounded-full border border-white/15 bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:border-[rgb(255,118,237)] transition-colors"
               >
                 {s.icon}
               </motion.a>
@@ -87,7 +87,7 @@ export default function Footer() {
             <a
               key={c.label}
               href={c.href}
-              className="group flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm px-5 py-4 hover:border-red-700/50 hover:bg-white/8 transition-all"
+              className="group flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm px-5 py-4 hover:border-[rgb(255,118,237)] hover:bg-white/8 transition-all"
             >
               <span className="text-white group-hover:text-pink transition-colors flex-shrink-0">
                 {c.icon}
@@ -100,7 +100,7 @@ export default function Footer() {
                   {c.value}
                 </p>
               </div>
-              <span className="ml-auto text-gray-700 group-hover:text-red-600 transition-colors text-lg">
+              <span className="ml-auto text-gray-700 group-hover:text-[rgb(255,118,237)] transition-colors text-lg">
                 →
               </span>
             </a>

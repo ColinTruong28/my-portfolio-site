@@ -22,7 +22,7 @@ import April_tag_tracking from './images/Computer_Vision_PID_Following.gif?url';
 import Hysteresis_IMU     from './images/Hysteresis_IMU.gif?url';
 import PID_turn           from './images/PID_turn.gif?url';
 import FiveBarDemo        from './images/FiveBarDemo.mp4?url';
-import SolidworksFiveBar  from './images/Solidworks_FiveBar_Demo.mp4?url';
+import SolidworksFiveBar  from './images/Solidworks_Fivebar_Demo.mp4?url';
 import StressedBar        from './images/Bar_Stress_Analysis.png?url';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -111,8 +111,8 @@ function App() {
 
     useEffect(() => {
       window.addEventListener('scroll', handleScroll, {passive: true});
+      // --- Auto-Fall Logic (The "Clock") ---
       let frameId: number;
-      
       
       const animate = () => {
         frameId = requestAnimationFrame(animate); 
@@ -120,20 +120,9 @@ function App() {
 
       frameId = requestAnimationFrame(animate);
 
-      const id = window.location.hash.slice(1);
-      if (!id) return;
-
-      const SOFTWARE_IDS = ['software-iBank', 'software-global-lab'];
-      if (SOFTWARE_IDS.includes(id)) setProjectCategory('software');
-
-      const t = setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 150);
-
     return () => {
         window.removeEventListener('scroll', handleScroll);
         cancelAnimationFrame(frameId);
-          clearTimeout(t);
       };
 
     }, []); 
@@ -186,9 +175,9 @@ function App() {
         </div>
         <div className="intro-info" style={{pointerEvents: 'none',}}>
           <h3 className="sub-info">WPI Undergrad Student</h3>
-          <h3 className="sub-info">Robotic Engineering</h3>
+          <h3 className="sub-info text-right">Robotic Engineering</h3>
           <h3 className="sub-info">Global Lab Web Developer</h3>
-          <h3 className="sub-info">Computer Science</h3>
+          <h3 className="sub-info text-right">Computer Science</h3>
         </div>
       </section>
 
@@ -255,7 +244,7 @@ function App() {
 
         <div className="relative z-10">
           {/* Section heading + toggle */}
-          <div className="max-w-[85vw] mx-auto pt-20 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+          <div className="max-w-[85vw] mx-auto pt-12 sm:pt-20 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6 items-start">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-white font-mono mb-1 text-start">
                 Selected Work
@@ -406,5 +395,3 @@ function App() {
 }
 
 export default App
-
-

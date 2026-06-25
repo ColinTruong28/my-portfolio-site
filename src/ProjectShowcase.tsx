@@ -101,7 +101,7 @@ export default function ProjectShowcase({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.15 } }}
           transition={{ duration: 0.3 }}
-          className={`absolute inset-0 flex flex-col justify-end pointer-events-none z-10 px-12 py-10 ${
+          className={`absolute inset-0 flex flex-col justify-end pointer-events-none z-10 px-5 py-6 sm:px-12 sm:py-10 ${
             flip ? 'items-end text-right' : 'items-start text-left'
           }`}
         >
@@ -140,7 +140,7 @@ export default function ProjectShowcase({
             className="project-title leading-none mb-5"
             style={{
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 'clamp(3rem, 6vw, 4.6rem)',
+              fontSize: 'clamp(2rem, 6vw, 4.6rem)',
               color: 'rgb(255,118,237)',
               textShadow: '0 0 3ch rgba(255,202,248,1), 0 0 40px rgba(255,202,248,1)',
               filter: 'brightness(1.5)',
@@ -180,9 +180,9 @@ export default function ProjectShowcase({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.15 } }}
           transition={{ duration: 0.3 }}
-          className={`absolute inset-0 flex flex-col lg:flex-row ${
+          className={`relative lg:absolute lg:inset-0 flex flex-col lg:flex-row ${
             flip ? 'lg:flex-row-reverse' : ''
-          } gap-8 lg:gap-12 items-stretch z-10 px-10 py-10`}
+          } gap-4 sm:gap-8 lg:gap-12 items-stretch z-10 px-4 py-5 sm:px-10 sm:py-10`}
         >
           {/* ── Left / info panel — your original structure ── */}
           <div
@@ -315,12 +315,12 @@ export default function ProjectShowcase({
 
   return (
     <div
-      className="relative w-full max-w-[85vw] min-h-[80vh] mx-auto my-32 py-16 border-b border-white/5 cursor-pointer"
+      className="relative w-full max-w-[88vw] sm:max-w-[85vw] min-h-[60vh] sm:min-h-[80vh] mx-auto my-12 sm:my-32 py-6 sm:py-16 border-b border-white/5 cursor-pointer"
       style={{  }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="relative w-full max-w-[85vw] mx-auto min-h-[80vh] py-16">
+      <div className="relative w-full mx-auto min-h-[60vh] sm:min-h-[80vh] py-4 sm:py-16">
         {restState}
         {hoverState}
       </div>

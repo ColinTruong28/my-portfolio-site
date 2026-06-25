@@ -117,6 +117,8 @@ h1, h2, h3 {
   position: relative;
   top: 40%;
   align-items: center;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .title h1 {
@@ -860,10 +862,7 @@ img.embedded-PI-motor-controller-slide {
 
 /* End of footer */
 
-#root {
-  margin: 0 auto;
-  text-align: center;
-}
+
 
 .logo {
   height: 6em;
@@ -961,3 +960,66 @@ img.embedded-PI-motor-controller-slide {
   /* box-shadow: none !important; */
 }
 
+/* ───────────────────────────────────────────────────────────────────
+   MOBILE OVERRIDES
+   Tighten font sizes and padding so the layout breathes on small screens.
+─────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* ── Hero / title screen ── */
+  .title {
+    top: 38%;
+  }
+
+  .title h1 {
+    font-size: 2.3rem;
+  }
+
+  .typewriter-text {
+    font-size: 1.15rem;
+  }
+
+  /* Spread the four info lines across the full bottom instead of the
+     bottom-right corner, and make them legible. */
+  .intro-info {
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 1fr;
+    width: 100vw;
+    left: 0;
+    right: auto;
+    bottom: 5%;
+    justify-items: center;
+    align-items: center;
+    row-gap: 10px;
+    padding: 0 4vw;
+    box-sizing: border-box;
+  }
+
+  .sub-info {
+    font-size: 3.7vw;
+    width: 35vw;
+  }
+
+  /* ── About Me ── */
+  .about-me {
+    margin: 60px 0 60px 0;
+  }
+
+  .about-neon-sign {
+    margin-top: 32px;
+    font-size: 42px;
+    padding-right: 10px;
+    padding-left: 4px;
+  }
+
+  .about-text {
+    padding-top: 24px;
+    width: 88vw;
+  }
+
+  .about-text p {
+    font-size: 17px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+}
