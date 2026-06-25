@@ -120,9 +120,19 @@ function App() {
 
       frameId = requestAnimationFrame(animate);
 
-    return () => {
-        window.removeEventListener('scroll', handleScroll);
-        cancelAnimationFrame(frameId);
+      const id = window.location.hash.slice(1);
+      if (!id) return;
+
+      const SOFTWARE_IDS = ['software-iBank', 'software-global-lab'];
+      if (SOFTWARE_IDS.includes(id)) setProjectCategory('software');
+
+      const t = setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
+      return () => {
+          window.removeEventListener('scroll', handleScroll);
+          cancelAnimationFrame(frameId);
+          clearTimeout(t);
       };
 
     }, []); 
