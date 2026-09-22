@@ -2,6 +2,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import OrbitingSkills from './components/ui/orbiting';
+import { smoothScrollTo } from './lib/lenis';
+import LazyMedia from './components/ui/LazyMedia';
+import { useSnapTarget } from './lib/useSnapTarget';
+import { useSwipe } from './lib/useSwipe';
 
 import paa_1 from './images/About/paa_1.jpg';
 import paa_2 from './images/About/paa_2.jpg';
@@ -21,6 +25,9 @@ import sase1_26 from './images/About/sase1_26.jpg';
 import sase2_26 from './images/About/sase2_26.jpeg';
 import sase3_26 from './images/About/sase3_26.jpg';
 import sase4_26 from './images/About/sase4_26.jpg';
+
+import eb_1 from './images/About/eb_1.jpg';
+import eb_2 from './images/About/eb_2.jpg';
 
 
 
@@ -103,15 +110,15 @@ export const timelineEvents: TimelineEvent[] = [
     images: [sase1_26, sase2_26, sase3_26, sase4_26],
   },
   {
-    id: 'elvate-intern',
-    year: 'Present',
-    title: 'Automation & MES Intern',
+    id: 'elevate-intern',
+    year: 'Summer 2026',
+    title: 'Automation & MES Engineer Intern',
     org: 'ElevateBio',
     description:
-      'Wait and see ;)',
-    skills: ['Leadership', 'Strategic Planning', 'Public Speaking', 'Mentorship', 'Officer Management'],
-    color: '#114a3e',
-    images: [PLACEHOLDER('#114a3e'), PLACEHOLDER('#114a3e'), PLACEHOLDER('#114a3e'), PLACEHOLDER('#114a3e')],
+      'Worked the automation side of GMP biomanufacturing — wiring DeltaV, Kepware, and Ignition into a single alarm pipeline across 10,000+ tags, so equipment excursions reached on-call staff as real-time texts instead of going unnoticed. Traded a painfully manual MES batch-template validation process for an automated Playwright suite, and prototyped an AI agent on Kneat Gx\'s API to surface risky validation discrepancies early.',
+    skills: ['Ignition SCADA', 'OPC DA/UA', 'DeltaV', 'Playwright', 'GMP Validation'],
+    color: '#34e0a1',
+    images: [eb_1, eb_2],
   },
 ];
 
@@ -127,8 +134,13 @@ function ImageSlider({ images, color }: { images: string[]; color: string }) {
     setIdx(next);
   }
 
+  const swipe = useSwipe(
+    () => go(idx === images.length - 1 ? 0 : idx + 1),
+    () => go(idx === 0 ? images.length - 1 : idx - 1)
+  );
+
   return (
-    <div className="relative w-full h-full overflow-hidden rounded-2xl">
+    <div className="relative w-full h-full overflow-hidden rounded-2xl" {...swipe}>
       <AnimatePresence mode="wait" custom={dir}>
         <motion.div
           key={idx}
@@ -139,8 +151,9 @@ function ImageSlider({ images, color }: { images: string[]; color: string }) {
           transition={{ duration: 0.3, ease: 'easeInOut' }}
           className="absolute inset-0"
         >
-          <img
+          <LazyMedia
             src={images[idx]}
+            type="image"
             alt={`slide ${idx + 1}`}
             className="w-full h-full object-cover"
           />
@@ -225,23 +238,24 @@ function LeftPanel({
                 {view === 'skills' ? 'Tech Stack' : 'About Me'}
               </p>
               <h2 className="text-4xl md:text-5xl text-[rgb(255,118,237)] leading-tight text-start"
-                style={{ fontFamily: "'JetBrains Mono', monospace", textShadow: '0 0 3ch rgba(255,202,248,1), 0 0 40px rgba(255,202,248,1)', filter: 'brightness(1.5)',}}>
+                style={{ fontFamily: 'var(--font-mono)', textShadow: '0 0 3ch rgba(255,202,248,1), 0 0 40px rgba(255,202,248,1)', filter: 'brightness(1.5)',}}>
                 {view === 'skills' ? 'Tools I build with' : 'A Few Words'}
               </h2>
             </div>
             <p className="text-gray-400 text-2xl leading-relaxed text-start">
-              Over the last three years I have been honing my leadership skills through
-              projects and programs where I can have an impact on my surrounding communities.
+              {view === 'skills' ? 'Languages: TypeScript (primary language for front-end work, including this site), C++ (autonomous robot control, ROS-based), and Python (robotics coursework and scripting).' : 'Above all, I pride myself on my quick learning and leadership skills. I have always made it a point to be involved in my surrounding communities and to embrace being the change I want to see in the world. This timeline shows you just how involved I have been and all the things'}
             </p>
             <p className="text-gray-400 text-2xl leading-relaxed text-start">
-              I have been working at the WPI Global Lab, spearheading a full visual and
-              thematic overhaul of the website to show the evolving student initiatives
-              and faculty research.
+              {view === 'skills' ? 'Frontend: React for component architecture, Tailwind CSS for utility-first styling and rapid layout iteration, and Framer Motion for animation and motion design.' : 'yo'}
             </p>
             <p className="text-gray-400 text-2xl leading-relaxed text-start">
-              As President and Events Coordinator for SASE, I increased active-membership
-              by 63% through 50+ yearly events, winning National Overall Strongest Chapter
-              of 2025.
+              {view === 'skills' ? 'Robotics & Simulation: ROS2 for node-based robot software architecture, and Gazebo for physics simulation in manipulation and grasping work.' : 'yo'}
+            </p>
+            <p className="text-gray-400 text-2xl leading-relaxed text-start">
+              {view === 'skills' ? 'Testing & Automation: Playwright, including a three-layer API-driven test automation system (API fetch → transform → execution) built for GxP-regulated manufacturing software.' : 'yo'}
+            </p>
+            <p className="text-gray-400 text-2xl leading-relaxed text-start">
+              {view === 'skills' ? 'Tooling & Infrastructure: Git & GitHub for version control and deployment (GitHub Pages), and Google Analytics 4 for traffic and engagement tracking.' : 'yo'}
             </p>
             {view === 'timeline' && (
               <p className="text-base font-mono mt-2 flex items-center gap-2 text-[rgb(255,118,237)]"
@@ -266,18 +280,18 @@ function LeftPanel({
             {/* Header */}
             <div>
               <h3 className="text-lg text-start font-mono uppercase tracking-widest pb-4"
-                style={{ color: active.color, fontFamily: "'JetBrains Mono', monospace" }}>
+                style={{ color: active.color, fontFamily: 'var(--font-mono)' }}>
                 {active.year} · {active.org}
               </h3>
               <h2 className="text-lg md:text-3xl text-start text-white mt-1 leading-tight"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                style={{ fontFamily: 'var(--font-mono)' }}>
                 {active.title}
               </h2>
             </div>
 
             {/* Description */}
-            <h3 className="text-gray-400 text-base text-start leading-relaxed overflow-y-auto"
-              style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+            <h3 className="text-gray-400 text-xl text-start leading-relaxed overflow-y-auto"
+              style={{ fontFamily: 'var(--font-mono)' }}>
               {active.description}
             </h3>
 
@@ -299,8 +313,10 @@ function LeftPanel({
             </div>
 
             {/* Image slider */}
-            <div className="rounded-2xl overflow-hidden flex-shrink-1 min-h-[260px]"
-              style={{ height: '162px', border: `1px solid ${active.color}25` }}>
+            {/* Definite height (not min-height): ImageSlider's root uses
+                h-full, which can't resolve against an indefinite height. */}
+            <div className="rounded-2xl overflow-hidden flex-shrink-0 h-[260px] lg:h-[400px]"
+              style={{ border: `1px solid ${active.color}25` }}>
               <ImageSlider images={active.images} color={active.color} />
             </div>
           </motion.div>
@@ -439,6 +455,8 @@ export default function AboutSection() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const leftPanelRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  useSnapTarget(sectionRef);
 
   const active = timelineEvents.find((e) => e.id === activeId) ?? null;
 
@@ -458,7 +476,7 @@ export default function AboutSection() {
       // back up to it whenever a node is selected.
       if (nextId && isMobile) {
         requestAnimationFrame(() => {
-          leftPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (leftPanelRef.current) smoothScrollTo(leftPanelRef.current);
         });
       }
       return nextId;
@@ -501,7 +519,7 @@ export default function AboutSection() {
             })}
           </div>
         </div>
-    <div className="w-full flex flex-col lg:flex-row ">
+    <div ref={sectionRef} className="w-full flex flex-col lg:flex-row ">
 
       
       {/* ── LEFT: reactive display panel ── */}
@@ -513,7 +531,7 @@ export default function AboutSection() {
       </div>
 
       {/* ── RIGHT: orbital or timeline ── */}
-      <div className="flex-1 relative lg:min-h-[600px] flex flex-col">
+      <div className="flex-1 relative lg:min-h-[760px] flex flex-col">
 
 
         {/* Panel content — on mobile it grows to fit its content instead of

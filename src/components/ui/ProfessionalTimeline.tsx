@@ -188,7 +188,7 @@ export default function ProfessionalTimeline() {
                   </p>
                   <h3
                     className="text-lg text-white mt-0.5"
-                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                    style={{ fontFamily: 'var(--font-mono)' }}
                   >
                     {active.title}
                   </h3>

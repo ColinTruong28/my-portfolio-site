@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState, memo } from 'react';
 
 // --- Type Definitions ---
 type IconType = 'html' | 'css' | 'javascript' | 'react' | 'node' | 'tailwind' | 'matlab' | 'python' | 'typescript' | 'figma' | 'firebase' | 'linux' | 'solidworks' | 'pytorch';
@@ -23,7 +23,7 @@ interface SkillConfig {
 
 interface OrbitingSkillProps {
   config: SkillConfig;
-  angle: number;
+  registerRef: (id: string, el: HTMLDivElement | null) => void;
 }
 
 interface GlowingOrbitPathProps {
@@ -253,20 +253,17 @@ const skillsConfig: SkillConfig[] = [
 ];
 
 // --- Memoized Orbiting Skill Component ---
-const OrbitingSkill = memo(({ config, angle }: OrbitingSkillProps) => {
+const OrbitingSkill = memo(({ config, registerRef }: OrbitingSkillProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { orbitRadius, size, iconType, label } = config;
-
-  const x = Math.cos(angle) * orbitRadius;
-  const y = Math.sin(angle) * orbitRadius;
+  const { size, iconType, label } = config;
 
   return (
     <div
-      className="absolute top-1/2 left-1/2 transition-all duration-300 ease-out"
+      ref={(el) => registerRef(config.id, el)}
+      className="absolute top-1/2 left-1/2 transition-[width,height] duration-300 ease-out"
       style={{
         width: `${size}px`,
         height: `${size}px`,
-        transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))`,
         zIndex: isHovered ? 20 : 10,
       }}
       onMouseEnter={() => setIsHovered(true)}
@@ -336,8 +333,30 @@ GlowingOrbitPath.displayName = 'GlowingOrbitPath';
 
 // --- Main App Component ---
 export default function OrbitingSkills() {
-  const [time, setTime] = useState(0);
+  const timeRef = useRef(0);
   const [isPaused, setIsPaused] = useState(false);
+  const skillNodes = useRef<Map<string, HTMLDivElement | null>>(new Map());
+
+  const registerRef = (id: string, el: HTMLDivElement | null) => {
+    skillNodes.current.set(id, el);
+  };
+
+  const applyTransform = (time: number) => {
+    skillNodes.current.forEach((el, id) => {
+      if (!el) return;
+      const config = skillsConfig.find((c) => c.id === id);
+      if (!config) return;
+      const angle = time * config.speed + (config.phaseShift || 0);
+      const x = Math.cos(angle) * config.orbitRadius;
+      const y = Math.sin(angle) * config.orbitRadius;
+      el.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%))`;
+    });
+  };
+
+  // Paint the correct starting position immediately, before the rAF loop's first tick.
+  useLayoutEffect(() => {
+    applyTransform(timeRef.current);
+  }, []);
 
   useEffect(() => {
     if (isPaused) return;
@@ -348,7 +367,8 @@ export default function OrbitingSkills() {
     const animate = (currentTime: number) => {
       const deltaTime = (currentTime - lastTime) / 1000;
       lastTime = currentTime;
-      setTime(prevTime => prevTime + deltaTime);
+      timeRef.current += deltaTime;
+      applyTransform(timeRef.current);
       animationFrameId = requestAnimationFrame(animate);
     };
 
@@ -404,16 +424,13 @@ export default function OrbitingSkills() {
           />
         ))}
 
-        {skillsConfig.map((config) => {
-          const angle = time * config.speed + (config.phaseShift || 0);
-          return (
-            <OrbitingSkill
-              key={config.id}
-              config={config}
-              angle={angle}
-            />
-          );
-        })}
+        {skillsConfig.map((config) => (
+          <OrbitingSkill
+            key={config.id}
+            config={config}
+            registerRef={registerRef}
+          />
+        ))}
       </div>
     </main>
   );

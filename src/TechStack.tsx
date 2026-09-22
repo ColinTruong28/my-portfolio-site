@@ -37,7 +37,7 @@ export default function TechStack() {
           </p>
           <h2
             className="text-2xl font-mono text-white"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-mono)' }}
           >
             Tools I build with
           </h2>

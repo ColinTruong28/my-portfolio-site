@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { debounce } from '../../lib/debounce';
 
 export default function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -64,10 +65,12 @@ export default function ParticleBackground() {
 
     init();
     draw();
-    window.addEventListener('resize', resize);
+    const onResize = debounce(resize, 150);
+    window.addEventListener('resize', onResize);
     return () => {
       cancelAnimationFrame(rafId);
-      window.removeEventListener('resize', resize);
+      onResize.cancel();
+      window.removeEventListener('resize', onResize);
     };
   }, []);
 

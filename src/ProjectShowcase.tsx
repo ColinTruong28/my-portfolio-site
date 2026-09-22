@@ -1,8 +1,12 @@
 'use client';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaGithub } from 'react-icons/fa';
 import { HiExternalLink } from 'react-icons/hi';
+import ScrollReveal from './components/ui/ScrollReveal';
+import LazyMedia from './components/ui/LazyMedia';
+import { useSnapTarget } from './lib/useSnapTarget';
+import { useSwipe } from './lib/useSwipe';
 
 export interface ProjectSlide {
   label: string;
@@ -40,11 +44,15 @@ function MediaPane({ slide, direction }: { slide: ProjectSlide; direction: numbe
         transition={{ duration: 0.35, ease: 'easeInOut' }}
         className="w-full rounded-2xl overflow-hidden border border-white/10 bg-black "
       >
-        {slide.mediaType === 'video' ? (
-          <video src={slide.mediaSrc} autoPlay loop muted playsInline className="w-full h-full object-contain" />
-        ) : (
-          <img src={slide.mediaSrc} alt={slide.label} className="w-full h-full object-cover" />
-        )}
+        <LazyMedia
+          src={slide.mediaSrc}
+          type={slide.mediaType}
+          alt={slide.label}
+          holderClassName="relative w-full aspect-video"
+          className={slide.mediaType === 'video'
+            ? 'w-full h-full object-contain'
+            : 'w-full h-full object-cover'}
+        />
       </motion.div>
     </AnimatePresence>
   );
@@ -81,6 +89,8 @@ export default function ProjectShowcase({
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [hovered, setHovered] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  useSnapTarget(rootRef);
 
   const go = (next: number) => {
     setDirection(next > activeIndex ? 1 : -1);
@@ -88,6 +98,7 @@ export default function ProjectShowcase({
   };
   const prev = () => go(activeIndex === 0 ? slides.length - 1 : activeIndex - 1);
   const next = () => go(activeIndex === slides.length - 1 ? 0 : activeIndex + 1);
+  const swipe = useSwipe(next, prev);
   const slide = slides[activeIndex];
 
   // ── REST STATE: big cinematic title panel ──────────────────────────────────
@@ -107,21 +118,12 @@ export default function ProjectShowcase({
         >
           {/* Ambient video at low opacity in the background */}
           <div className="absolute inset-0 overflow-hidden rounded-3xl -z-10">
-            {slide.mediaType === 'video' ? (
-              <video
-                src={slide.mediaSrc}
-                autoPlay loop muted playsInline
-                className="w-full h-full object-cover"
-                style={{ filter: 'blur(1px) saturate(0.5)', transform: 'scale(1.04)', opacity: 0.5 }}
-              />
-            ) : (
-              <img
-                src={slide.mediaSrc}
-                alt=""
-                className="w-full h-full object-cover"
-                style={{ filter: 'blur(1px) saturate(0.5)', transform: 'scale(1.04)', opacity: 0.5 }}
-              />
-            )}
+            <LazyMedia
+              src={slide.mediaSrc}
+              type={slide.mediaType}
+              className="w-full h-full object-cover"
+              style={{ filter: 'blur(1px) saturate(0.5)', transform: 'scale(1.04)', opacity: 0.5 }}
+            />
             {/* Bottom vignette so text stays readable */}
             <div
               className="absolute inset-0"
@@ -139,7 +141,7 @@ export default function ProjectShowcase({
           <h2
             className="project-title leading-none mb-5"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: 'var(--font-mono)',
               fontSize: 'clamp(2rem, 6vw, 4.6rem)',
               color: 'rgb(255,118,237)',
               textShadow: '0 0 3ch rgba(255,202,248,1), 0 0 40px rgba(255,202,248,1)',
@@ -194,7 +196,7 @@ export default function ProjectShowcase({
             <div className="project-title-card">
               <h2
                 className="project-title text-2xl md:text-4xl leading-tight"
-                style={{ fontFamily: "'JetBrains Mono', monospace", color: 'rgb(252, 168, 241)' }}
+                style={{ fontFamily: 'var(--font-mono)', color: 'rgb(252, 168, 241)' }}
               >
                 {title}
               </h2>
@@ -288,11 +290,12 @@ export default function ProjectShowcase({
           </div>
 
           {/* ── Right / media panel ── */}
-          <div className="relative flex-1 min-h-[260px] w-full lg:aspect-auto aspect-video">
+          <div className="relative flex-1 min-h-[260px] w-full lg:aspect-auto aspect-video" {...swipe}>
             <MediaPane slide={slide} direction={direction} />
 
-            {/* Tab strip */}
-            <div className="absolute bottom-0 left-0 right-0 flex bg-black/60 backdrop-blur-sm rounded-b-l overflow-hidden">
+            {/* Tab strip — hidden on mobile, where a 7-slide strip of long
+                labels overflowed. Swipe and the arrows navigate there. */}
+            <div className="absolute bottom-0 left-0 right-0 hidden sm:flex bg-black/60 backdrop-blur-sm rounded-b-l overflow-hidden">
               {slides.map((s, i) => (
                 <button
                   key={s.label}
@@ -307,6 +310,13 @@ export default function ProjectShowcase({
                 </button>
               ))}
             </div>
+
+            {/* Mobile: just the current section's title, no hot-select. */}
+            <div className="absolute bottom-0 left-0 right-0 flex sm:hidden items-center justify-center bg-black/60 backdrop-blur-sm border-t-2 border-[rgb(252,168,241)] px-3 py-2">
+              <span className="text-sm font-mono text-white text-center truncate">
+                {slide.label}
+              </span>
+            </div>
           </div>
         </motion.div>
       )}
@@ -314,16 +324,18 @@ export default function ProjectShowcase({
   );
 
   return (
-    <div
-      className="relative w-full max-w-[88vw] sm:max-w-[85vw] min-h-[60vh] sm:min-h-[80vh] mx-auto my-12 sm:my-32 py-6 sm:py-16 border-b border-white/5 cursor-pointer"
-      style={{  }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div className="relative w-full mx-auto min-h-[60vh] sm:min-h-[80vh] py-4 sm:py-16">
-        {restState}
-        {hoverState}
+    <ScrollReveal from={flip ? 'right' : 'left'}>
+      <div
+        ref={rootRef}
+        className="relative w-full max-w-[88vw] sm:max-w-[85vw] min-h-[60vh] sm:min-h-[80vh] mx-auto my-12 sm:my-32 py-6 sm:py-16 border-b border-white/5 cursor-pointer"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <div className="relative w-full mx-auto min-h-[60vh] sm:min-h-[80vh] py-4 sm:py-16">
+          {restState}
+          {hoverState}
+        </div>
       </div>
-    </div>
+    </ScrollReveal>
   );
 }

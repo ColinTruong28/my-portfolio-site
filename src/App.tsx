@@ -1,6 +1,11 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
+import Lenis from 'lenis';
+import Snap from 'lenis/snap';
+import { setLenis, setSnap, smoothScrollTo } from './lib/lenis';
+import { debounce } from './lib/debounce';
 import './App.css';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import ScrollReveal from './components/ui/ScrollReveal.tsx';
 import Navbar from './components/ui/Navbar.tsx';
 import RobotDemo from './images/Robo_Demo.mp4?url'
 // import SpinningCard from './components/ui/spinningCard.tsx';
@@ -24,9 +29,6 @@ import PID_turn           from './images/PID_turn.gif?url';
 import FiveBarDemo        from './images/FiveBarDemo.mp4?url';
 import SolidworksFiveBar  from './images/Solidworks_Fivebar_Demo.mp4?url';
 import StressedBar        from './images/Bar_Stress_Analysis.png?url';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 import { PillToggle, type ProjectCategory } from './components/ui/ProjectToggle';
 import NextProjectButton from './components/ui/NextProjectButton';
 import AboutSection from './AboutMe.tsx';
@@ -50,92 +52,98 @@ import ParticleBackground from './components/ui/ParticleBackground.tsx';
 
 function App() {
 
-  // scrollPosition can be used to track the user's position within the webpage
-    const [scrollPosition, setScrollPosition] = useState(0);
     const [projectCategory, setProjectCategory] = useState<ProjectCategory>('robotics');
-    // const [autoFall, setAutoFall] = useState(0);
-    const handleScroll = () => {
-        const position = window.pageYOffset;
-        setScrollPosition(position);
-    };
 
-    const containerVariants = {
-      hidden: { opacity: 0 },
-      visible: {
-        opacity: 1,
-        transition: {
-          // This is the magic: it waits 0.3s between each child's animation
-          staggerChildren: 3, 
-          delayChildren: 2,
-        },
-      },
-    };
+    // Hero stays pinned while the shadow slab rises over it. Driven off
+    // absolute page scroll so both values share one unambiguous source.
+    const heroScrollRef = useRef<HTMLDivElement>(null);
+    const { scrollY } = useScroll();
+    // .hero-scroll is 260vh tall, so the hero stays pinned for 160vh of scroll.
+    const [pinDistance, setPinDistance] = useState(1600);
+    useEffect(() => {
+      const measure = () => setPinDistance(window.innerHeight * 1.6);
+      measure();
+      const onResize = debounce(measure, 150);
+      window.addEventListener('resize', onResize);
+      return () => {
+        onResize.cancel();
+        window.removeEventListener('resize', onResize);
+      };
+    }, []);
+    // Ends at -50%: far enough for the slab's solid section to clear the top of
+    // the viewport, but not so far that its bottom edge rises above the bottom
+    // of the viewport and re-exposes the hero underneath.
+    const shadowRiseY = useTransform(scrollY, [0, pinDistance], ['100%', '-50%'], { clamp: true });
 
-    const itemVariants = {
-      hidden: { y: 20, opacity: 0 },
-      visible: {
-        y: 0,
-        opacity: 1,
-        transition: { duration: 0.5, ease: "easeInOut" as const },
-      },
-    };
-
-    const flickerLifeVariant = {
-      hidden: { 
-        opacity: 0,
-        color: "#444",
-        textShadow: "0 0 0px rgba(0,0,0,0)"
-      },
-      visible: {
-        // Rapid stutter: Off -> Bright -> Dim -> Bright -> Steady
-        opacity: [0, 1, 0.4, 1, 0.8, 1],
-        color: ["#444", "#fff", "#888", "#fff", "#aaa", "#fff"],
-        textShadow: [
-          "0 0 0px rgba(0,0,0,0)",
-          "0 0 15px #fff, 0 0 30px #d4af37", // First spark
-          "0 0 2px #fff, 0 0 5px #d4af37",   // Struggle
-          "0 0 20px #fff, 0 0 40px #d4af37", // Second spark
-          "0 0 5px #fff, 0 0 10px #d4af37",  // Dip
-          "0 0 7px #fff, 0 0 20px #d4af37"   // Final Steady Glow
-        ],
-        transition: {
-          duration: 0.8, // Fast, punchy ignition
-          times: [0, 0.1, 0.2, 0.3, 0.4, 1], 
-          ease: "easeInOut" as const,
-        }
-      }
-    };
+    // "About Me" neon sign: the flicker is scrubbed by scroll position rather
+    // than fired once on entry, so it reads correctly scrolling either way.
+    // Measured against the sign itself. It stays dark until it reaches the
+    // vertical middle of the screen (50%), then flickers on as it travels up
+    // to 18% — so the whole animation plays out in the centre of the viewport.
+    const neonRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress: aboutProgress } = useScroll({
+      target: neonRef,
+      offset: ['start 0.5', 'start 0.18'],
+    });
+    // Stutters on like a failing neon tube, scrubbed by scroll rather than timed.
+    const neonOpacity = useTransform(
+      aboutProgress,
+      [0, 0.22, 0.30, 0.42, 0.50, 0.62, 0.70, 0.85],
+      [0, 1, 0.2, 1, 0.35, 1, 0.65, 1]
+    );
 
 
-    
+    // Smooth wheel/trackpad scrolling. Kept in its own isolated effect so it
+    // can be removed independently if it ever conflicts with page scroll.
+    useEffect(() => {
+      const lenis = new Lenis();
+      setLenis(lenis);
+
+      // Soft centering assist. 'proximity' only nudges when you come to rest
+      // near a target, so free scrolling is never captured or blocked.
+      const snap = new Snap(lenis, {
+        type: 'proximity',
+        // Project centres sit ~977px apart against a 900px viewport, so a
+        // tighter threshold left most resting positions unsnapped.
+        distanceThreshold: '50%',
+        duration: 0.6,
+        debounce: 350,
+      });
+      setSnap(snap);
+
+      let frameId: number;
+      const raf = (time: number) => {
+        lenis.raf(time);
+        frameId = requestAnimationFrame(raf);
+      };
+      frameId = requestAnimationFrame(raf);
+      return () => {
+        cancelAnimationFrame(frameId);
+        setSnap(null);
+        snap.destroy();
+        setLenis(null);
+        lenis.destroy();
+      };
+    }, []);
 
     useEffect(() => {
-      window.addEventListener('scroll', handleScroll, {passive: true});
-      // --- Auto-Fall Logic (The "Clock") ---
-      let frameId: number;
-      
-      const animate = () => {
-        frameId = requestAnimationFrame(animate); 
-      };
-
-      frameId = requestAnimationFrame(animate);
-
+      let t: ReturnType<typeof setTimeout> | undefined;
       const id = window.location.hash.slice(1);
-      if (!id) return;
+      if (id) {
+        const SOFTWARE_IDS = ['software-iBank', 'software-global-lab'];
+        if (SOFTWARE_IDS.includes(id)) setProjectCategory('software');
 
-      const SOFTWARE_IDS = ['software-iBank', 'software-global-lab'];
-      if (SOFTWARE_IDS.includes(id)) setProjectCategory('software');
+        t = setTimeout(() => {
+          const el = document.getElementById(id);
+          if (el) smoothScrollTo(el);
+        }, 150);
+      }
 
-      const t = setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 150);
       return () => {
-          window.removeEventListener('scroll', handleScroll);
-          cancelAnimationFrame(frameId);
-          clearTimeout(t);
+          if (t) clearTimeout(t);
       };
 
-    }, []); 
+    }, []);
 
 
     // Example labels for each slide
@@ -161,16 +169,20 @@ function App() {
     <main>
       <Navbar />
 
-      {/* Title */}
-      <section className="title-screen relative" 
-          style={{opacity: 1-scrollPosition/200, pointerEvents: 'none'}}
+      {/* Title — the wrapper supplies the scroll distance the pinned hero
+          stays put for while the shadow rises over it. */}
+      <div className="hero-scroll" ref={heroScrollRef}>
+      <section className="title-screen relative"
+          style={{pointerEvents: 'none'}}
        >
         <div className = "cherryBlossom-wrapper">
           <CherryBlossoms></CherryBlossoms>
         </div>
 
         <div className = "shadow-overlay"></div>
-        
+
+        <motion.div className="shadow-rise" style={{ y: shadowRiseY }} />
+
         <div className="title">
           
           <h1 className="name-card">Colin Truong</h1>
@@ -190,6 +202,7 @@ function App() {
           <h3 className="sub-info text-right">Computer Science</h3>
         </div>
       </section>
+      </div>
 
 
 {/* -------ABOUT ME --------------------------*/}
@@ -216,32 +229,21 @@ function App() {
         </div> */}
 
         <div className='about-description'>
-            <motion.div 
+            <motion.div
+            ref={neonRef}
             className='about-neon-sign'
-            variants={flickerLifeVariant}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{once: true, margin: "-350px 0px"}}
+            style={{ opacity: neonOpacity }}
             >
             About Me
             </motion.div>
-            <motion.div 
-              className='about-text'
-              variants={containerVariants}
-              initial="hidden" 
-              whileInView="visible" 
-              viewport={{ once: true, amount: .6 }}
-              
-            >
-                <motion.p variants={itemVariants}>Over the last three years I have been honing my leadership skills through projects and programs where I can have an impact on my surrounding communities.</motion.p>
-                <motion.p variants={itemVariants}>I have been working at the WPI Global Lab, spearheading a full visual and thematic overhaul of the website to show the evolving student initiatives and faculty research.</motion.p>
-                <motion.p variants={itemVariants}>In my collegiate career, I have been active in the Society of Asian Scientists and Engineers as President and Events Coordinator, increasing active-membership by 63% through the organization of 50+ events yearly, winning National Overall Strongest Chapter of 2025.</motion.p>
-                <motion.p variants={itemVariants}>I also act as a Volunteer Manager for the Pan Asian Association, coordinating a 1000+ attendee, six-figure event with 100+ unique volunteers and 10+ student organizations.</motion.p>
-                
-                
-            </motion.div>
+            <div className='about-text'>
+                <ScrollReveal from="left"><p>Over the last three years I have been honing my leadership skills through projects and programs where I can have an impact on my surrounding communities.</p></ScrollReveal>
+                <ScrollReveal from="right"><p>I have been working at the WPI Global Lab, spearheading a full visual and thematic overhaul of the website to show the evolving student initiatives and faculty research.</p></ScrollReveal>
+                <ScrollReveal from="left"><p>In my collegiate career, I have been active in the Society of Asian Scientists and Engineers as President and Events Coordinator, increasing active-membership by 63% through the organization of 50+ events yearly, winning National Overall Strongest Chapter of 2025.</p></ScrollReveal>
+                <ScrollReveal from="right"><p>I also act as a Volunteer Manager for the Pan Asian Association, coordinating a 1000+ attendee, six-figure event with 100+ unique volunteers and 10+ student organizations.</p></ScrollReveal>
+            </div>
 
-            <AboutSection />
+            <ScrollReveal from="left"><AboutSection /></ScrollReveal>
           
         </div>
         
@@ -254,7 +256,7 @@ function App() {
 
         <div className="relative z-10">
           {/* Section heading + toggle */}
-          <div className="max-w-[85vw] mx-auto pt-12 sm:pt-20 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6 items-start">
+          <ScrollReveal from="left" className="max-w-[85vw] mx-auto pt-12 sm:pt-20 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6 items-start">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-white font-mono mb-1 text-start">
                 Selected Work
@@ -262,7 +264,7 @@ function App() {
               <h2
                 className="text-5xl md:text-6xl text-[rgb(255,118,237)] text-start"
                 style={{ 
-                  fontFamily: "'JetBrains Mono', monospace", 
+                  fontFamily: 'var(--font-mono)', 
                   textShadow: '0 0 3ch rgba(255,202,248,1), 0 0 40px rgba(255,202,248,1)',
                   filter: 'brightness(1.5)', 
                 }}
@@ -273,7 +275,7 @@ function App() {
 
             
             <PillToggle active={projectCategory} onChange={setProjectCategory} />
-          </div>
+          </ScrollReveal>
 
           {/* ── ROBOTICS projects ── */}
           {projectCategory === 'robotics' && (
@@ -397,7 +399,7 @@ function App() {
       
 
       <section className="footer">
-          <Footer />
+          <ScrollReveal from="left"><Footer /></ScrollReveal>
       </section>
       
     </main>

@@ -51,7 +51,7 @@ export default function Footer() {
           <div>
             <h2
               className="text-2xl text-white justify-self-start"
-              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              style={{ fontFamily: 'var(--font-mono)' }}
             >
               Colin Truong
             </h2>

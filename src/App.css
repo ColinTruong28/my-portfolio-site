@@ -1,20 +1,40 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+/* Self-hosted so privacy browsers (DuckDuckGo, Firefox strict, extensions)
+   that block fonts.googleapis.com still get the real typeface. */
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/700.css';
 
 @import '@fontsource/neonderthaw';
 
-@import '@fontsource-variable/montserrat/wght.css';
+/* Static (not variable) Montserrat: the variable build ships
+   format('woff2-variations'), which Safari/WebKit rejects outright, so iOS
+   silently fell back to a system font. */
+@import '@fontsource/montserrat/400.css';
+@import '@fontsource/montserrat/700.css';
 
-@import "tailwindcss";
+/* Inter was referenced in :root but never imported, so body text silently fell
+   back to system-ui — a different face per OS (Roboto/SF Pro/Segoe UI). */
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+
+/* Shared font stacks. Every family has real fallbacks so a font that fails to
+   load degrades to a similar face instead of the browser default (Times). */
+:root {
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo,
+    Consolas, 'Liberation Mono', monospace;
+  --font-body: Montserrat, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-script: 'Neonderthaw', 'Snell Roundhand', 'Brush Script MT', cursive;
+  --font-ui: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+}
 
 
 
 @layer base {
   :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-family: var(--font-ui);
     line-height: 1.5;
     font-weight: 400;
     color-scheme: dark;
@@ -79,19 +99,35 @@ h3 {
 
 html,body {
   max-width: 100vw;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
+  /* clip, not hidden: hidden makes these a scroll container, which breaks
+     position: sticky on the hero (and forces overflow-y to auto). */
+  overflow-x: clip;
 }
 
 
 h1, h2, h3 {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-weight: 400;
 }
 
+/* Gives the pinned hero its scroll runway: the hero sticks for
+   (wrapper height - viewport height) of scrolling while the shadow rises. */
+/* Height here sets the pin duration and must stay in sync with pinDistance in
+   App.tsx: pinned scroll = this height - 100vh (260 - 100 = 160vh). */
+.hero-scroll {
+  position: relative;
+  height: 260vh;
+  height: 260dvh;
+}
+
 .title-screen {
+  position: sticky;
+  top: 0;
   width: 100vw;
   height: 100vh;
+  /* Mobile browsers count the area behind the URL bar in 100vh, pushing
+     bottom-anchored content out of view. dvh tracks the real visible height. */
+  height: 100dvh;
   background-image: url(https://cdnb.artstation.com/p/assets/images/images/063/733/111/large/oleg-beketov-jkt-beautiful-anime-illustration-of-a-landscape-scenery-volumet-85d4149a-6489-4989-969d-eaf80ca4b82a.jpg?1686223882);
   background-size: cover;
   justify-content: center;
@@ -100,12 +136,58 @@ h1, h2, h3 {
 }
 
 .shadow-overlay {
-  width: 100vw;
-  height: 280vh;
   position: absolute;
-  top: -180vh;
-  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-  overflow-x: hidden;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.643) 100%);
+  pointer-events: none;
+}
+
+/* Placeholder shown while a lazily-loaded video/image is still fetching. */
+.media-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0.04) 30%,
+    rgba(255, 255, 255, 0.10) 50%,
+    rgba(255, 255, 255, 0.04) 70%
+  );
+  background-size: 220% 100%;
+  animation: media-skeleton-sweep 1.6s ease-in-out infinite;
+}
+
+@keyframes media-skeleton-sweep {
+  from { background-position: 180% 0; }
+  to { background-position: -40% 0; }
+}
+
+/* Scroll-driven slab that rises from below the fold and darkens the hero.
+   Transform + opacity only, so it stays on the compositor. */
+.shadow-rise {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* 240% tall: the soft leading edge occupies the top 40% (96vh of ramp) and
+     the rest is solid black. At the -50% end position the slab spans -120vh to
+     +120vh, so the solid section starts 24vh above the viewport while the
+     bottom edge still sits 20vh below it — covered top and bottom. */
+  height: 240%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.12) 10%,
+    rgba(0, 0, 0, 0.35) 19%,
+    rgba(0, 0, 0, 0.62) 27%,
+    rgba(0, 0, 0, 0.85) 34%,
+    rgba(0, 0, 0, 1) 40%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  /* Above .title and .intro-info, which are positioned and would otherwise
+     paint over this (they come later in DOM order). */
+  z-index: 5;
+  pointer-events: none;
+  will-change: transform;
 }
 
 .cherryBlossom-wrapper {
@@ -176,6 +258,10 @@ h1, h2, h3 {
   justify-content: center;
   position: relative;
   margin: 200px 0 200px 0;
+  /* Clearance for the departing sticky hero. Without it the About content
+     rides up the screen while the hero is still covering most of it, so the
+     reveal animations finish before they're ever in clear view. */
+  padding-top: 65vh;
 }
 
 .about-card-container {
@@ -233,14 +319,17 @@ div#card-1 div#card-2 div#card-3 {
 }
 
 .about-neon-sign {
-  font-family: 'Neonderthaw', cursive;
+  font-family: var(--font-script);
   margin-top: 100px;
   font-size: 96px;
   border-radius: 10px;
   border: 2px solid white;
   padding-right: 15px;
   padding-left: 5px;
-  justify-self: center;
+  /* fit-content + auto margins instead of justify-self: block-layout
+     justify-self is Chromium-only; Safari/Firefox stretched this full-width. */
+  width: fit-content;
+  margin-inline: auto;
   color: rgb(255, 255, 255);
   text-shadow: 0 0 3ch rgb(255, 233, 252), 0 0 40px rgba(255, 202, 248, 1);
   -webkit-box-shadow:0px 0px 37px 0px rgba(255,255,255,0.9);
@@ -252,14 +341,14 @@ div#card-1 div#card-2 div#card-3 {
 
 .about-text {
   padding-top: 50px;
-  justify-self: center;
+  margin-inline: auto;
   width: 80vw;
 }
 
 .about-text p {
   padding-top: 30px;
   padding-bottom: 30px;
-  font-family: 'Montseratt Variable';
+  font-family: var(--font-body);
   font-size: 32px;
   text-align: left;
 }
@@ -857,7 +946,7 @@ img.embedded-PI-motor-controller-slide {
 }
 
 .footer {
-  height: 5vh;
+  height: auto;
 }
 
 /* End of footer */
@@ -995,9 +1084,12 @@ img.embedded-PI-motor-controller-slide {
     box-sizing: border-box;
   }
 
+  /* Sized so the longest line ("Global Lab Web Developer", 24 monospace chars
+     ≈ 14.4 × font-size) fits its column on one line at any screen width. */
   .sub-info {
-    font-size: 3.7vw;
-    width: 35vw;
+    font-size: 3vw;
+    width: 46vw;
+    white-space: nowrap;
   }
 
   /* ── About Me ── */

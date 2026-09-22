@@ -1,6 +1,7 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { smoothScrollTo } from '../../lib/lenis';
 
 const SOFTWARE_IDS = [
   'software-iBank',
@@ -20,41 +21,50 @@ export default function NextProjectButton({ category }: { category: 'software' |
   // Derive the active ID list from the prop — no useState needed
   const ids = category === 'software' ? SOFTWARE_IDS : ROBOT_IDS;
 
-  // Reset whenever the category switches
+  // Track which project section is centered in the viewport via a zero-height
+  // observation line at the vertical middle of the viewport (rootMargin trick),
+  // instead of polling getBoundingClientRect on every scroll event.
   useEffect(() => {
     setCurrentIdx(-1);
     setVisible(false);
-  }, [category]);
 
-  const findCurrentProject = useCallback(() => {
-    const viewportMid = window.scrollY + window.innerHeight * 0.5;
-    let found = -1;
+    const els = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (els.length === 0) return;
 
-    ids.forEach((id, i) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const { top, bottom } = el.getBoundingClientRect();
-      const absTop    = top    + window.scrollY;
-      const absBottom = bottom + window.scrollY;
-      if (viewportMid >= absTop && viewportMid < absBottom) found = i;
-    });
+    const intersecting = new Set<string>();
 
-    setCurrentIdx(found);
-    setVisible(found >= 0 && found < ids.length - 1);
-  }, [ids]); // re-runs whenever ids reference changes (i.e. category switches)
+    const recompute = () => {
+      let found = -1;
+      ids.forEach((id, i) => {
+        if (intersecting.has(id)) found = i;
+      });
+      setCurrentIdx(found);
+      setVisible(found >= 0 && found < ids.length - 1);
+    };
 
-  useEffect(() => {
-    window.addEventListener('scroll', findCurrentProject, { passive: true });
-    findCurrentProject();
-    return () => window.removeEventListener('scroll', findCurrentProject);
-  }, [findCurrentProject]);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) intersecting.add(entry.target.id);
+          else intersecting.delete(entry.target.id);
+        }
+        recompute();
+      },
+      { rootMargin: '-50% 0px -50% 0px', threshold: 0 }
+    );
+
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [ids]);
 
   function scrollToNext() {
     if (currentIdx < 0 || currentIdx >= ids.length - 1) return;
     const nextId = ids[currentIdx + 1];
     const el = document.getElementById(nextId);
     if (!el) return;
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    smoothScrollTo(el);
     history.pushState(null, '', `#${nextId}`);
   }
 
