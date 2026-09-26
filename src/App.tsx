@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef} from 'react';
 import Lenis from 'lenis';
 import Snap from 'lenis/snap';
-import { setLenis, setSnap, smoothScrollTo } from './lib/lenis';
+import { setLenis, setSnap, smoothScrollTo, scrollToAboutMe } from './lib/lenis';
 import { debounce } from './lib/debounce';
 import './App.css';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -103,9 +103,9 @@ function App() {
       // near a target, so free scrolling is never captured or blocked.
       const snap = new Snap(lenis, {
         type: 'proximity',
-        // Project centres sit ~977px apart against a 900px viewport, so a
-        // tighter threshold left most resting positions unsnapped.
-        distanceThreshold: '50%',
+        // Only corrects near-misses: stopping within 20% of the viewport height
+        // of a target aligns it, anything further is left where you put it.
+        distanceThreshold: '20%',
         duration: 0.6,
         debounce: 350,
       });
@@ -134,13 +134,22 @@ function App() {
         if (SOFTWARE_IDS.includes(id)) setProjectCategory('software');
 
         t = setTimeout(() => {
+          if (id === 'about-me') return scrollToAboutMe();
           const el = document.getElementById(id);
           if (el) smoothScrollTo(el);
         }, 150);
       }
 
+      // Editing the hash in the address bar doesn't reload, so the browser
+      // does its own jump to the section's top edge (blank clearance). Redirect it.
+      const onHashChange = () => {
+        if (window.location.hash === '#about-me') scrollToAboutMe();
+      };
+      window.addEventListener('hashchange', onHashChange);
+
       return () => {
           if (t) clearTimeout(t);
+          window.removeEventListener('hashchange', onHashChange);
       };
 
     }, []);
@@ -231,6 +240,7 @@ function App() {
         <div className='about-description'>
             <motion.div
             ref={neonRef}
+            id="about-neon"
             className='about-neon-sign'
             style={{ opacity: neonOpacity }}
             >
@@ -238,9 +248,9 @@ function App() {
             </motion.div>
             <div className='about-text'>
                 <ScrollReveal from="left"><p>Over the last three years I have been honing my leadership skills through projects and programs where I can have an impact on my surrounding communities.</p></ScrollReveal>
-                <ScrollReveal from="right"><p>I have been working at the WPI Global Lab, spearheading a full visual and thematic overhaul of the website to show the evolving student initiatives and faculty research.</p></ScrollReveal>
-                <ScrollReveal from="left"><p>In my collegiate career, I have been active in the Society of Asian Scientists and Engineers as President and Events Coordinator, increasing active-membership by 63% through the organization of 50+ events yearly, winning National Overall Strongest Chapter of 2025.</p></ScrollReveal>
-                <ScrollReveal from="right"><p>I also act as a Volunteer Manager for the Pan Asian Association, coordinating a 1000+ attendee, six-figure event with 100+ unique volunteers and 10+ student organizations.</p></ScrollReveal>
+                <ScrollReveal from="right"><p>This past summer, I interned at an Autologous Cell Therapy Manufacturing company in Automation and Manufacturing Systems where I got the priveledge of building and integrating custom AI agents and building manufacturing automation pipelines.</p></ScrollReveal>
+                <ScrollReveal from="left"><p>I have been working at the WPI Global Lab, spearheading a full visual and thematic overhaul of the website to show the evolving student initiatives and faculty research.</p></ScrollReveal>
+                <ScrollReveal from="right"><p>In my collegiate career, I have been active in the Society of Asian Scientists and Engineers as President and Events Coordinator, increasing active-membership by 63% through the organization of 50+ events yearly, winning National Overall Strongest Chapter of 2025.</p></ScrollReveal>
             </div>
 
             <ScrollReveal from="left"><AboutSection /></ScrollReveal>

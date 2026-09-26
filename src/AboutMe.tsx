@@ -27,7 +27,6 @@ import sase3_26 from './images/About/sase3_26.jpg';
 import sase4_26 from './images/About/sase4_26.jpg';
 
 import eb_1 from './images/About/eb_1.jpg';
-import eb_2 from './images/About/eb_2.jpg';
 
 
 
@@ -115,10 +114,10 @@ export const timelineEvents: TimelineEvent[] = [
     title: 'Automation & MES Engineer Intern',
     org: 'ElevateBio',
     description:
-      'Worked the automation side of GMP biomanufacturing — wiring DeltaV, Kepware, and Ignition into a single alarm pipeline across 10,000+ tags, so equipment excursions reached on-call staff as real-time texts instead of going unnoticed. Traded a painfully manual MES batch-template validation process for an automated Playwright suite, and prototyped an AI agent on Kneat Gx\'s API to surface risky validation discrepancies early.',
+      'Worked the automation side of GMP biomanufacturing — wiring DeltaV, Kepware, and Ignition into a single alarm pipeline across 10,000+ tags. Traded a manual MES batch-template validation process for an automated Playwright suite, and prototyped an AI agent on Kneat Gx\'s API to flag validation discrepancies early.',
     skills: ['Ignition SCADA', 'OPC DA/UA', 'DeltaV', 'Playwright', 'GMP Validation'],
     color: '#34e0a1',
-    images: [eb_1, eb_2],
+    images: [eb_1],
   },
 ];
 
@@ -220,7 +219,7 @@ function LeftPanel({
   view: 'skills' | 'timeline';
 }) {
   return (
-    <div className="w-[90%] lg:w-[85%] h-full flex flex-col justify-center mx-auto px-4 sm:px-10 lg:px-14 py-6 lg:py-12 gap-6 overflow-hidden ">
+    <div className="w-[90%] lg:w-[85%] h-full flex flex-col justify-start mx-auto px-4 sm:px-10 lg:px-14 py-2 lg:py-4 gap-6 overflow-hidden ">
       <AnimatePresence mode="wait">
         {/* Default bio — shown when no node selected OR in skills view */}
         {(view === 'skills' || !active) && (
@@ -230,7 +229,7 @@ function LeftPanel({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3 }}
-            className="flex flex-col gap-5 my-auto"
+            className="flex flex-col gap-5"
           >
             <div className='py-4'>
               <p className="text-s uppercase tracking-[0.25em] font-mono mb-2 text-start"
@@ -243,19 +242,13 @@ function LeftPanel({
               </h2>
             </div>
             <p className="text-gray-400 text-2xl leading-relaxed text-start">
-              {view === 'skills' ? 'Languages: TypeScript (primary language for front-end work, including this site), C++ (autonomous robot control, ROS-based), and Python (robotics coursework and scripting).' : 'Above all, I pride myself on my quick learning and leadership skills. I have always made it a point to be involved in my surrounding communities and to embrace being the change I want to see in the world. This timeline shows you just how involved I have been and all the things'}
+              {view === 'skills' ? 'Languages: TypeScript (primary language for front-end work, including this site), C++ (autonomous robot control, ROS-based), and Python (robotics coursework and scripting).' : 'I pride myself on learning fast and getting involved in the communities around me — being the change I want to see.'}
             </p>
             <p className="text-gray-400 text-2xl leading-relaxed text-start">
-              {view === 'skills' ? 'Frontend: React for component architecture, Tailwind CSS for utility-first styling and rapid layout iteration, and Framer Motion for animation and motion design.' : 'yo'}
+              {view === 'skills' ? 'Frontend: React for component architecture, Tailwind CSS for utility-first styling and rapid layout iteration, and Framer Motion for animation and motion design.' : 'This past summer I interned at ElevateBio, an autologous cell therapy company, automating GMP manufacturing by connecting plant-floor systems and building validation pipelines with AI integration.'}
             </p>
             <p className="text-gray-400 text-2xl leading-relaxed text-start">
-              {view === 'skills' ? 'Robotics & Simulation: ROS2 for node-based robot software architecture, and Gazebo for physics simulation in manipulation and grasping work.' : 'yo'}
-            </p>
-            <p className="text-gray-400 text-2xl leading-relaxed text-start">
-              {view === 'skills' ? 'Testing & Automation: Playwright, including a three-layer API-driven test automation system (API fetch → transform → execution) built for GxP-regulated manufacturing software.' : 'yo'}
-            </p>
-            <p className="text-gray-400 text-2xl leading-relaxed text-start">
-              {view === 'skills' ? 'Tooling & Infrastructure: Git & GitHub for version control and deployment (GitHub Pages), and Google Analytics 4 for traffic and engagement tracking.' : 'yo'}
+              {view === 'skills' ? 'Robotics & Simulation: ROS2 for node-based robot software architecture, and Gazebo for physics simulation in manipulation and grasping work.' : 'Above all, I\'m a leader. In college I\'ve served as President of SASE, Resident Advisor to 300+ students, Web Developer at WPI\'s Global Lab, and Volunteer Manager for the Pan Asian Association.'}
             </p>
             {view === 'timeline' && (
               <p className="text-base font-mono mt-2 flex items-center gap-2 text-[rgb(255,118,237)]"
@@ -275,7 +268,9 @@ function LeftPanel({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3 }}
-            className="flex flex-col justify-content gap-5 h-full"
+            // Desktop: capped to the viewport space below the toggle so the
+            // whole card fits on screen when the section snaps to the top.
+            className="flex flex-col gap-5 h-full lg:h-[calc(100dvh-190px)]"
           >
             {/* Header */}
             <div>
@@ -315,7 +310,10 @@ function LeftPanel({
             {/* Image slider */}
             {/* Definite height (not min-height): ImageSlider's root uses
                 h-full, which can't resolve against an indefinite height. */}
-            <div className="rounded-2xl overflow-hidden flex-shrink-0 h-[260px] lg:h-[400px]"
+            {/* On desktop the slider takes whatever height the text leaves,
+                so a long description shrinks the image instead of pushing it
+                off-screen. */}
+            <div className="rounded-2xl overflow-hidden flex-shrink-0 h-[260px] lg:h-auto lg:flex-1 lg:min-h-[200px]"
               style={{ border: `1px solid ${active.color}25` }}>
               <ImageSlider images={active.images} color={active.color} />
             </div>
@@ -456,7 +454,9 @@ export default function AboutSection() {
   const [isMobile, setIsMobile] = useState(false);
   const leftPanelRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
-  useSnapTarget(sectionRef);
+  // Top-aligned: toggle + panels exceed the height available under the navbar,
+  // so centring would hide the toggle entirely.
+  useSnapTarget(sectionRef, 'start');
 
   const active = timelineEvents.find((e) => e.id === activeId) ?? null;
 
@@ -484,8 +484,11 @@ export default function AboutSection() {
   }
 
   return (
-    <div>
-      <div className="flex-shrink-0 flex items-center justify-center pt-12 pb-4">
+    <div ref={sectionRef} id="about-block">
+      {/* pt-24 (not pt-12) so that when this block snaps to the top of the
+          viewport the fixed navbar lands in this padding instead of clipping
+          the toggle buttons. */}
+      <div className="flex-shrink-0 flex items-center justify-center pt-24 pb-1">
           <div
             className="inline-flex rounded-xl p-1 gap-1"
             style={{
@@ -519,19 +522,22 @@ export default function AboutSection() {
             })}
           </div>
         </div>
-    <div ref={sectionRef} className="w-full flex flex-col lg:flex-row ">
+    <div className="w-full flex flex-col lg:flex-row ">
 
       
       {/* ── LEFT: reactive display panel ── */}
       <div
         ref={leftPanelRef}
-        className="w-full lg:w-[58%] flex-shrink-0 relative border-r border-white/5 h-full my-auto scroll-mt-4"
+        className="w-full lg:w-[58%] flex-shrink-0 relative border-r border-white/5 scroll-mt-4"
       >
         <LeftPanel active={active} view={view} />
       </div>
 
       {/* ── RIGHT: orbital or timeline ── */}
-      <div className="flex-1 relative lg:min-h-[760px] flex flex-col">
+      {/* Floor only (enough for the 6 timeline nodes). Letting the row height
+          follow the left column means centring the orbit here centres it
+          against the text rather than against a taller fixed panel. */}
+      <div className="flex-1 relative lg:min-h-[480px] flex flex-col">
 
 
         {/* Panel content — on mobile it grows to fit its content instead of

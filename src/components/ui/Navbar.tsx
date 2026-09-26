@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import "./Navbar.css"
+import { scrollToAboutMe } from '../../lib/lenis';
 
 function Navbar() {
     const [open, setOpen] = useState(false);
@@ -21,7 +22,20 @@ function Navbar() {
 
             <div className={`nav-links ${open ? 'open' : ''}`}>
                 <div className="glowy-text-wrapper">
-                    <a className="glowy-text" href="#about-me" onClick={close}>About Me</a>
+                    <a
+                        className="glowy-text"
+                        href="#about-me"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            close();
+                            if (window.location.hash !== '#about-me') {
+                                history.pushState(null, '', '#about-me');
+                            }
+                            scrollToAboutMe();
+                        }}
+                    >
+                        About Me
+                    </a>
                 </div>
                 <div className="glowy-text-wrapper">
                     <a className="glowy-text" href="#projects" onClick={close}>Projects</a>

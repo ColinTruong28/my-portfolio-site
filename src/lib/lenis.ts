@@ -4,47 +4,43 @@ import type Snap from 'lenis/snap';
 let instance: Lenis | null = null;
 let snapInstance: Snap | null = null;
 
-type PendingTarget = { el: HTMLElement; align: string[] };
-// Children's effects run before the parent's, so sections can ask to register
-// before App has built the Snap instance. Hold them until it exists.
-const pending = new Set<PendingTarget>();
-const cleanups = new Map<HTMLElement, () => void>();
+type SnapTarget = { el: HTMLElement; align: string[]; detach?: () => void };
+
+// Every registered target, kept for the lifetime of its component rather than
+// of any one Snap instance. The Snap instance can be torn down and rebuilt
+// without the sections re-registering (App's effect re-runs on hot reload, and
+// sections live in other modules whose effects don't), so each new instance
+// has to re-adopt the full set. Also covers sections that mount before App's
+// effect has created the first instance, since child effects run first.
+const targets = new Set<SnapTarget>();
 
 export function setLenis(lenis: Lenis | null) {
   instance = lenis;
 }
 
-function attach(snap: Snap, el: HTMLElement, align: string[]) {
+function attach(snap: Snap, t: SnapTarget) {
   // ignoreTransform: ScrollReveal translates these elements as they enter, and
   // snap points must come from the settled layout position, not the offset one.
-  cleanups.set(el, snap.addElement(el, { align, ignoreTransform: true }));
+  t.detach = snap.addElement(t.el, { align: t.align, ignoreTransform: true });
 }
 
 export function setSnap(snap: Snap | null) {
   snapInstance = snap;
-  if (snap) {
-    pending.forEach((t) => attach(snap, t.el, t.align));
-    pending.clear();
-  } else {
-    cleanups.clear();
-  }
+  targets.forEach((t) => {
+    // The previous instance is being destroyed, which drops its elements.
+    t.detach = undefined;
+    if (snap) attach(snap, t);
+  });
 }
 
 /** Marks an element as a soft snap target. Returns a cleanup function. */
 export function registerSnapTarget(el: HTMLElement, align: string[] = ['center']) {
-  const target: PendingTarget = { el, align };
-  if (snapInstance) {
-    attach(snapInstance, el, align);
-  } else {
-    pending.add(target);
-  }
+  const target: SnapTarget = { el, align };
+  targets.add(target);
+  if (snapInstance) attach(snapInstance, target);
   return () => {
-    pending.delete(target);
-    const remove = cleanups.get(el);
-    if (remove) {
-      remove();
-      cleanups.delete(el);
-    }
+    targets.delete(target);
+    target.detach?.();
   };
 }
 
@@ -53,11 +49,43 @@ export function registerSnapTarget(el: HTMLElement, align: string[] = ['center']
  * scroll-target state stays in sync (a raw scrollIntoView/scrollTo gets
  * silently overridden by Lenis's next animation frame otherwise).
  */
-export function smoothScrollTo(target: string | HTMLElement, offset = 0) {
+export function smoothScrollTo(target: string | HTMLElement | number, offset = 0) {
   if (instance) {
     instance.scrollTo(target, { offset });
     return;
   }
+  if (typeof target === 'number') {
+    window.scrollTo({ top: target + offset, behavior: 'smooth' });
+    return;
+  }
   const el = typeof target === 'string' ? document.querySelector(target) : target;
   el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Fraction of the viewport height to leave above the neon sign. The sign's
+// flicker completes once its top reaches 18% (see App.tsx), so 15% lands on it
+// fully lit.
+const NEON_LANDING = 0.15;
+
+/**
+ * "About Me" navigation. The section opens with a tall clearance above the
+ * neon sign, so jumping to its top edge shows only black. Instead:
+ *  - arriving from above (or on page load): land with the neon sign lit;
+ *  - arriving from below the tech-stack/timeline block: stop at that block
+ *    (matching its snap position) rather than scrolling past it to the text.
+ */
+export function scrollToAboutMe() {
+  const neon = document.getElementById('about-neon');
+  const block = document.getElementById('about-block');
+  if (!neon || !block) return;
+
+  const y = window.scrollY;
+  const docTop = (el: HTMLElement) => el.getBoundingClientRect().top + y;
+  const blockTop = docTop(block);
+
+  const target = y > blockTop + 2
+    ? blockTop
+    : docTop(neon) - window.innerHeight * NEON_LANDING;
+
+  smoothScrollTo(Math.max(0, Math.round(target)));
 }

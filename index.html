@@ -1,12 +1,32 @@
-
-
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/C.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Colin Truong</title>
+    <link rel="icon" type="image/svg+xml" href="/C.svg" />
+
+    <!--
+      These live here in the source index.html on purpose. `npm run deploy`
+      replaces the gh-pages branch with a fresh build, so anything edited
+      directly on gh-pages is wiped on the next deploy.
+    -->
+
+    <!-- Google tag (gtag.js) — GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NK422SCE1T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-NK422SCE1T');
+    </script>
+
+    <!-- Open Graph / LinkedIn link preview (URLs must be absolute) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Colin Truong" />
+    <meta property="og:description" content="My developer portfolio." />
+    <meta property="og:url" content="https://colintruong28.github.io/my-portfolio-site/" />
+    <meta property="og:image" content="https://colintruong28.github.io/my-portfolio-site/og-image.png" />
   </head>
   <body>
     <div id="root"></div>
