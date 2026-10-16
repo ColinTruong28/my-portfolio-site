@@ -9,6 +9,7 @@ const SOFTWARE_IDS = [
 ];
 
 const ROBOT_IDS = [
+  'project-vision-grasping',
   'project-robot-arm',
   'project-autonomous-robot',
   'project-five-bar',

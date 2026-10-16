@@ -29,17 +29,19 @@ import PID_turn           from './images/PID_turn.gif?url';
 import FiveBarDemo        from './images/FiveBarDemo.mp4?url';
 import SolidworksFiveBar  from './images/Solidworks_Fivebar_Demo.mp4?url';
 import StressedBar        from './images/Bar_Stress_Analysis.png?url';
+import GraspRealRobot     from './images/Grasping/16x9/Real_Robot_Grasp.mp4?url';
+import GraspPipeline      from './images/Grasping/16x9/Point_Cloud_Pipeline.png?url';
+import GraspSynthesis     from './images/Grasping/16x9/Grasp_Synthesis.png?url';
+import GraspSim           from './images/Grasping/16x9/Sim_Grasp.mp4?url';
 import { PillToggle, type ProjectCategory } from './components/ui/ProjectToggle';
 import NextProjectButton from './components/ui/NextProjectButton';
 import AboutSection from './AboutMe.tsx';
 import ProjectShowcase from './ProjectShowcase.tsx';
 import Footer from './Footer.tsx';
-import Dashboard_Walkthrough from './images/iBank/Dashboard_Walkthrough.mp4';
-import Basic_Landing_and_Login from './images/iBank/Basic_Landing_and_Login.mp4';
-import Management from './images/iBank/Management.mp4';
-import Additional_Features from './images/iBank/Additional_Features.mp4';
-import Role_Based_Viewing from './images/iBank/Role_Based_Viewing.mp4';
-import Work_Flow from './images/iBank/Work_Flow.mp4';
+// Each pair joined losslessly (stream copy) from the original clips in this folder.
+import Login_and_Dashboard from './images/iBank/Login_and_Dashboard.mp4';
+import Management_and_Roles from './images/iBank/Management_and_Roles.mp4';
+import Workflow_and_Features from './images/iBank/Workflow_and_Features.mp4';
 import Home from './images/iBank/Page.png';
 import Global from './images/Global Lab/GlobalLab.png';
 import Global_AI from './images/Global Lab/Global_AI.mp4';
@@ -70,16 +72,10 @@ function App() {
         window.removeEventListener('resize', onResize);
       };
     }, []);
-    // Ends at -50%: far enough for the slab's solid section to clear the top of
-    // the viewport, but not so far that its bottom edge rises above the bottom
-    // of the viewport and re-exposes the hero underneath.
-    const shadowRiseY = useTransform(scrollY, [0, pinDistance], ['100%', '-50%'], { clamp: true });
+    
+    const shadowRiseY = useTransform(scrollY, [0, pinDistance], ['41.667%', '-50%'], { clamp: true });
 
-    // "About Me" neon sign: the flicker is scrubbed by scroll position rather
-    // than fired once on entry, so it reads correctly scrolling either way.
-    // Measured against the sign itself. It stays dark until it reaches the
-    // vertical middle of the screen (50%), then flickers on as it travels up
-    // to 18% — so the whole animation plays out in the centre of the viewport.
+    
     const neonRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress: aboutProgress } = useScroll({
       target: neonRef,
@@ -290,8 +286,43 @@ function App() {
           {/* ── ROBOTICS projects ── */}
           {projectCategory === 'robotics' && (
             <>
+              <div id="project-vision-grasping">
+                <ProjectShowcase
+                  title="Vision-Based Grasping"
+                  subtitle="Point-Cloud Grasp Synthesis"
+                  tags={['Python', 'ROS 2', 'MoveIt', 'Point Clouds', 'Gazebo', 'Kinova Gen3 Lite']}
+                  slides={[
+                    {
+                      label: 'Real-Robot Pick',
+                      description: 'A Kinova Gen3 Lite with a wrist-mounted RealSense D405 visits three saved viewpoints, merges the captured clouds into one, and synthesizes a grasp on the object it finds. Before moving, it checks about two dozen inverse-kinematics solutions and keeps the one from which both the straight-down approach and the lift are feasible, so the final descent is a clean vertical line.',
+                      mediaSrc: GraspRealRobot,
+                      mediaType: 'video',
+                    },
+                    {
+                      label: 'Point-Cloud Pipeline',
+                      description: 'Clouds from two RGB-D cameras are transformed into the robot base frame, merged and voxel-downsampled, then cropped to the workspace. RANSAC removes the table plane and Euclidean clustering separates each object, taking about 270,000 raw points down to two clean object clusters.',
+                      mediaSrc: GraspPipeline,
+                      mediaType: 'image',
+                    },
+                    {
+                      label: 'Grasp Synthesis',
+                      description: 'Surface normals are flipped to point into the object, and every point pair is tested against two-finger friction cones (μ = 0.5); the stable pair closest to the centroid wins. PCA gives the major axis (magenta), and the approach (green) is set perpendicular to both it and the finger-closing line (white).',
+                      mediaSrc: GraspSynthesis,
+                      mediaType: 'image',
+                    },
+                    {
+                      label: 'Simulation',
+                      description: 'The full pick was developed in Gazebo on a UR5e with a Robotiq 2F-140 first: pre-grasp along the approach direction, a straight-line approach, close, and lift, all driven through ROS2\'s MoveIt before moving to the real robot.',
+                      mediaSrc: GraspSim,
+                      mediaType: 'video',
+                    },
+                  ]}
+                />
+              </div>
+
               <div id="project-robot-arm">
                 <ProjectShowcase
+                  flip
                   title="4-DOF Sorting Arm"
                   subtitle="Robotic Pick & Place System"
                   tags={['MATLAB', 'Computer Vision', 'Inverse Kinematics', 'Trajectory Planning', 'DH Parameters']}
@@ -324,7 +355,6 @@ function App() {
 
               <div id="project-autonomous-robot">
                 <ProjectShowcase
-                  flip
                   title="Autonomous Robot"
                   subtitle="Multi-Sensor PID"
                   tags={['C++', 'ROS', 'Computer Vision', 'PID Control', 'IMU']}
@@ -339,6 +369,7 @@ function App() {
 
               <div id="project-five-bar">
                 <ProjectShowcase
+                  flip
                   title="Shelf Sorting Arm"
                   subtitle="Five-Bar Linkage"
                   tags={['SolidWorks', 'FEA', 'Kinematics', 'Mechanical Design']}
@@ -366,12 +397,9 @@ function App() {
                   ]}
                   slides={[
                     { label: 'Overview',     description: 'A robust, centralized content management platform designed for the Hanover Insurance Group to streamline policy documentation, claims processing, and agent workflows. This application also includes user and role management system, login authentication, data analytics, notification calendar, language toggle, and a customizable dashboard.',      mediaSrc: Home,   mediaType: 'image' },
-                    { label: 'Login',     description: 'Secure authentication gateway ensuring compliance, data privacy, and protected access to sensitive policyholder information.',      mediaSrc: Basic_Landing_and_Login,   mediaType: 'video' },
-                    { label: 'Dashboard',  description: 'A customizable data analytics hub surfacing real-time performance metrics, open claims trends, and critical operational KPIs for quick executive insights.',         mediaSrc: Dashboard_Walkthrough, mediaType: 'video' },
-                    { label: 'Management',  description: 'An administrative core for handling full CRUD operations over insurance content, system users, and centralized documentation for various insurance claims. The content managment system was the brunt of this application so it features the ability to check in and out content to prevent simoultaneous edits, a timeline of all actions, and an annotation feature for any and all documents.',         mediaSrc: Management, mediaType: 'video' },
-                    { label: 'Role Based Viewing',  description: 'Granular role-based access control (RBAC) filtering UI elements and data exposure differently for Agents, Underwriters, and System Admins. There are a total of 8 possible user roles with varying levels of permissions.',         mediaSrc: Role_Based_Viewing, mediaType: 'video' },
-                    { label: 'Work Flow',  description: 'An optimized, end-to-end operational pipeline showcasing how a claim or policy document moves from initial submission through an agent through internal underwriting review where it can be approved by system admins.',         mediaSrc: Work_Flow, mediaType: 'video' },
-                    { label: 'Additional Features',  description: 'Advanced platform capabilities: User specific profile customization, notifications, recent activity page, expiration and notofication calendar, interactive tutorial/guide, language toggle, and voice control.',         mediaSrc: Additional_Features, mediaType: 'video' },
+                    { label: 'Login & Dashboard',   description: 'A secure authentication gateway protects access to sensitive policyholder information, leading into a customizable analytics dashboard that surfaces real-time performance metrics, open-claims trends, and key operational KPIs at a glance.',   mediaSrc: Login_and_Dashboard,   mediaType: 'video' },
+                    { label: 'Management & Roles',  description: 'The core of the application: full CRUD over insurance content, users, and claim documentation, with check-in/check-out to prevent simultaneous edits, a timeline of every action, and annotations on any document. Role-based access control then tailors what each of the 8 user roles, from Agents and Underwriters to System Admins, can see and do.',   mediaSrc: Management_and_Roles,  mediaType: 'video' },
+                    { label: 'Workflow & Features', description: 'An end-to-end pipeline follows a claim or policy document from submission, through an agent and underwriting review, to final approval by a system admin. Around it: per-user profile customization, notifications, a recent-activity page, an expiration and notification calendar, an interactive tutorial, a language toggle, and voice control.',   mediaSrc: Workflow_and_Features, mediaType: 'video' },
 
                   ]}
                 />

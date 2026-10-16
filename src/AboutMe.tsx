@@ -59,7 +59,7 @@ export const timelineEvents: TimelineEvent[] = [
     title: 'Events Coordinator',
     org: 'SASE — WPI',
     description:
-      'Planned and executed 50+ professional development, community service, and cultural events for the WPI SASE chapter. Grew active membership by 63% through consistent programming and outreach initiatives. Through these efforts, our chapter won the 2025 Overall Strongest Chapter and the WPI 2025 Social Program of the Year.',
+      'Planned and executed 50+ professional development, community service, and cultural events, growing active membership by 63% through consistent programming and initiatives. Through these efforts, our chapter won SASE\'s 2025 Overall Strongest Chapter and WPI\'s 2025 Social Program of the Year.',
     skills: ['Event Planning', 'Community Outreach', 'Leadership', 'Budgeting'],
     color: '#ef4444',
     images: [sase1_25, sase2_25, sase3_25, sase4_25],
@@ -103,7 +103,7 @@ export const timelineEvents: TimelineEvent[] = [
     title: 'President',
     org: 'SASE — WPI',
     description:
-      'Led chapter operations as President, overseeing 50+ yearly events, two professional conferences (Northeast Regional Conference and SASE Stem Connect), and a board of 8+ officers, 3 commitees, and 3 interns. Under this leadership the chapter won the WPI 2026 Diversity Program of the Year Award.',
+      'Led chapter operations as President, overseeing 50+ yearly events, two professional conferences (Northeast Regional Conference and SASE Stem Connect), and a 23 officers and committee members. Under this leadership the chapter won the WPI 2026 Diversity Program of the Year Award and SASE\'s Most Philanthropic Chapter 2026 (HM).',
     skills: ['Leadership', 'Strategic Planning', 'Public Speaking', 'Mentorship', 'Officer Management'],
     color: '#ef4444',
     images: [sase1_26, sase2_26, sase3_26, sase4_26],

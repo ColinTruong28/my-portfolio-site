@@ -123,6 +123,11 @@ h1, h2, h3 {
 .title-screen {
   position: sticky;
   top: 0;
+  /* Sticky makes this its own stacking context, so the shadow slab's z-index
+     only counts inside it. z-index 1 keeps the whole hero above the About
+     particle canvas (z 0) where .about-me overlaps the end of the pin, so the
+     fade lands on pure black. About's text sits at z 10000 and stays on top. */
+  z-index: 1;
   width: 100vw;
   height: 100vh;
   /* Mobile browsers count the area behind the URL bar in 100vh, pushing
@@ -257,11 +262,15 @@ h1, h2, h3 {
   overflow: hidden;
   justify-content: center;
   position: relative;
-  margin: 200px 0 200px 0;
-  /* Clearance for the departing sticky hero. Without it the About content
-     rides up the screen while the hero is still covering most of it, so the
-     reveal animations finish before they're ever in clear view. */
-  padding-top: 65vh;
+  /* Pulled up into the tail of the hero's pin so that the neon sign reaches
+     mid-screen (where it starts lighting) as the screen goes dark — the fade's
+     soft leading edge makes it effectively black ~half a screen before the
+     pin ends, so syncing to the pin end still left a dead black stretch.
+     -100vh lines the sign up with that point; -100px cancels the sign's own
+     margin-top. Safe to overlap: the sign and paragraphs are transparent
+     until mid-screen, and the particle canvas stays under the hero
+     (.title-screen z-index 1). */
+  margin: calc(-100vh - 100px) 0 200px 0;
 }
 
 .about-card-container {
@@ -1094,7 +1103,8 @@ img.embedded-PI-motor-controller-slide {
 
   /* ── About Me ── */
   .about-me {
-    margin: 60px 0 60px 0;
+    /* Same overlap as desktop; -32px matches the mobile sign margin-top. */
+    margin: calc(-100vh - 32px) 0 60px 0;
   }
 
   .about-neon-sign {
